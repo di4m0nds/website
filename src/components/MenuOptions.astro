@@ -1,0 +1,123 @@
+---
+import {
+  Menu,
+  Blog,
+  Github,
+  Suitcase,
+  Linkedin,
+} from './svg'
+
+import PressLetter from './PressLetter.astro';
+---
+
+<main class="main-menu">
+  <div class="menu">
+    <div class="toggle">
+      <Menu classProps="w-8 h-8" />
+    </div>
+    <li style={{ '--i': '0' }}>
+      <a
+        href="https://www.linkedin.com/in/silvestrijavier/"
+        class="p-3 dark:bg-slate-800/70 bg-slate-100/90 rounded-full shadow-md hover:text-orange-500 duration-300 backdrop-blur-sm"
+        target="_blank" rel="noopener noreferrer"
+      ><Linkedin classProps="w-8 h-8" /></a>
+    </li>
+    <li style={{ '--i': '1' }}>
+      <a
+        href="https://github.com/di4m0nds"
+        class="p-3 dark:bg-slate-800/70 bg-slate-100/90 rounded-full shadow-md hover:text-orange-500 duration-300 backdrop-blur-sm"
+        target="_blank" rel="noopener noreferrer"
+      ><Github classProps="w-8 h-8" /></a>
+    </li>
+    <li style={{ '--i': '2' }}>
+      <a
+        href="#projects"
+        class="p-3 dark:bg-slate-800/70 bg-slate-100/90 rounded-full shadow-md hover:text-orange-500 duration-300 backdrop-blur-sm"
+      ><Suitcase classProps="w-8 h-8" /></a>
+    </li>
+    <li style={{ '--i': '3' }} class="backdrop-blur-sm ">
+      <a
+        href="/blog"
+        class="p-3 dark:bg-slate-800/70 bg-slate-100/90 rounded-full shadow-md hover:text-orange-500 duration-300"
+        target="_top" rel="noopener noreferrer"
+      ><Blog classProps="w-8 h-8" /></a>
+    </li>
+  </div>
+</main>
+
+<style>
+  .main-menu {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+
+  .menu {
+    position: relative;
+    width: 200px;
+    /* height: 200px; */
+    background: rgba(0,0,0,0);
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+  .menu .toggle {
+    position: relative;
+    cursor: pointer;
+  }
+
+  .menu.active .toggle {
+    color: rgb(249 115 22);
+  }
+
+  .menu li {
+    position: absolute;
+    left: 0;
+    list-style: none;
+    transition: 0.5s;
+    transform: rotate(calc(140deg/4 * var(--i)));
+    transform-origin: 140px;
+    scale: 0;
+    transition-delay: calc(0.06s * var(--i));
+  }
+
+  .menu.active li {
+    scale: 1;
+  }
+
+  .menu li a {
+    position: relative;
+    display: flex;
+    transform: rotate(calc(140deg/-4 * var(--i)));
+  }
+
+  @media (min-width: 700px) {
+    .main-menu {
+      top: 0;
+    }
+    .menu {
+      align-items: start;
+    }
+    .menu li {
+      transform: rotate(calc(-140deg/4 * var(--i)));
+    }
+    .menu li a {
+      transform: rotate(calc(-140deg/-4 * var(--i)));
+    }
+  }
+</style>
+
+<script>
+  let toggle = document.querySelector('.toggle') as HTMLElement
+  let menu = document.querySelector('.menu') as HTMLElement
+
+  toggle.onclick = () => {
+    menu?.classList.toggle('active')
+  }
+
+  document.addEventListener("keydown", function(event) {
+    if (event.key === "m") {
+      menu?.classList.toggle('active')
+    }
+  });
+</script>

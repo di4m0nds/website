@@ -1,0 +1,113 @@
+---
+import ProjectItem from "./ProjectItem.astro";
+
+import PressLetter from "./PressLetter.astro";
+import { ProjectsInfo } from "../utils/content";
+
+const { title, projects } = ProjectsInfo
+---
+
+<section
+	id="projects"
+	class="bg-gradient-to-b via-orange-500/50 from-transparent"
+>
+	<header>
+		<h1 class="font-sans pl-8 md:pl-16  py-1 md:py-16 font-regular text-4xl md:text-6xl flex items-end">{title}<PressLetter letter="p" /></h1>
+	</header>
+	<ul role="list" class="flex font-sans flex-wrap justify-center items-start overflow-hidden">
+		{projects.map(({ id, href, name, body, img }) => 
+			<ProjectItem id={id} href={href} title={name} body={body} img={img} />
+		)}
+	</ul>
+</section>
+
+<script>
+	const listItems = document.querySelectorAll('li');
+
+	window.onscroll = () => {
+		listItems.forEach(item => {
+			let top = window.scrollY;
+			let offset = item.offsetTop - 600;
+			let height = item.offsetHeight;
+
+			if (top >= offset && top < offset + height) {
+				item.classList.add('active-project-animation');
+			}
+		})
+	}
+</script>
+
+<style is:global>
+	.work-chefco .animate-h-one,
+	.work-tesla .animate-h-one,
+	.work-rockets .animate-h-one,
+	.work-euge .animate-h-one,
+	.work-chefco .animate-h-two,
+	.work-tesla .animate-h-two,
+	.work-rockets .animate-h-two,
+	.work-euge .animate-h-two {
+		/* transition: 0.8s; */
+		transition: opacity 0.8s, transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+		opacity: 0;
+	}
+
+	.work-chefco .animate-h-one,
+	.work-tesla .animate-h-one,
+	.work-rockets .animate-h-one,
+	.work-euge .animate-h-one {
+		transform: translateX(-100%);
+	}
+
+	.work-chefco .animate-h-two,
+	.work-tesla .animate-h-two,
+	.work-rockets .animate-h-two,
+	.work-euge .animate-h-two {
+		transform: translateX(100%);
+	}
+
+	.work-chefco.active-project-animation .animate-h-one,
+	.work-tesla.active-project-animation .animate-h-one,
+	.work-rockets.active-project-animation .animate-h-one,
+	.work-euge.active-project-animation .animate-h-one {
+		animation: slide-bounce-in-1 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+		opacity: 1;
+	}
+
+	.work-chefco.active-project-animation .animate-h-two,
+	.work-tesla.active-project-animation .animate-h-two,
+	.work-rockets.active-project-animation .animate-h-two,
+	.work-euge.active-project-animation .animate-h-two {
+		/* transform: translateX(0); */
+		animation: slide-bounce-in-2 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+		opacity: 1;
+	}
+
+	@keyframes slide-bounce-in-1 {
+		0% {
+			transform: translateX(-100%);
+		}
+		60% {
+			transform: translateX(0);
+		}
+		80% {
+			transform: translateX(-10px);
+		}
+		100% {
+			transform: translateX(0);
+		}
+	}
+	@keyframes slide-bounce-in-2 {
+		0% {
+			transform: translateX(100%) rotate(-6deg);
+		}
+		60% {
+			transform: translateX(0) rotate(-6deg);
+		}
+		80% {
+			transform: translateX(10px) rotate(-6deg);
+		}
+		100% {
+			transform: translateX(0) rotate(0deg);
+		}
+	}
+</style>

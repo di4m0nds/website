@@ -1,0 +1,18 @@
+---
+interface Props {
+  letter: string
+}
+const { letter } = Astro.props
+---
+<span
+  class={`
+    hidden md:block
+    font-sans
+    mx-2 px-5 py-2
+    rounded-full
+    text-[16px] text-gray-800 bg-gray-400/20 dark:text-white
+    opacity-30 hover:opacity-60
+  `}
+>
+  Press "{letter}"
+</span>

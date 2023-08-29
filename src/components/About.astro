@@ -1,0 +1,48 @@
+---
+import {
+  Github,
+  Linkedin,
+  Twitter,
+  Mail,
+Pdf,
+} from "./svg";
+
+import { AboutInfo } from "../utils/content"
+import PressLetter from "./PressLetter.astro";
+
+const { title, primary_content, secondary_content } = AboutInfo
+const classProps = "w-6 h-6 hover:text-orange-500 duration-300 hover:rotate-2"
+---
+
+<section id="aboutme" class={`section__info tall:pt-0 md:pt-44 opacity-0 duration-300`}>
+  <h1 class="font-sans pl-8 md:pl-16 font-regular text-4xl md:text-6xl flex items-end">{title}<PressLetter letter="a" /></h1>
+  <main class="flex flex-col md:flex-row md:justify-center md:gap-x-10 items-center py-0 pb-8 md:py-12">
+    <!-- <div class="bg-orange-500 p-[2px] rounded-full shadow-xl my-5 md-my-0 hover:scale-110 hover:rotate-3 hover:shadow-2xl duration-200">
+    </div> -->
+    <div id="about-main-image" class="w-32 h-32 md:w-56 md:h-56 rounded-full my-4 md:my-0">
+      <img id="about-main-image" src="metoo.jpeg" alt="Profile Image" class="block lg:hidden rounded-full hover:scale-110 hover:rotate-3 hover:shadow-2xl duration-200">
+    </div>
+    <div class="py-4 md:pt-16 md:pb-20 max-w-md mx-8 md:mx-0">
+      <p class="text-gray-800 dark:text-gray-200 text-xl mb-2">
+        {primary_content}
+      </p>
+      <p class="dark:text-gray-200/60 text-gray-800/60 font-regular">
+        {secondary_content}
+      </p>
+      <div class="flex flex-col md:gap-x-2 my-5 items-start w-full">
+        <strong class="dark:text-orange-500">Download CVs: </strong>
+        <ul class="flex gap-x-10 mt-1 items-center w-full">
+          <li><a class="flex items-center" href="/curriculum/en.pdf" target="_blank" rel="noopener noreferrer">English: <Pdf classProps={`${classProps} w-8 h-8 ml-2`}  /></a></li>
+          <li><a class="flex items-center" href="/curriculum/es.pdf" target="_blank" rel="noopener noreferrer">Spanish: <Pdf classProps={`${classProps} w-8 h-8 ml-2`}  /></a></li>
+        </ul>
+      </div>
+      <ul class="flex gap-x-4">
+        <li><strong class="dark:text-orange-500">Contact: </strong></li>
+        <li><a href="mailto:ws.2000.sja@gmail.com" target="_blank" rel="noopener noreferrer"><Mail classProps={classProps} /></a></li>
+        <li><a href="https://twitter.com/javslvt" target="_blank" rel="noopener noreferrer"><Twitter classProps={classProps}  /></a></li>
+        <li><a href="https://github.com/di4m0nds" target="_blank" rel="noopener noreferrer"><Github classProps={classProps}  /></a></li>
+        <li><a href="https://www.linkedin.com/in/silvestrijavier/" target="_blank" rel="noopener noreferrer"><Linkedin classProps={classProps}  /></a></li>
+      </ul>
+    </div>
+  </main>
+</section>

@@ -1,0 +1,15 @@
+---
+import {
+  Sun,
+  Moon,
+} from './svg'
+---
+<label for="dark-mode-switch" class="flex justify-end items-center cursor-pointer z-30">
+  <div class="relative">
+    <input type="checkbox" id="dark-mode-switch" class="sr-only">
+    <Sun classProps="hidden sun-mode w-8 h-8 text-gray-800 dark:text-white" />
+    <Moon classProps="hidden moon-mode w-8 h-8 text-gray-800 dark:text-white" />
+  </div>
+</label>
+
+<script src="/scripts/switch_mode.js" is:inline></script>

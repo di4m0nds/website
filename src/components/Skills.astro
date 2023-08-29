@@ -1,0 +1,42 @@
+---
+import {
+  Css, Git, Github, Html, Javascript, ReactJS, Sql, Tailwind, Terminal,
+  Flutter,
+  Dart,
+  NodeJS,
+  AstroIcon,
+  GoLang,
+  Docker,
+  Redis,
+  Mongo,
+} from "./svg";
+
+import { SkillsInfo } from "../utils/content";
+import PressLetter from "./PressLetter.astro";
+
+const { title } = SkillsInfo
+const classProps = "m-3 hover:text-orange-500 hover:rotate-6 w-10 h-10"
+---
+
+<section id="skills" class="section__info px-8 md:px-16 py-8 md:py-24 opacity-0 duration-300">
+  <h2 class="font-regular text-4xl md:text-6xl mb-8 flex items-end">Skills<PressLetter letter="s" /></h2>
+  <ul class="flex flex-row justify-center flex-wrap gap-x-4 max-w-4xl m-auto">
+    <li><Javascript classProps={classProps} /></li>
+    <li><Html classProps={classProps} /></li>
+    <li><Css classProps={classProps} /></li>
+    <li><ReactJS classProps={classProps} /></li>
+    <li><Tailwind classProps={classProps} /></li>
+    <li><Github classProps={classProps} /></li>
+    <li><Git classProps={classProps} /></li>
+    <li><Terminal classProps={classProps} /></li>
+    <li><Sql classProps={classProps} /></li>
+    <li><Flutter classProps={classProps} /></li>
+    <li><Dart classProps={classProps} /></li>
+    <li><NodeJS classProps={classProps} /></li>
+    <li><AstroIcon classProps={classProps} /></li>
+    <li><GoLang classProps={classProps} /></li>
+    <li><Docker classProps={classProps} /></li>
+    <li><Redis classProps={classProps} /></li>
+    <li><Mongo classProps={classProps} /></li>
+  </ul>
+</section>
