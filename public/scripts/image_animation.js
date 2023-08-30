@@ -25,8 +25,11 @@ const moveImageAnimation = `
     0% {
       transform: translate(0, 0);
     }
+    60% {
+      transform: translate(-20px, -20px) scale(0.2);
+    }
     100% {
-      transform: translate(${deltaX - device.x}px, ${deltaY - device.y}px);
+      transform: translate(${deltaX - device.x}px, ${deltaY - device.y}px) scale(1);
     }
   }
 
@@ -34,8 +37,11 @@ const moveImageAnimation = `
     0% {
       transform: translate(${deltaX - device.x}px, ${deltaY - device.y}px);
     }
+    60% {
+      transform: translate(-40px, 20px) scale(0.5);
+    }
     100% {
-      transform: translate(0, 0);
+      transform: translate(0, 0) scale(1);
     }
   }
 `;
@@ -77,4 +83,4 @@ function handleAnimation() {
   }
 }
 
-window.addEventListener('scroll', debounce(handleAnimation, 140));
+window.addEventListener('scroll', debounce(handleAnimation, 100));
