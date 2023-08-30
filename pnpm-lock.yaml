@@ -6,7 +6,7 @@ settings:
 
 dependencies:
   '@astrojs/mdx':
-    specifier: ^1.0.0
+    specifier: 1.0.0
     version: 1.0.0(astro@3.0.0)
   '@astrojs/tailwind':
     specifier: 5.0.0
