@@ -8,5 +8,14 @@
     },
     "outDir": "./dist",
   },
+  "mdx": {
+    "plugins": [
+      [
+        "remark-frontmatter",
+        ["toml", "yaml"]
+      ],
+      "remark-gfm"
+    ]
+  },
   "include": ["src/**/*.ts", "src/**/*.d.ts"],
 }

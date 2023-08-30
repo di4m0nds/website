@@ -1,0 +1,108 @@
+---
+import Blog from "../../layouts/Blog.astro";
+
+import Footer from "../../components/Footer.astro";
+
+import { getCollection } from "astro:content";
+import HeaderPosts from "../../components/HeaderPosts.astro";
+
+export async function getStaticPaths () {
+  const posts = await getCollection("newsletter")
+  return posts.map((post) => (
+    {
+      params: {slug: post.slug},
+      props: post,
+    }
+  ));
+}
+const post = Astro.props
+const  { Content } = await post.render()
+---
+
+<Blog title={post.data.title}>
+  <div class="max-w-5xl mx-auto pt-10 pb-20 relative lg:px-0 px-6 w-full">
+    <HeaderPosts title={post.data.title} />
+
+    <Content />
+  </div>
+
+	<footer class="max-w-7xl pt-10 mx-auto">
+		<Footer />
+	</footer>
+</Blog>
+
+<style is:global>
+  h1 {
+    font-size: 32px !important;
+    font-weight: 500 !important;
+    margin: 30px 0 20px 0 !important;
+    color: rgb(249, 115, 22);
+  }
+
+  h2 {
+    font-size: 26px !important;
+    margin-top: 20px !important;
+    margin-bottom: 10px !important;
+  }
+
+  h3 {
+    font-size: 20px !important;
+    font-weight: 500 !important;
+    margin-top: 10px !important;
+    margin-bottom: 5px !important;
+  }
+
+  h4 {
+    padding-top: 10px !important;
+    margin-bottom: 30px !important;
+  }
+  p{
+    padding: 5px 0;
+  }
+
+  ul {
+    margin: 10px 0 !important;
+  }
+  li {
+    padding-left: 30px;
+    margin: 5px 0;
+  }
+  li.li-menu {
+    padding-left: 0px;
+    margin: 0;
+  }
+
+  pre {
+    margin: 30px 0 !important;
+    padding: 20px;
+    border-radius: 12px;
+    max-width: 100% !important;
+    max-height: 200px;
+  }
+  
+  blockquote > p {
+    padding: 15px !important;
+    font-size: 15px !important;
+    background-color: rgba(255, 149, 73, 0.367);
+    border-radius: 12px;
+  }
+  
+  body.dark blockquote > p {
+    background-color: rgba(255, 169, 93, 0.995);
+    color: black;
+  }
+
+  table {
+    border: 2px solid rgb(249, 115, 22) !important;
+  }
+
+  #tablecontent > ul > li {
+    padding-left: 0px;
+  }
+  #tablecontent > ul > li:hover {
+    color: rgb(249, 115, 22) !important;
+  }
+  #tablecontent > ul > li > a {
+    font-size: 18px !important;
+  }
+</style>

@@ -26,7 +26,7 @@ const moveImageAnimation = `
       transform: translate(0, 0);
     }
     60% {
-      transform: translate(-20px, -20px) scale(0.2);
+      transform: translate(20px, -20px) scale(0.5);
     }
     100% {
       transform: translate(${deltaX - device.x}px, ${deltaY - device.y}px) scale(1);
@@ -83,4 +83,4 @@ function handleAnimation() {
   }
 }
 
-window.addEventListener('scroll', debounce(handleAnimation, 100));
+window.addEventListener('scroll', debounce(handleAnimation, 50));
