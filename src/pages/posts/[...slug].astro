@@ -20,11 +20,11 @@ const  { Content } = await post.render()
 ---
 
 <Blog title={post.data.title}>
-  <div class="max-w-5xl mx-auto pt-10 pb-20 relative lg:px-0 px-6 w-full">
+  <article class="max-w-5xl mx-auto pt-10 pb-20 relative lg:px-0 px-6 w-full">
     <HeaderPosts title={post.data.title} />
 
     <Content />
-  </div>
+  </article>
 
 	<footer class="max-w-7xl pt-10 mx-auto">
 		<Footer />
@@ -82,14 +82,14 @@ const  { Content } = await post.render()
   
   blockquote > p {
     padding: 15px !important;
-    font-size: 15px !important;
-    background-color: rgba(255, 149, 73, 0.367);
+    font-size: 16px !important;
+    border: 2px dashed rgba(255, 169, 93, 0.995);
     border-radius: 12px;
+    color: black;
   }
   
   body.dark blockquote > p {
-    background-color: rgba(255, 169, 93, 0.995);
-    color: black;
+    color: white;
   }
 
   table {

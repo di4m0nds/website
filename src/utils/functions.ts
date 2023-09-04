@@ -13,8 +13,6 @@ export const timeSincePublication = (articleDate: Date) : string => {
   const hours = Math.floor(minutes / 60);
   const days = Math.floor(hours / 24);
 
-  console.log(minutes, hours, days)
-
   if (days > 0) {
     return `${days} ${days === 1 ? 'day' : 'days'} ago`;
   } else if (hours > 0) {
