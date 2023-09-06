@@ -17,13 +17,16 @@ const svg_common_classes = " w-12 h-12 text-gray-800 dark:text-white hover:rotat
 
 <div class="relative w-full h-full flex flex-col justify-between font-poiret">
   <header class="relative mx-0 md:mx-10 xl:mx-0 flex flex-row justify-end items-center">
-    <h1 class="flex-grow font-bold text-4xl md:mb-0 mb-4 dark:text-white text-gray-800 select-none text-center md:text-left">
+    <h1
+      transition:animate="slide"
+      class="flex-grow font-bold text-4xl md:mb-0 mb-4 dark:text-white text-gray-800 select-none text-center md:text-left"
+    >
       Software
       <span class="font-thin">Developer<span>
     </h1>
     <div
       class={`
-        fixed md:top-10
+        fixed md:top-10 right-4 md:right-auto md:bottom-auto bottom-10
         flex flex-row justify-between items-center gap-x-4
         py-2 px-4 dark:bg-slate-800/80 bg-slate-100/50 rounded-full
         shadow-sm hover:shadow-xl mr-1 duration-300 z-50
@@ -33,7 +36,7 @@ const svg_common_classes = " w-12 h-12 text-gray-800 dark:text-white hover:rotat
     >
       <DarkModeSwitch />
       <div class="w-2 h-10 rounded-full dark:bg-[#1d2022] bg-[#efeae3]"></div>
-      <div class="relative w-8 h-8">
+      <div class="relative w-8 h-8" transition:animate="slide">
         <MenuOptions />
       </div>
     </div>
@@ -67,9 +70,3 @@ const svg_common_classes = " w-12 h-12 text-gray-800 dark:text-white hover:rotat
     </footer>
   </div>
 </div>
-<script>
-  const menu = document.querySelector('#menu')
-  if (menu) {
-    menu.className += window.screen.width < 500 ? 'bottom-8 right-5' : '';
-  }
-</script>

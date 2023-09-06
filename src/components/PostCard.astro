@@ -1,6 +1,7 @@
 ---
 import { NumberSign } from './svg'
 import { timeSincePublication } from '../utils/functions'
+import { slide } from 'astro:transitions'
 
 interface Props {
   slug: string
@@ -19,17 +20,30 @@ const {
   pubDate,
   index,
 } = Astro.props
-
 ---
 
-<a href={`posts/${slug}`} target="_blank" rel="noopener noreferrer" >
+<a href={`posts/${slug}`}>
   <article class="relative p-5 rounded-md border-2 hover:border-orange-500 border-transparent dark:bg-slate-600/30 bg-orange-300/30 hover:bg-orange-100/20">
-    <h1 class="text-xl font-medium">{title}</h1>
-    <p class="my-2">{description.length > 100 ? description.substring(0, 99) + " ..." : description}</p>
+    <h1
+      transition:name={`${title.toLowerCase().replaceAll(' ', '_')}`}
+      class="text-xl font-medium"
+    >
+      {title}
+    </h1>
+    <p
+      class="my-2"
+    >
+      {description.length > 100 ? description.substring(0, 99) + " ..." : description}
+    </p>
     <div class="flex flex-wrap gap-2 my-5">
       {
-        tags.map(tag => (
-          <span class="px-3 py-1 bg-gradient-to-r from-orange-500 to-yellow-500 text-white dark:text-black text-sm font-medium rounded-full">{tag}</span>
+        tags.map((tag, i) => (
+          <span
+            transition:animate={slide({ duration: `0.${i}9s` })}
+            class="px-3 py-1 bg-gradient-to-r from-orange-500 to-yellow-500 text-white dark:text-black text-sm font-medium rounded-full"
+          >
+            {tag}
+          </span>
         ))
       }
     </div>

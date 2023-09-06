@@ -37,3 +37,5 @@ function switchMode() {
 }
 
 document.addEventListener('DOMContentLoaded', switchMode)
+
+document.addEventListener('astro:after-swap', switchMode)

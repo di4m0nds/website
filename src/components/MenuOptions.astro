@@ -6,12 +6,10 @@ import {
   Suitcase,
   Linkedin,
 } from './svg'
-
-import PressLetter from './PressLetter.astro';
 ---
 
 <main class="main-menu">
-  <div class="menu">
+  <div class="menu" transition:persist transition:name="menu">
     <div class="toggle">
       <Menu classProps="w-8 h-8" />
     </div>
@@ -39,7 +37,6 @@ import PressLetter from './PressLetter.astro';
       <a
         href="/posts"
         class="p-3 dark:bg-slate-800/70 bg-slate-100/90 rounded-full shadow-md hover:text-orange-500 duration-300"
-        target="_top" rel="noopener noreferrer"
       ><Blog classProps="w-8 h-8" /></a>
     </li>
   </div>
@@ -108,16 +105,22 @@ import PressLetter from './PressLetter.astro';
 </style>
 
 <script>
-  let toggle = document.querySelector('.toggle') as HTMLElement
-  let menu = document.querySelector('.menu') as HTMLElement
+  const runSetup = () => {
+    let toggle = document.querySelector('.toggle') as HTMLElement
+    let menu = document.querySelector('.menu') as HTMLElement
 
-  toggle.onclick = () => {
-    menu?.classList.toggle('active')
-  }
-
-  document.addEventListener("keydown", function(event) {
-    if (event.key === "m") {
+    toggle.onclick = () => {
       menu?.classList.toggle('active')
     }
-  });
+
+    document.addEventListener("keydown", function(event) {
+      if (event.key === "m") {
+        menu?.classList.toggle('active')
+      }
+    });
+  }
+
+  runSetup();
+
+  document.addEventListener('astro:page-load', runSetup);
 </script>

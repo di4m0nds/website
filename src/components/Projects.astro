@@ -22,19 +22,24 @@ const { title, projects } = ProjectsInfo
 </section>
 
 <script>
-	const listItems = document.querySelectorAll('li');
-
-	window.onscroll = () => {
-		listItems.forEach(item => {
-			let top = window.scrollY;
-			let offset = item.offsetTop - 600;
-			let height = item.offsetHeight;
-
-			if (top >= offset && top < offset + height) {
-				item.classList.add('active-project-animation');
-			}
-		})
+	const animateProjects = () => {
+		const listItems = document.querySelectorAll('li');
+	
+		window.onscroll = () => {
+			listItems.forEach(item => {
+				let top = window.scrollY;
+				let offset = item.offsetTop - 600;
+				let height = item.offsetHeight;
+	
+				if (top >= offset && top < offset + height) {
+					item.classList.add('active-project-animation');
+				}
+			})
+		}
 	}
+	animateProjects();
+
+	document.addEventListener('astro:after-swap', animateProjects)
 </script>
 
 <style is:global>
