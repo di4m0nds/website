@@ -94,6 +94,12 @@ import {
     transform: rotate(calc(140deg/-4 * var(--i)));
   }
 
+  ul {
+    position: absolute;
+    left: 0;
+    bottom: 45px;
+  }
+
   @media (min-width: 700px) {
     .main-menu {
       top: 0;
@@ -106,6 +112,9 @@ import {
     }
     .menu li a {
       transform: rotate(calc(-140deg/-4 * var(--i)));
+    }
+    ul {
+      position: initial;
     }
   }
 </style>
