@@ -9,21 +9,57 @@ import {
 const classProps = "w-8 h-8 hover:text-orange-500 duration-300 hover:rotate-2"
 ---
 <div class="container mx-auto text-center flex flex-col justify-center items-center">
-  <h3 class="text-2xl font-bold"><a href="/">Javi's Portfolio</a></h3>
+  <h1 class="text-2xl font-bold"><a href="/">Javi's Portfolio</a></h1>
   <img class="my-5 w-20 h-20 hover:scale-110 duration-300" src="/favicon.svg" alt="icon">
   <p class="mt-4">I hope you enjoy it.</p>
   <div class="my-8">
     <h3 class="text-2xl font-bold">Contact</h3>
     <div class="w-full flex-col justify-center items-center">
       <ul class="flex gap-x-4 my-4">
-        <li><a href="mailto:ws.2000.sja@gmail.com" target="_blank" rel="noopener noreferrer"><Mail classProps={classProps} /></a></li>
-        <li><a href="https://twitter.com/javslvt" target="_blank" rel="noopener noreferrer"><Twitter classProps={classProps}  /></a></li>
-        <li><a href="https://github.com/di4m0nds" target="_blank" rel="noopener noreferrer"><Github classProps={classProps}  /></a></li>
-        <li><a href="https://www.linkedin.com/in/silvestrijavier/" target="_blank" rel="noopener noreferrer"><Linkedin classProps={classProps}  /></a></li>
+        <li>
+          <a
+            href="mailto:ws.2000.sja@gmail.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Send me a message via Mail"
+          >
+            <Mail classProps={classProps} />
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://twitter.com/javslvt"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Read more about Twitter/X"
+          >
+            <Twitter classProps={classProps} />
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://github.com/di4m0nds"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Read more about Github"
+          >
+            <Github classProps={classProps} />
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://www.linkedin.com/in/silvestrijavier/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Read more about LinkedIn"
+          >
+            <Linkedin classProps={classProps} />
+          </a>
+        </li>
       </ul>
     </div>
   </div>
 </div>
 <div class="text-center pb-[30px]">
-  <p class="text-gray-400">&copy; {new Date().getFullYear()} Javi.</p>
+  <p class="text-gray-800">&copy; {new Date().getFullYear()} Javi.</p>
 </div>
