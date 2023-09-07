@@ -20,10 +20,8 @@ const  { Content } = await post.render()
 ---
 
 <Blog title={post.data.title}>
-  <header class="max-w-5xl mx-auto pt-8 relative lg:px-0 px-6 w-full">
-    <HeaderPosts title={post.data.title} />
-  </header>
-
+  <HeaderPosts title={post.data.title} />
+  
   <article
     class="max-w-5xl mx-auto pt-10 pb-20 relative lg:px-0 px-6 w-full"
   >
@@ -60,6 +58,10 @@ const  { Content } = await post.render()
   h4 {
     padding-top: 10px !important;
     margin-bottom: 30px !important;
+  }
+  .none-styles {
+    padding: 0 !important;
+    margin: 0 !important;
   }
   p{
     padding: 5px 0;

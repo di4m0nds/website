@@ -84,7 +84,7 @@ const imageAnimation = () => {
     }
   }
   
-  window.addEventListener('scroll', debounce(handleAnimation, 50));
+  window.addEventListener('scroll', debounce(handleAnimation, 30));
 }
 
 imageAnimation()

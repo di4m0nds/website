@@ -8,12 +8,15 @@ import {
 } from './svg'
 ---
 
-<main class="main-menu">
-  <div class="menu" transition:persist transition:name="menu">
-    <div class="toggle">
+<main class="main-menu relative">
+  <div
+    class="menu relative"
+    transition:persist="menu"
+  >
+    <div class="toggle p-0 flex flex-row justify-end items-end md:items-start">
       <Menu classProps="w-8 h-8" />
     </div>
-    <ul>
+    <ul class="none-styles">
       <li style={{ '--i': '0' }} class="li-menu" >
         <a
           href="https://www.linkedin.com/in/silvestrijavier/"
@@ -58,7 +61,7 @@ import {
   .menu {
     position: relative;
     width: 200px;
-    /* height: 200px; */
+    height: 0px;
     background: rgba(0,0,0,0);
     display: flex;
     justify-content: flex-end;
@@ -71,6 +74,8 @@ import {
 
   .menu.active .toggle {
     color: rgb(249 115 22);
+    height: 200px;
+    opacity: 1;
   }
 
   .menu li {
@@ -100,7 +105,7 @@ import {
     bottom: 45px;
   }
 
-  @media (min-width: 700px) {
+  @media (min-width: 750px) {
     .main-menu {
       top: 0;
     }
@@ -114,7 +119,8 @@ import {
       transform: rotate(calc(-140deg/-4 * var(--i)));
     }
     ul {
-      position: initial;
+      bottom: auto;
+      top: -15px;
     }
   }
 </style>
