@@ -16,7 +16,7 @@ const { title } = Astro.props
       Javi's Posts
       {title != null
         ? (
-          <span transition:animate="slide"> | </span>
+          <span transition:animate="slide" class="text-gray-600 dark:text-gray-600/80"> | </span>
           <span
             transition:name={`${title.toLowerCase().replaceAll(' ', '_')}`}
             class="font-thin dark:text-orange-500 text-orange-600 p-0 m-0"
