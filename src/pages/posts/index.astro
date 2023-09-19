@@ -7,7 +7,7 @@ import Footer from '../../components/Footer.astro';
 import { getCollection } from "astro:content";
 import PostCard from '../../components/PostCard.astro';
 
-const posts = (await getCollection("newsletter")).sort(
+const posts = (await getCollection("posts")).sort(
   (a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
 );
 ---
@@ -28,16 +28,32 @@ const posts = (await getCollection("newsletter")).sort(
 
       <ul class="flex flex-wrap gap-y-6 md:flex-row justify-start">
         {
-          posts.map((item, index) => (
+          posts.map(({ slug, data }, index) => (
             <li class="p-2 md:w-1/2 lg:w-1/3 ">
-              <PostCard
-                slug={item.slug}
-                title={item.data.title}
-                description={item.data.description}
-                tags={item.data.tags}
-                pubDate={item.data.pubDate as Date}
-                index={index + 1}
-              />
+              {data.ready as boolean
+                ? (
+                  <a href={`posts/${slug}`}>
+                    <PostCard
+                      slug={slug}
+                      ready={data.ready as boolean}
+                      title={data.title}
+                      description={data.description}
+                      tags={data.tags}
+                      pubDate={data.pubDate as Date}
+                      index={index + 1}
+                    />
+                  </a>
+                ) : (
+                  <PostCard
+                    slug={slug}
+                    ready={data.ready as boolean}
+                    title={data.title}
+                    description={data.description}
+                    tags={data.tags}
+                    pubDate={data.pubDate as Date}
+                    index={index + 1}
+                  />
+                )}
             </li>
           )).reverse()
         }

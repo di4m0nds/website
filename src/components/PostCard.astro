@@ -5,6 +5,7 @@ import { slide } from 'astro:transitions'
 
 interface Props {
   slug: string
+  ready: boolean
   title: string
   description: string
   tags: string[]
@@ -14,6 +15,7 @@ interface Props {
 
 const {
   slug,
+  ready,
   title,
   description,
   tags,
@@ -22,37 +24,64 @@ const {
 } = Astro.props
 ---
 
-<a href={`posts/${slug}`}>
-  <article class="relative p-5 rounded-md border-2 hover:border-orange-500 border-transparent dark:bg-slate-600/30 bg-orange-300/30 hover:bg-orange-100/20">
-    <h1
-      transition:name={`${title.toLowerCase().replaceAll(' ', '_')}`}
-      class="text-xl font-medium"
-    >
-      {title}
-    </h1>
-    <p
-    class="my-2"
-    >
+
+<article class={`
+    relative p-5
+    rounded-md
+    border-2 border-transparent
+   
+    ${ready
+      ? "dark:bg-slate-600/40 bg-orange-300/30 hover:border-orange-500 hover:bg-orange-100/20"
+      : "bg-slate-300/30 dark:bg-slate-300/20 text-gray-400"
+    }
+  `}
+>
+  <h1
+    transition:name={`${title.toLowerCase().replaceAll(' ', '_')}`}
+    class="text-xl font-medium"
+  >
+    {title}
+  </h1>
+
+  <p class="my-2">
     {description.length > 100 ? description.substring(0, 99) + " ..." : description}
   </p>
+
   <div class="flex flex-wrap gap-2 my-5">
     {
       tags.map((tag, i) => (
         <span
-        transition:animate={slide({ duration: `0.${i}9s` })}
-        class="px-3 py-1 bg-gradient-to-r from-orange-500 to-yellow-500 text-white dark:text-black text-sm font-medium rounded-full"
+          transition:animate={slide({ duration: `0.${i}9s` })}
+          class={`
+            px-3 py-1
+
+            bg-gradient-to-r 
+            ${ready
+              ? "from-orange-500 to-yellow-500"
+              : "from-slate-600/30 dark:from-gray-300/30 to-gray-400"
+            }
+
+            text-white dark:${ready ? "text-black" : "text-gray-600"}
+            text-sm font-medium rounded-full
+            hover:scale-105 duration-75
+          `}
         >
-        {tag}
+          {tag}
         </span>
-        ))
-      }
-    </div>
-    <p class="text-sm font-regular dark:text-gray-200 text-gray-600">
-      {timeSincePublication(pubDate)}
-    </p>
-    <div class="absolute bottom-4 right-4 flex gap-x-1 items-center text-orange-500 dark:text-gray-400">
-      <NumberSign classProps="w-8 h-8" />
-      <span class="font-bold text-2xl">{index}</span>
-    </div>
-  </article>
-</a>
+      ))
+    }
+  </div>
+
+  <p class="text-sm font-regular dark:text-gray-200 text-gray-600">
+    {ready ? timeSincePublication(pubDate) : "Under Construction"}
+  </p>
+
+  <div class={`
+      absolute bottom-4 right-4 flex gap-x-1 items-center hover:scale-110 hover:rotate-0 rotate-6 duration-150
+      ${ready ? "text-orange-500" : "text-gray-400"} dark:text-gray-400
+    `}
+  >
+    <NumberSign classProps="w-8 h-8" />
+    <span class="font-bold text-2xl">{index}</span>
+  </div>
+</article>
