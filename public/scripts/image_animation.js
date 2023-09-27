@@ -9,15 +9,17 @@ const imageAnimation = () => {
   const deltaX = imagePositionDestination.left - imagePositionOrigin.left;
   const deltaY = imagePositionDestination.top - imagePositionOrigin.top;
   
+  const widthScreen = window.screen.width;
+  
   const device = {
-    x: window.screen.width > 800 ? 100 : 60,
-    y: window.screen.width > 800 ? 30 : 50,
+    x: widthScreen > 800 ? 100 : 60,
+    y: widthScreen > 800 ? 30 : 50,
   
-    widthBA: window.screen.width > 800 ? '100%': '500px',
-    heightBA: window.screen.width > 800 ? '100%' : '500px',
+    widthBA: widthScreen > 800 ? '100%': '500px',
+    heightBA: widthScreen > 800 ? '100%' : '500px',
   
-    widthAB: window.screen.width > 800 ? '70%': '200px',
-    heightAB: window.screen.width > 800 ? '70%' : '200px',
+    widthAB: widthScreen > 800 ? '70%': '200px',
+    heightAB: widthScreen > 800 ? '70%' : '200px',
   }
   
   // Define a CSS keyframe animation
@@ -27,7 +29,7 @@ const imageAnimation = () => {
         transform: translate(0, 0);
       }
       60% {
-        transform: translate(20px, -20px) scale(0.5);
+        transform: translate(${deltaX - device.x - 20}px, ${deltaY - device.y}px) scale(0.5);
       }
       100% {
         transform: translate(${deltaX - device.x}px, ${deltaY - device.y}px) scale(1);

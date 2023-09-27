@@ -12,7 +12,18 @@ const { title, experiences } = ExperienceInfo
         <div class="font-medium text-xl">{role}</div>
         <div class="text-lg">{date}</div>
       </div>
-      <div class="text-lg">{company} · {type} · {location}</div>
+      <div class="text-lg md:block hidden">
+        {company}
+        <span class="px-5">•</span>
+        {type}
+        <span class="px-5">•</span>
+        {location}
+      </div>
+      <div class="text-lg md:hidden block">
+        <p>• {company}  </p>
+        <p>• {type}     </p>
+        <p>• {location} </p>
+      </div>
       <p class="text-xl">
         {description}
       </p>
