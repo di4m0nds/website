@@ -1,0 +1,63 @@
+---
+interface Props {
+  pubDate: Date
+  title: string
+  description: string
+  author: string
+  tags: string[]
+}
+
+import { displayDate } from '../utils/functions'
+import { DateFormat } from '../utils/enums'
+import { slide } from 'astro:transitions'
+
+const { pubDate, title, description, author, tags } = Astro.props
+
+const postDate = new Date(pubDate)
+const waitTime = (i: number): number => i === 0 ? 0.4: -0.3
+---
+<header class="w-full flex flex-col mb-5">
+  <div class="flex flex-col md:flex-row justify-between">
+    <p class="flex flex-row gap-x-2">
+      <span class="font-bold">Author:</span>{author}
+    </p>
+    <p
+      class="flex flex-row gap-x-2 mb-4 md:mb-auto"
+    >
+      <span class="font-bold">Publication date:</span>{displayDate(postDate, DateFormat.LongDateTime)}
+    </p>
+  </div>
+
+  <h2 transition:name={`${title.toLowerCase().replaceAll(' ', '_')}`}>
+    {title}
+  </h2>
+
+  <div class="flex flex-wrap gap-x-2 ">
+    {
+      tags && tags.length > 0 && tags.map((tag, i) => (
+        <span
+          transition:animate={slide({ duration: `${i + waitTime(i)}s` })}
+          class={`
+            px-3 py-1
+
+            bg-gradient-to-r 
+            from-orange-500 to-yellow-500
+
+            text-white dark:text-black
+            text-sm font-medium rounded-full
+            hover:scale-105 duration-75
+          `}
+        >
+          {tag}
+        </span>
+      ))
+    }
+  </div>
+
+  <p
+    transition:name={`${title.toLowerCase().replaceAll(' ', '_')}_description`}
+    class="w-full mt-5"
+  >
+    {description}
+  </p>
+</header>
