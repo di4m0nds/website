@@ -1,3 +1,5 @@
+import type { DateFormat } from "./enums";
+
 export const timeSincePublication = (articleDate: Date) : string => {
   // Get the current date and time
   const currentDate = new Date();
@@ -28,4 +30,18 @@ export const timeSincePublication = (articleDate: Date) : string => {
   } else {
     return 'Just now';
   }
+}
+
+export function displayDate(date: Date, format: DateFormat): string {
+  const options: Intl.DateTimeFormatOptions = {
+    year: format.includes('YYYY') ? 'numeric' : undefined,
+    month: format.includes('MM') ? '2-digit' : undefined,
+    day: format.includes('DD') ? '2-digit' : undefined,
+    hour: format.includes('HH') ? '2-digit' : undefined,
+    minute: format.includes('mm') ? '2-digit' : undefined,
+    second: format.includes('ss') ? '2-digit' : undefined,
+    timeZone: 'UTC',
+  };
+
+  return new Intl.DateTimeFormat('en-US', options).format(date);
 }

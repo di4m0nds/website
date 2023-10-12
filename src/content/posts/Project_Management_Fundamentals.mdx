@@ -1,14 +1,20 @@
 ---
 ready: true
 title: "Project Management Fundamentals"
-pubDate: 2023-09-27T11:00:00
+pubDate: 2023-09-27T21:00:00
 author: "Silvestri, Javier"
 description: "Explore the world of Project Management. Discover the basics, project cycles, cost control, and estimation methods. Whether you're a pro or a beginner, this article will guide you through the essentials of successful project management."
 tags: ["control", "scope", "goals", "time control", "fundamentals"]
 ---
-<p class="w-full my-3 flex flex-row gap-x-2 justify-end">**Publication date:** 2023-09-27</p>
+import PostDetails from '../../components/PostDetails.astro'
 
-> Explore the world of Project Management. Discover the basics, project cycles, cost control, and estimation methods. Whether you're a pro or a beginner, this article will guide you through the essentials of successful project management.
+<PostDetails
+  pubDate={frontmatter.pubDate}
+  title={frontmatter.title}
+  description={frontmatter.description}
+  author={frontmatter.author}
+  tags={frontmatter.tags}
+/>
 
 --
 --

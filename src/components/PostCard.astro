@@ -43,7 +43,10 @@ const {
     {title}
   </h1>
 
-  <p class="my-2">
+  <p
+    transition:name={`${title.toLowerCase().replaceAll(' ', '_')}_description`}
+    class="my-2"
+  >
     {description.length > 100 ? description.substring(0, 99) + " ..." : description}
   </p>
 
