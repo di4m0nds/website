@@ -14,7 +14,6 @@ import { slide } from 'astro:transitions'
 const { pubDate, title, description, author, tags } = Astro.props
 
 const postDate = new Date(pubDate)
-const waitTime = (i: number): number => i === 0 ? 0.4: -0.3
 ---
 <header class="w-full flex flex-col mb-5">
   <div class="flex flex-col md:flex-row justify-between">
@@ -32,11 +31,11 @@ const waitTime = (i: number): number => i === 0 ? 0.4: -0.3
     {title}
   </h2>
 
-  <div class="flex flex-wrap gap-x-2 ">
+  <div class="flex flex-wrap gap-2 ">
     {
       tags && tags.length > 0 && tags.map((tag, i) => (
         <span
-          transition:animate={slide({ duration: `${i + waitTime(i)}s` })}
+          transition:animate={slide({ duration: `0.${i + 3}s` })}
           class={`
             px-3 py-1
 

@@ -12,13 +12,9 @@ function switchMode() {
     document.body.classList.add('dark')
     sunMode.style.display = 'block'
     darkModeSwitch.checked = true
-    // htmlElement.style.backgroundColor = "#1d2022"
-    // bodyElement.style.backgroundColor = "#1d2022"
   } else {
     moonMode.style.display = 'block'
     darkModeSwitch.checked = false
-    // htmlElement.style.backgroundColor = "#efeae3"
-    // bodyElement.style.backgroundColor = "#efeae3"
   }
   
   darkModeSwitch.addEventListener('change', function () {
