@@ -11,11 +11,12 @@ import {
   <input
     type="checkbox"
     id="dark-mode-switch"
+    class="sr-only"
     aria-label="switch mode options"
     aria-labelledby="toggle theme"
   >
-  <Sun classProps="hidden sun-mode w-8 h-8 text-gray-800 dark:text-white" />
-  <Moon classProps="hidden moon-mode w-8 h-8 text-gray-800 dark:text-white" />
+  <Sun classProps="sun-mode w-8 h-8 text-gray-800 dark:text-white" />
+  <Moon classProps="moon-mode w-8 h-8 text-gray-800 dark:text-white" />
 </label>
 
 <script src="/scripts/switch_mode.js" is:inline data-astro-reload></script>
