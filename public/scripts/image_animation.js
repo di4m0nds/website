@@ -11,6 +11,10 @@ const imageAnimation = () => {
   
   const widthScreen = window.screen.width;
   
+  console.log(`deltaX: ${deltaX} - deltaY: ${deltaY}`)
+  console.log(`imagePositionOrigin: ${imagePositionOrigin.top}`)
+  console.log(`imagePositionDestination: ${imagePositionDestination.top}`)
+
   const device = {
     x: widthScreen > 800 ? 100 : 60,
     y: widthScreen > 800 ? 30 : 50,
@@ -89,6 +93,5 @@ const imageAnimation = () => {
   window.addEventListener('scroll', debounce(handleAnimation, 30));
 }
 
-imageAnimation()
-
+setTimeout(() => imageAnimation(), 200)
 document.addEventListener('astro:after-swap', imageAnimation)
