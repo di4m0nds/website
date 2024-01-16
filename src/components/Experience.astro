@@ -4,15 +4,15 @@ import PressLetter from "./PressLetter.astro";
 
 const { title, experiences } = ExperienceInfo
 ---
-<section id="experiences" class="section__info bg-orange-500/80 px-8 md:px-16 py-8 md:py-16 text-white opacity-0 duration-300">
-  <h2 class="font-regular text-4xl md:text-6xl mb-8 flex items-end">Work Experience<PressLetter letter="3" /></h2>
-  {experiences.map(({role, date, company, type, location, description}) => (
+<!-- <section id="experiences" class="section__info bg-orange-500/80 px-8 md:px-16 py-8 md:py-16 text-white opacity-0 duration-300">
+  <h2 class="font-regular text-4xl md:text-6xl mb-8 flex items-end">{title}<PressLetter letter="3" /></h2>
+  {experiences.map(({role, date, company, type, location, responsibilities, keyAccomplishments}) => (
     <div class="flex flex-col space-y-6">
       <div class="flex justify-between font-regular">
         <div class="font-medium text-xl">{role}</div>
         <div class="text-lg">{date}</div>
       </div>
-      <div class="text-lg md:block hidden">
+      <div class="text-lg sm:hidden md:block">
         {company}
         <span class="px-5">•</span>
         {type}
@@ -24,9 +24,57 @@ const { title, experiences } = ExperienceInfo
         <p>• {type}     </p>
         <p>• {location} </p>
       </div>
-      <p class="text-xl">
-        {description}
+
+      <h4 class="text-lg font-bold">Responsibilities</h4>
+      <p>
+        {responsibilities?.map(item => 
+          <span class="sm:ml-[5px] md:ml-[10px] my-0 py-0">• {item}</span><br>
+        )}
       </p>
+
+      <h4 class="text-lg font-bold">Key Accomplishments</h4>
+      <p>
+        {keyAccomplishments?.map(item => 
+          <span class="sm:ml-[5px] md:ml-[10px] my-0 py-0">• {item}</span><br>
+        )}
+      </p>
+    </div>
+  ))}
+</section> -->
+<section id="experiences" class="section__info bg-orange-500/80 px-8 md:px-16 py-8 md:py-16 text-white opacity-0 duration-300">
+  <h2 class="font-regular text-4xl md:text-6xl mb-8 flex items-end">{title}<PressLetter letter="3" /></h2>
+  {experiences.map(({ role, date, company, type, location, responsibilities, keyAccomplishments }) => (
+    <div class="flex flex-col space-y-6">
+      <div class="flex justify-between font-regular">
+        <div class="font-medium text-xl">
+          <p>{role}</p>
+          <p><span class="font-thin">at&nbsp;</span>{company}</p>
+        </div>
+        <div class="text-lg">{date}</div>
+      </div>
+
+      <div class="text-lg">
+        <p>• {type}</p>
+        <p>• {location}</p>
+      </div>
+
+      <div>
+        <h4 class="text-lg font-bold">Responsibilities</h4>
+        <ul>
+          {responsibilities?.map((item, index) => (
+            <li class="ml-[5px] md:ml-[10px] my-1">{item}</li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-lg font-bold">Key Accomplishments</h4>
+        <ul>
+          {keyAccomplishments?.map((item, index) => (
+            <li class="ml-[5px] md:ml-[10px] my-1">{item}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   ))}
 </section>

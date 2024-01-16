@@ -1,29 +1,37 @@
 export const AboutInfo = {
-  title: "About Me",
+  title: "ABOUT ME",
   primary_content: "Coding enthusiast on a quest to become a proficient software engineer.",
   secondary_content: "Hey there! Currently, I'm embracing the role of a software developer, immersing myself in coding challenges and practical projects.",
 }
 
 export const ExperienceInfo = {
-  title: "Work Experience",
+  title: "WORK EXPERIENCE",
   experiences: [
     {
-      role: "Software Developer",
-      date: "Apr 2022 - Aug 2023",
-      company: "runaID",
-      type: "Full-time",
-      location: "Argentina",
-      description: "As a Software Developer at runaID, I contributed to the development of web and mobile applications using technologies such as Groovy, Grails, Dart, and Flutter. I actively participated in front-end development and API development, working closely with the team to deliver high-quality solutions.",
-    }
+      role: "SOFTWARE DEVELOPER",
+      date: "April 2022 - August 2023",
+      company: "RunaID IT Services and IT Consulting",
+      type: "Full-Time",
+      location: "San Luis, Argentina",
+      responsibilities: [
+        "Led the development of dynamic web and mobile applications, utilizing cutting-edge technologies such as Groovy, Grails, Dart, and Flutter.",
+        "Played a pivotal role in both front-end and API development, ensuring seamless integration and superior user experiences.",
+        "Collaborated closely with cross-functional teams, contributing to the delivery of high-quality solutions and meeting client objectives.",
+      ],
+      keyAccomplishments: [
+        "Swiftly onboarded to Flutter and Dart through an immersive course, showcasing immediate application of acquired skills in a Greenfield project.",
+        "Demonstrated agile adaptability by seamlessly transitioning between diverse projects, consistently delivering successful outcomes.",
+      ],
+    },
   ],
 }
 
 export const SkillsInfo = {
-  title: "Skills",
+  title: "SKILLS",
 }
 
 export const ProjectsInfo = {
-  title: "Projects",
+  title: "MOST RECENT PROJECTS",
   projects: [
     {
       id: "chefco",
