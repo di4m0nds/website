@@ -27,9 +27,7 @@ const postDate = new Date(pubDate)
     </p>
   </div>
 
-  <h2 transition:name={`${title.toLowerCase().replaceAll(' ', '_')}`}>
-    {title}
-  </h2>
+  <h2>{title}</h2>
 
   <div class="flex flex-wrap gap-2 ">
     {
@@ -53,10 +51,5 @@ const postDate = new Date(pubDate)
     }
   </div>
 
-  <p
-    transition:name={`${title.toLowerCase().replaceAll(' ', '_')}_description`}
-    class="w-full mt-5"
-  >
-    {description}
-  </p>
+  <p class="w-full mt-5">{description}</p>
 </header>
