@@ -19,7 +19,6 @@ const { title } = Astro.props
       Javi's Posts
       {title != null ? (
         <span class="flex flex-col md:flex-row">
-          {title.split(" ").map((word, i) => (
             <span
               transition:animate={slide({ duration: `0.${i + 5}s` })}
               class="font-thin dark:text-orange-500 text-orange-600 p-0 m-0 duration-100"
