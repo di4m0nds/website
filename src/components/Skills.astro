@@ -1,6 +1,7 @@
 ---
 import {
   Css, Git, Github, Html, Javascript, ReactJS, Sql, Tailwind, Terminal,
+  NextJS,
   Flutter,
   Dart,
   NodeJS,
@@ -17,7 +18,7 @@ import PressLetter from "./PressLetter.astro";
 const { title } = SkillsInfo
 const classProps = "m-3 hover:rotate-6 w-10 lg:h-12 lg:w-12 h-10"
 const classPropsLi = `
-  hover:bg-gradient-to-br hover:from-orange-100 hover:to-transparent
+  hover:bg-gradient-to-br hover:from-orange-100 dark:hover:from-orange-800 hover:to-transparent
   hover:shadow-lg  duration-300
   rounded-2xl
   hover:text-orange-500
@@ -28,22 +29,23 @@ const classPropsLi = `
 <section id="skills" class="section__info px-8 md:px-16 py-8 md:py-24 opacity-0 duration-300 curs">
   <h2 class="font-regular text-4xl md:text-6xl mb-8 flex items-end">{title}<PressLetter letter="4" /></h2>
   <ul class="flex flex-row justify-center flex-wrap gap-2 max-w-xl md:max-w-xl m-auto hover:cursor-none">
-    <li class={classPropsLi}><Javascript classProps={classProps} /></li>
-    <li class={classPropsLi}><Html classProps={classProps} /></li>
-    <li class={classPropsLi}><Css classProps={classProps} /></li>
-    <li class={classPropsLi}><ReactJS classProps={classProps} /></li>
-    <li class={classPropsLi}><Tailwind classProps={classProps} /></li>
-    <li class={classPropsLi}><Github classProps={classProps} /></li>
-    <li class={classPropsLi}><Git classProps={classProps} /></li>
-    <li class={classPropsLi}><Terminal classProps={classProps} /></li>
-    <li class={classPropsLi}><Sql classProps={classProps} /></li>
-    <li class={classPropsLi}><Flutter classProps={classProps} /></li>
-    <li class={classPropsLi}><Dart classProps={classProps} /></li>
-    <li class={classPropsLi}><NodeJS classProps={classProps} /></li>
-    <li class={classPropsLi}><AstroIcon classProps={classProps} /></li>
-    <li class={classPropsLi}><GoLang classProps={classProps} /></li>
-    <li class={classPropsLi}><Docker classProps={classProps} /></li>
-    <li class={classPropsLi}><Redis classProps={classProps} /></li>
-    <li class={classPropsLi}><Mongo classProps={classProps} /></li>
+    <li title="Javascript" class={classPropsLi}><Javascript classProps={classProps} /></li>
+    <li title="HTML" class={classPropsLi}><Html classProps={classProps} /></li>
+    <li title="CSS" class={classPropsLi}><Css classProps={classProps} /></li>
+    <li title="ReactJS" class={classPropsLi}><ReactJS classProps={classProps} /></li>
+    <li title="NextJS" class={classPropsLi}><NextJS classProps={classProps} /></li>
+    <li title="TailwindCSS" class={classPropsLi}><Tailwind classProps={classProps} /></li>
+    <li title="Github" class={classPropsLi}><Github classProps={classProps} /></li>
+    <li title="Git" class={classPropsLi}><Git classProps={classProps} /></li>
+    <li title="Terminal" class={classPropsLi}><Terminal classProps={classProps} /></li>
+    <li title="SQL" class={classPropsLi}><Sql classProps={classProps} /></li>
+    <li title="Flutter" class={classPropsLi}><Flutter classProps={classProps} /></li>
+    <li title="Dart Language" class={classPropsLi}><Dart classProps={classProps} /></li>
+    <li title="NodeJS" class={classPropsLi}><NodeJS classProps={classProps} /></li>
+    <li title="Astro Framework" class={classPropsLi}><AstroIcon classProps={classProps} /></li>
+    <li title="Go Language" class={classPropsLi}><GoLang classProps={classProps} /></li>
+    <li title="Docker" class={classPropsLi}><Docker classProps={classProps} /></li>
+    <li title="REDIS STORAGE" class={classPropsLi}><Redis classProps={classProps} /></li>
+    <li title="MongoDB" class={classPropsLi}><Mongo classProps={classProps} /></li>
   </ul>
 </section>

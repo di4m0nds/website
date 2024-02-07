@@ -7,6 +7,7 @@ import Linkedin from "./Linkedin.astro"
 import Mail from "./Mail.astro"
 import Git from "./Git.astro"
 import ReactJS from "./ReactJS.astro"
+import NextJS from "./NextJS.astro"
 import Tailwind from "./Tailwind.astro"
 import Html from "./Html.astro"
 import Css from "./Css.astro"
@@ -37,6 +38,7 @@ export {
   Mail,
   Git,
   ReactJS,
+  NextJS,
   Tailwind,
   Html,
   Css,
