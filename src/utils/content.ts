@@ -1,7 +1,7 @@
 export const AboutInfo = {
   title: "ABOUT ME",
-  primary_content: "Coding enthusiast on a quest to become a proficient software engineer.",
-  secondary_content: "Hey there! Currently, I'm embracing the role of a software developer, immersing myself in coding challenges and practical projects.",
+  primary_content: "WEB DEVELOPER",
+  secondary_content: "+1 year of experience as a Software Developer in building dynamic Web and Mobile applications. Integrated into both Front-End and Back-End teams, specializing in the creation of intuitive and user-friendly interfaces.",
 }
 
 export const ExperienceInfo = {
