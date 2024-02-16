@@ -1,11 +1,12 @@
 ---
 ready: true
-title: "Software Testing Fundamentals"
+title: 'Software Testing Fundamentals'
 pubDate: 2023-08-30T10:00:00
-author: "Silvestri, Javier"
-description: "In this article, we will delve into the fundamental concepts of software testing. We will discuss the critical importance of thorough testing, walk through the various stages encompassing the software testing process, and emphasize how software testing significantly influences the overall quality of the end product. Whether you are a software developer, a dedicated tester, or an inquisitive reader, this article will provide valuable insights into the dynamic realm of software testing."
-tags: ["testing", "fundamentals", "quality software", "tests"]
+author: 'Silvestri, Javier'
+description: 'In this article, we will delve into the fundamental concepts of software testing. We will discuss the critical importance of thorough testing, walk through the various stages encompassing the software testing process, and emphasize how software testing significantly influences the overall quality of the end product. Whether you are a software developer, a dedicated tester, or an inquisitive reader, this article will provide valuable insights into the dynamic realm of software testing.'
+tags: ['testing', 'fundamentals', 'quality software', 'tests']
 ---
+
 import PostDetails from '../../components/PostDetails.astro'
 
 <PostDetails
@@ -15,39 +16,58 @@ import PostDetails from '../../components/PostDetails.astro'
   author={frontmatter.author}
   tags={frontmatter.tags}
 />
---
---
+-- --
 
 ## Introduction
 
 Software testing plays a vital role in the software development lifecycle. It ensures that software products not only meet established quality standards but also perform as expected. This document aims to explore the fundamental aspects of software testing, covering its significance, the testing process, and its impact on product quality.
 
-<div id="tablecontent">
-# Table of Contents
-- **1.** [Understanding the Purpose of Tests](/posts/software_testing_fundamentals#chapter-1-understanding-the-purpose-of-tests)
-- **2.** [The Software Test Process and International Standards](/posts/software_testing_fundamentals#chapter-2-the-software-test-process-and-international-standards)
-- **3.** [Software Development Life Cycle (SDLC)](/posts/software_testing_fundamentals#chapter-3-software-development-life-cycle-sdlc)
-- **4.** [Understanding Quality](/posts/software_testing_fundamentals#chapter-4-understanding-quality)
-- **5.** [Principles of Modern Testing](/posts/software_testing_fundamentals#chapter-5-principles-of-modern-testing)
-- **6.** [Specialties in Testing](/posts/software_testing_fundamentals#chapter-6-specialties-in-testing)
-- **7.** [Exploration and Testing in Early Stages](/posts/software_testing_fundamentals#chapter-7-exploration-and-testing-in-early-stages)
-- **8.** [Testing and Checking](/posts/software_testing_fundamentals#chapter-8-testing-and-checking)
-- **9.** [Agile Testing: Embracing Quality Across the Entire Team](/posts/software_testing_fundamentals#chapter-9-agile-testing-embracing-quality-across-the-entire-team)
-- **10.** [Testing Levels](/posts/software_testing_fundamentals#chapter-10-testing-levels)
-- **11.** [Types of Testing: Exploring Diverse Techniques for Effective Defect Detection](/posts/software_testing_fundamentals#chapter-11-types-of-testing-exploring-diverse-techniques-for-effective-defect-detection)
-- **12.** [Two Approaches to Software Testing: Static and Dynamic Testing](/posts/software_testing_fundamentals#chapter-12-two-approaches-to-software-testing-static-and-dynamic-testing)
-- **13.** [Definition and Test Design: The Role of a Tester](/posts/software_testing_fundamentals#chapter-13-definition-and-test-design-the-role-of-a-tester)
-- **14.** [Black Box, White Box, and Gray Box Testing](/posts/software_testing_fundamentals#chapter-14-black-box-white-box-and-gray-box-testing)
-- **15.** [Effective Test Management, Monitoring, and Control](/posts/software_testing_fundamentals#chapter-15-effective-test-management-monitoring-and-control)
-- **16.** [Rework in Software Testing: Addressing Challenges and Improving Quality](/posts/software_testing_fundamentals#chapter-17-rework-in-software-testing-addressing-challenges-and-improving-quality)
-- **17.** [Bug Tracking System](/posts/software_testing_fundamentals#chapter-18-bug-tracking-system)
-- **18.** [Defects and Suggestions](/posts/software_testing_fundamentals#chapter-19-defects-and-suggestions)
-- **19.** [Debugging: Unveiling the Craft of Issue Resolution](/posts/software_testing_fundamentals#chapter-20-debugging-unveiling-the-craft-of-issue-resolution)
-- **20.** [Verification Testing: Ensuring Alignment with Requirements](/posts/software_testing_fundamentals#chapter-21-verification-testing-ensuring-alignment-with-requirements)
-- **21.** [Debugging Techniques: Shifting from Reactive to Proactive](/posts/software_testing_fundamentals#chapter-22-debugging-techniques-shifting-from-reactive-to-proactive)
-- **22.** [Putting Gherkin into Action: An Example Scenario](/posts/software_testing_fundamentals#chapter-23-putting-gherkin-into-action-an-example-scenario)
+<div id='tablecontent'>
+  # Table of Contents - **1.** [Understanding the Purpose of
+  Tests](/posts/software_testing_fundamentals#chapter-1-understanding-the-purpose-of-tests)
+  - **2.** [The Software Test Process and International
+  Standards](/posts/software_testing_fundamentals#chapter-2-the-software-test-process-and-international-standards)
+  - **3.** [Software Development Life Cycle
+  (SDLC)](/posts/software_testing_fundamentals#chapter-3-software-development-life-cycle-sdlc)
+  - **4.** [Understanding
+  Quality](/posts/software_testing_fundamentals#chapter-4-understanding-quality)
+  - **5.** [Principles of Modern
+  Testing](/posts/software_testing_fundamentals#chapter-5-principles-of-modern-testing)
+  - **6.** [Specialties in
+  Testing](/posts/software_testing_fundamentals#chapter-6-specialties-in-testing)
+  - **7.** [Exploration and Testing in Early
+  Stages](/posts/software_testing_fundamentals#chapter-7-exploration-and-testing-in-early-stages)
+  - **8.** [Testing and
+  Checking](/posts/software_testing_fundamentals#chapter-8-testing-and-checking)
+  - **9.** [Agile Testing: Embracing Quality Across the Entire
+  Team](/posts/software_testing_fundamentals#chapter-9-agile-testing-embracing-quality-across-the-entire-team)
+  - **10.** [Testing
+  Levels](/posts/software_testing_fundamentals#chapter-10-testing-levels) -
+  **11.** [Types of Testing: Exploring Diverse Techniques for Effective Defect
+  Detection](/posts/software_testing_fundamentals#chapter-11-types-of-testing-exploring-diverse-techniques-for-effective-defect-detection)
+  - **12.** [Two Approaches to Software Testing: Static and Dynamic
+  Testing](/posts/software_testing_fundamentals#chapter-12-two-approaches-to-software-testing-static-and-dynamic-testing)
+  - **13.** [Definition and Test Design: The Role of a
+  Tester](/posts/software_testing_fundamentals#chapter-13-definition-and-test-design-the-role-of-a-tester)
+  - **14.** [Black Box, White Box, and Gray Box
+  Testing](/posts/software_testing_fundamentals#chapter-14-black-box-white-box-and-gray-box-testing)
+  - **15.** [Effective Test Management, Monitoring, and
+  Control](/posts/software_testing_fundamentals#chapter-15-effective-test-management-monitoring-and-control)
+  - **16.** [Rework in Software Testing: Addressing Challenges and Improving
+  Quality](/posts/software_testing_fundamentals#chapter-17-rework-in-software-testing-addressing-challenges-and-improving-quality)
+  - **17.** [Bug Tracking
+  System](/posts/software_testing_fundamentals#chapter-18-bug-tracking-system) -
+  **18.** [Defects and
+  Suggestions](/posts/software_testing_fundamentals#chapter-19-defects-and-suggestions)
+  - **19.** [Debugging: Unveiling the Craft of Issue
+  Resolution](/posts/software_testing_fundamentals#chapter-20-debugging-unveiling-the-craft-of-issue-resolution)
+  - **20.** [Verification Testing: Ensuring Alignment with
+  Requirements](/posts/software_testing_fundamentals#chapter-21-verification-testing-ensuring-alignment-with-requirements)
+  - **21.** [Debugging Techniques: Shifting from Reactive to
+  Proactive](/posts/software_testing_fundamentals#chapter-22-debugging-techniques-shifting-from-reactive-to-proactive)
+  - **22.** [Putting Gherkin into Action: An Example
+  Scenario](/posts/software_testing_fundamentals#chapter-23-putting-gherkin-into-action-an-example-scenario)
 </div>
-
 
 # Chapter 1: Understanding the Purpose of Tests
 
@@ -100,8 +120,8 @@ The basic software development life cycle involves the following stages:
 1. **Define Objectives:** Establishes the software's overall scope and its role within a global strategy or ecosystem.
 2. **Requirements Analysis and Feasibility:** Gathers information to assess feasibility, identify constraints, and analyze customer requirements.
 3. **Design:**
-    - **High Level:** Creates a basic design to validate the application's architecture.
-    - **Low Level:** Defines the detailed structure based on the overall design.
+   - **High Level:** Creates a basic design to validate the application's architecture.
+   - **Low Level:** Defines the detailed structure based on the overall design.
 4. **Programming:** Implements a programming language to create functions defined during the design stage.
 5. **Verification Testing:** Includes component, integration, and system testing, carried out throughout previous stages.
 6. **Beta Testing (or Validation):** Ensures the software meets original specifications, including acceptance testing.
@@ -288,7 +308,7 @@ Performance  -->  System <-- Usability
 Structural testing concerns underlying technology and the product's stack. It verifies critical components like databases and servers. This "white-box testing" examines system internals for validation.
 
 ```
-Database -->  System <-- Server 
+Database -->  System <-- Server
 ```
 
 ## 4. Change Management Testing
@@ -400,35 +420,39 @@ In the realm of software testing, different roles play pivotal parts in ensuring
 
 - **Manual Testing Specialist:** Possessing strong lateral thinking skills, the Manual Testing Specialist excels in organization, design, and documentation. They define test cases for each application area, prioritize tasks, and execute manual test cases while accurately reporting defects.
 
-    **Required Skills:**
-    - Lateral thinking
-    - Test case design and documentation
-    - Task organization and prioritization
-    - Defect reporting and management
+  **Required Skills:**
+
+  - Lateral thinking
+  - Test case design and documentation
+  - Task organization and prioritization
+  - Defect reporting and management
 
 - **Technical Testing Specialist:** Staying current with the latest testing tools and technologies, the Technical Testing Specialist enhances efficiency and effectiveness. They leverage technical expertise to conduct automated tests, performance testing, and other technical aspects of software testing.
 
-    **Required Skills:**
-    - Proficiency in testing tools and frameworks
-    - Automation testing
-    - Performance testing
-    - Continuous learning and self-improvement
+  **Required Skills:**
+
+  - Proficiency in testing tools and frameworks
+  - Automation testing
+  - Performance testing
+  - Continuous learning and self-improvement
 
 - **Test Team Leader:** Managing the testing team, the Test Team Leader facilitates testing activities, manages test environments, tracks defects, and ensures adherence to guidelines. This role involves coordinating testing efforts and fostering effective communication within the team.
 
-    **Required Skills:**
-    - Team management and leadership
-    - Test environment management
-    - Defect tracking and coordination
-    - Communication and collaboration
+  **Required Skills:**
+
+  - Team management and leadership
+  - Test environment management
+  - Defect tracking and coordination
+  - Communication and collaboration
 
 - **Quality Engineer:** Focusing on the overall testing process, the Quality Engineer sets policies, maintains alignment with business priorities, and verifies software quality. They ensure teams follow established testing standards, continuously improving the testing process.
 
-    **Required Skills:**
-    - Process management and improvement
-    - Policy establishment
-    - Business alignment
-    - Quality assurance and delivery verification
+  **Required Skills:**
+
+  - Process management and improvement
+  - Policy establishment
+  - Business alignment
+  - Quality assurance and delivery verification
 
 By having clear roles and well-defined responsibilities, software testing teams can collaborate efficiently, ensure comprehensive testing coverage, and deliver software products meeting the highest quality standards. Each role contributes to the overall success of the testing process, working cohesively to identify and address issues, resulting in reliable and customer-centric software solutions.
 
@@ -612,39 +636,47 @@ In the realm of software development, verification testing is a cornerstone of q
 In the realm of debugging, evolution beckons us to transition from a reactive stance to a proactive mindset. While debugging tools grant us insights into the intricate dance of data flow and interactions, we should heed the principles of modern testing. This involves refining our techniques, embracing best practices, and harnessing superior tools. The debugging process should emerge as the last recourse in our arsenal.
 
 ## Debugging: Unveiling the Unseen
+
 - **Variable Value Insight:** Peering into the labyrinthine universe of variable values to discern hidden insights.
 - **Temporal Halts:** Temporarily suspending the application's journey to dissect its inner workings.
 
 ## Logging: Chronicles of Software Activity
+
 - **Storage of Values:** Imprint a trail of values, serving as breadcrumbs for meticulous analysis.
 - **Tracing the Trail:** Trace the footprints of information flow, illuminating the path of software behavior.
 
 ## Historical Record: The Forensic Advantage
+
 - **Forensic Analysis:** Embark on a journey of historical analysis, unraveling the mysteries of software behavior.
 - **Comparative Scrutiny:** Draw comparisons to dissect anomalies and unveil patterns.
 - **Information Aggregation:** Group scattered fragments of information to form a cohesive narrative.
 
 ## Monitoring and Reporting: The Vanguard of Vigilance
+
 - **Preventing Catastrophes:** Detect and preempt potential threats, safeguarding against catastrophic failures.
 - **Anomaly Sentinel:** Illuminate the shadows cast by anomalies, ensuring swifter responses.
 - **Pace Accelerator:** Accelerate response times by promptly diagnosing and addressing issues.
 
 ## Disadvantages of Neglecting Logging
+
 - **Veiled Visibility:** Errors lurking in the dark, concealed from vigilant eyes.
 - **Anarchy of Methodology:** The absence of standardized work methodologies in debugging endeavors.
 - **Dispersed Data Access:** A chaotic maze of decentralized access to critical information.
 - **Lagging Response:** A lamentable increase in response times, compromising user experience.
 
 ## Benefits of Historical Records and Reporting
+
 - **Machine Learning Leverage:** Fuel machine learning endeavors with a treasure trove of historical data.
 - **Enhanced Governance:** Bolster information management and control through historical insights.
 - **Thwarting Network Threats:** Unearth network threats and malicious entities lurking within the shadows.
 - **Fending Off Information Leaks:** Preempt data leaks and unwarranted behavior, ensuring data sanctity.
 
 ## Phases of Debugging: Illuminating the Path
+
 The debugging journey unfolds in two distinct phases:
 
 ### Phase 1: Discovering the Error
+
 - Navigate to the malfunctioning module.
 - Set breakpoints strategically:
   - During value assignments.
@@ -654,7 +686,9 @@ The debugging journey unfolds in two distinct phases:
 - Establish the groundwork with test data.
 
 ### Phase 2: Rectifying the Error
+
 With the bug laid bare, the mission shifts to correction:
+
 - Pinpoint the root cause.
 - Devise an effective remediation strategy.
 - Verify the fix through comprehensive testing.

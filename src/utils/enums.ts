@@ -3,6 +3,5 @@ export enum DateFormat {
   ShortDate = 'MM/DD/YYYY',
   LongDate = 'MMMM DD, YYYY',
   ShortDateTime = 'MM/DD/YYYY HH:mm',
-  LongDateTime = 'MMMM DD, YYYY HH:mm',
+  LongDateTime = 'MMMM DD, YYYY HH:mm'
 }
-

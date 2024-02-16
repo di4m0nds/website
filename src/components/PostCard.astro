@@ -13,54 +13,52 @@ interface Props {
   index: number
 }
 
-const {
-  slug,
-  ready,
-  title,
-  description,
-  tags,
-  pubDate,
-  index,
-} = Astro.props
+const { slug, ready, title, description, tags, pubDate, index } = Astro.props
 ---
 
-
-<article class={`
+<article
+  class={`
     relative p-5
     rounded-md
     border-2 border-transparent
    
-    ${ready
-      ? "dark:bg-slate-600/40 bg-orange-300/30 hover:border-orange-500 hover:bg-orange-100/20"
-      : "bg-slate-300/30 dark:bg-slate-300/20 text-gray-400"
+    ${
+      ready
+        ? 'dark:bg-slate-600/40 bg-orange-300/30 hover:border-orange-500 hover:bg-orange-100/20'
+        : 'bg-slate-300/30 dark:bg-slate-300/20 text-gray-400'
     }
   `}
 >
-  <h2 class="text-xl font-medium">
+  <h2 class='text-xl font-medium'>
     {title}
   </h2>
 
-  <p class="my-2">
-    {description.length > 100 ? description.substring(0, 99) + " ..." : description}
+  <p class='my-2'>
+    {
+      description.length > 100
+        ? description.substring(0, 99) + ' ...'
+        : description
+    }
   </p>
 
-  <div class="flex flex-wrap gap-2 my-5">
+  <div class='my-5 flex flex-wrap gap-2'>
     {
       tags.map((tag, i) => (
         <span
           transition:animate={slide({ duration: `0.${i}9s` })}
           class={`
-            px-3 py-1
+            bg-gradient-to-r px-3
 
-            bg-gradient-to-r 
-            ${ready
-              ? "from-orange-500 to-yellow-500"
-              : "from-slate-600/30 dark:from-gray-300/30 to-gray-400"
+            py-1 
+            ${
+              ready
+                ? 'from-orange-500 to-yellow-500'
+                : 'from-slate-600/30 to-gray-400 dark:from-gray-300/30'
             }
 
-            text-white dark:${ready ? "text-black" : "text-gray-600"}
-            text-sm font-medium rounded-full
-            hover:scale-105 duration-75
+            text-white dark:${ready ? 'text-black' : 'text-gray-600'}
+            rounded-full text-sm font-medium
+            duration-75 hover:scale-105
           `}
         >
           {tag}
@@ -69,18 +67,19 @@ const {
     }
   </div>
 
-  <p class="text-sm font-regular dark:text-gray-200 text-gray-600">
-    {ready ? timeSincePublication(pubDate) : "Under Construction"}
+  <p class='font-regular text-sm text-gray-600 dark:text-gray-200'>
+    {ready ? timeSincePublication(pubDate) : 'Under Construction'}
   </p>
 
-  <div class={`
+  <div
+    class={`
       absolute bottom-4 right-6 flex items-center
       hover:scale-150 hover:rotate-0
       scale-125 rotate-6 duration-150
-      ${ready ? "text-orange-500" : "text-gray-400"} dark:text-gray-400
+      ${ready ? 'text-orange-500' : 'text-gray-400'} dark:text-gray-400
     `}
   >
-    <NumberSign classProps="w-8 h-8" />
-    <span class="font-bold text-2xl">{index}</span>
+    <NumberSign classProps='w-8 h-8' />
+    <span class='text-2xl font-bold'>{index}</span>
   </div>
 </article>

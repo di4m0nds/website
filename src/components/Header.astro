@@ -1,74 +1,91 @@
 ---
-import DarkModeSwitch from "./DarkModeSwitch.astro";
-import MenuOptions from "./MenuOptions.astro";
+import DarkModeSwitch from './DarkModeSwitch.astro'
+import MenuOptions from './MenuOptions.astro'
 
-import {
-  Github,
-  Html,
-  ReactJS,
-  Tailwind,
-  Docker,
-  Javascript,
-} from './svg'
+import { Github, Html, ReactJS, Tailwind, Docker, Javascript } from './svg'
 
-const svg_common_classes = " w-12 h-12 text-gray-800 dark:text-white hover:rotate-12 hover:text-orange-500 dark:hover:text-orange-500 duration-300 hover:scale-110 "
+const svg_common_classes =
+  ' w-12 h-12 text-gray-800 dark:text-white hover:rotate-12 hover:text-orange-500 dark:hover:text-orange-500 duration-300 hover:scale-110 '
 ---
 
-<div class="relative w-full h-full flex flex-col justify-between font-poiret">
-  <header class="relative mx-0 md:mx-10 xl:mx-0 flex flex-row justify-end items-center">
+<div class='relative flex h-full w-full flex-col justify-between font-poiret'>
+  <header
+    class='relative mx-0 flex flex-row items-center justify-end md:mx-10 xl:mx-0'
+  >
     <h1
-      transition:animate="slide"
-      class="flex-grow font-bold text-4xl md:mb-0 mb-4 dark:text-white text-gray-800 select-none text-center md:text-left"
+      transition:animate='slide'
+      class='mb-4 flex-grow select-none text-center text-4xl font-bold text-gray-800 dark:text-white md:mb-0 md:text-left'
     >
       Software
-      <span class="font-thin">Developer<span>
-    </h1>
-    <div
-      class={`
+      <span class='font-thin'
+        >Developer<span> </span>
+        <div
+          class={`
         fixed md:top-8 right-4 md:right-auto md:bottom-auto bottom-10
         flex flex-row justify-between items-center gap-x-4
         py-2 px-4 dark:bg-slate-800/80 bg-slate-100/50 rounded-full
         shadow-sm hover:shadow-xl mr-1 duration-300 z-50
         backdrop-blur-sm
       `}
-      id="menu"
-    >
-      <DarkModeSwitch />
-      <div class="w-2 h-10 rounded-full dark:bg-[#1d2022] bg-[#efeae3]"></div>
-      <div class="relative w-8 h-8">
-        <MenuOptions />
-      </div>
-    </div>
-  </header>
+          id='menu'
+        >
+          <DarkModeSwitch />
+          <div class='h-10 w-2 rounded-full bg-[#efeae3] dark:bg-[#1d2022]'>
+          </div>
+          <div class='relative h-8 w-8'>
+            <MenuOptions />
+          </div>
+        </div>
+      </span>
 
-  <div class="relative w-full h-full flex flex-col-reverse justify-evenly md:flex-col md:justify-start mt-10 md:mt-32">
-    <section class="w-full flex justify-center pb-10">
-      <h1 class="font-bold text-6xl md:text-9xl xl:text-[120px] text-center notranslate">
-        Silvestri&nbsp;<snap class="font-thin text-orange-500 notranslate">Javier</snap>
-      </h1>
-    </section>
-    
-    <footer class="relative flex flex-row justify-center z-10">
-      <Github classProps={`absolute -top-2 md:top-2 left-[10%] md:left-[20%] ${svg_common_classes}`} />
-      <Docker classProps={`hidden md:block absolute bottom-[45%] left-5 md:left-[15%] ${svg_common_classes}`} />
-      <Html classProps={`absolute -bottom-2 md:bottom-2 left-[10%] md:left-[20%] ${svg_common_classes}`} />
-    
-      <ReactJS classProps={`absolute -top-2 md:top-2 right-[10%] md:right-[20%] ${svg_common_classes}`} />
-      <Javascript classProps={`hidden md:block absolute bottom-[45%] right-5 md:right-[15%] ${svg_common_classes}`} />
-      <Tailwind classProps={`absolute -bottom-2 md:bottom-2 right-[10%] md:right-[20%] ${svg_common_classes}`} />
-    
-      <div class="w-[250px] md:w-[400px] h-[250px] md:h-[400px]">
-        <picture class=" rounded-full z-30">
-          <source srcset={`metoo.jpeg`} type="image/png">
-          <img
-            id="header-main-image"
-            src={`metoo.jpeg`}
-            alt={`me shot image`}
-            title="Hi there!"
-            class="rounded-full w-full h-full hover:-rotate-6 duration-200  shadow-xl shadow-black/30 hover:shadow-orange-500/30 hover:dark:shadow-orange-500/30"
+      <div
+        class='relative mt-10 flex h-full w-full flex-col-reverse justify-evenly md:mt-32 md:flex-col md:justify-start'
+      >
+        <section class='flex w-full justify-center pb-10'>
+          <h1
+            class='notranslate text-center text-6xl font-bold md:text-9xl xl:text-[120px]'
           >
-        </picture>
+            Silvestri&nbsp;<snap class='notranslate font-thin text-orange-500'
+              >Javier</snap
+            >
+          </h1>
+        </section>
+
+        <footer class='relative z-10 flex flex-row justify-center'>
+          <Github
+            classProps={`absolute -top-2 md:top-2 left-[10%] md:left-[20%] ${svg_common_classes}`}
+          />
+          <Docker
+            classProps={`hidden md:block absolute bottom-[45%] left-5 md:left-[15%] ${svg_common_classes}`}
+          />
+          <Html
+            classProps={`absolute -bottom-2 md:bottom-2 left-[10%] md:left-[20%] ${svg_common_classes}`}
+          />
+
+          <ReactJS
+            classProps={`absolute -top-2 md:top-2 right-[10%] md:right-[20%] ${svg_common_classes}`}
+          />
+          <Javascript
+            classProps={`hidden md:block absolute bottom-[45%] right-5 md:right-[15%] ${svg_common_classes}`}
+          />
+          <Tailwind
+            classProps={`absolute -bottom-2 md:bottom-2 right-[10%] md:right-[20%] ${svg_common_classes}`}
+          />
+
+          <div class='h-[250px] w-[250px] md:h-[400px] md:w-[400px]'>
+            <picture class='z-30 rounded-full'>
+              <source srcset={`metoo.jpeg`} type='image/png' />
+              <img
+                id='header-main-image'
+                src={`metoo.jpeg`}
+                alt={`me shot image`}
+                title='Hi there!'
+                class='h-full w-full rounded-full shadow-xl shadow-black/30 duration-200 hover:-rotate-6 hover:shadow-orange-500/30 hover:dark:shadow-orange-500/30'
+              />
+            </picture>
+          </div>
+        </footer>
       </div>
-    </footer>
-  </div>
+    </h1>
+  </header>
 </div>

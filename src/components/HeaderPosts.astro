@@ -1,7 +1,7 @@
 ---
-import { slide } from "astro:transitions";
-import DarkModeSwitch from "./DarkModeSwitch.astro";
-import MenuOptions from "./MenuOptions.astro";
+import { slide } from 'astro:transitions'
+import DarkModeSwitch from './DarkModeSwitch.astro'
+import MenuOptions from './MenuOptions.astro'
 
 interface Props {
   title: string | null
@@ -11,27 +11,32 @@ const { title } = Astro.props
 
 // transition:name={`${title.toLowerCase().replaceAll(' ', '_')}`}
 ---
-<header class="max-w-5xl mx-auto relative px-5 pt-10 lg:px-0">
-  <div class="relative flex justify-end items-end">
+
+<header class='relative mx-auto max-w-5xl px-5 pt-10 lg:px-0'>
+  <div class='relative flex items-end justify-end'>
     <h4
-      class="none-styles flex-grow font-medium text-4xl dark:text-white text-gray-800 p-0 m-0"
+      class='none-styles m-0 flex-grow p-0 text-4xl font-medium text-gray-800 dark:text-white'
     >
       Javi's Posts
-      {title != null ? (
-        <span class="flex flex-col md:flex-row">
-          {title.split(" ").map((word, i) => (
-            <span
-              key={i}
-              transition:animate={slide({ duration: `0.${i + 5}s` })}
-              class="font-thin dark:text-orange-500 text-orange-600 p-0 m-0 duration-100"
-            >
-              {word}&nbsp;
-            </span>
-          ))}
-        </span>
-      ) : ''}
+      {
+        title != null ? (
+          <span class='flex flex-col md:flex-row'>
+            {title.split(' ').map((word, i) => (
+              <span
+                key={i}
+                transition:animate={slide({ duration: `0.${i + 5}s` })}
+                class='m-0 p-0 font-thin text-orange-600 duration-100 dark:text-orange-500'
+              >
+                {word}&nbsp;
+              </span>
+            ))}
+          </span>
+        ) : (
+          ''
+        )
+      }
     </h4>
-    <div class="h-2 w-0 md:w-[180px]" />
+    <div class='h-2 w-0 md:w-[180px]'></div>
     <div
       class={`
         fixed md:top-8 right-4 md:right-auto md:bottom-auto bottom-10
@@ -40,11 +45,11 @@ const { title } = Astro.props
         shadow-sm hover:shadow-xl mr-1 duration-300 z-50
         backdrop-blur-sm
       `}
-      id="menu"
+      id='menu'
     >
       <DarkModeSwitch />
-      <div class="w-2 h-10 rounded-full dark:bg-[#1d2022] bg-[#efeae3]"></div>
-      <div class="relative w-8 h-8">
+      <div class='h-10 w-2 rounded-full bg-[#efeae3] dark:bg-[#1d2022]'></div>
+      <div class='relative h-8 w-8'>
         <MenuOptions />
       </div>
     </div>
