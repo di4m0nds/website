@@ -1,67 +1,71 @@
 ---
-import {
-  Github,
-  Linkedin,
-  Twitter,
-  Mail,
-  Blog,
-} from "./svg";
+import { Github, Linkedin, Twitter, Mail, Blog } from './svg'
 
-const classProps = "w-8 h-8 hover:text-orange-500 group-hover:text-orange-500 duration-300 hover:rotate-2"
+const classProps =
+  'w-8 h-8 hover:text-orange-500 group-hover:text-orange-500 duration-300 hover:rotate-2'
 ---
-<div class="container mx-auto text-center flex flex-col justify-center items-center">
-  <h1 class="text-2xl font-bold"><a href="/">Javi's Portfolio</a></h1>
+
+<div
+  class='container mx-auto flex flex-col items-center justify-center text-center'
+>
+  <h1 class='text-2xl font-bold'><a href='/'>Javi's Portfolio</a></h1>
   <a
-    href="/posts"
-    aria-label="Go to my posts"
-    title="Go to my posts"
-    role="button"
-    class="flex gap-x-2 items-center my-5 group"
+    href='/posts'
+    aria-label='Go to my posts'
+    title='Go to my posts'
+    role='button'
+    class='group my-5 flex items-center gap-x-2'
   >
-    <Blog classProps={classProps} /><span class="group-hover:text-orange-500 duration-300">Visit my posts</span>
+    <Blog classProps={classProps} /><span
+      class='duration-300 group-hover:text-orange-500'>Visit my posts</span
+    >
   </a>
-  <img class="my-5 w-20 h-20 hover:scale-110 duration-300" src="/favicon.svg" alt="icon">
-  <p class="mt-4">I hope you enjoy it.</p>
-  <div class="my-8">
-    <h2 class="text-2xl font-bold">Contact</h2>
-    <div class="w-full flex-col justify-center items-center">
-      <ul class="flex gap-x-4 my-4">
+  <img
+    class='my-5 h-20 w-20 duration-300 hover:scale-110'
+    src='/favicon.svg'
+    alt='icon'
+  />
+  <p class='mt-4'>I hope you enjoy it.</p>
+  <div class='my-8'>
+    <h2 class='text-2xl font-bold'>Contact</h2>
+    <div class='w-full flex-col items-center justify-center'>
+      <ul class='my-4 flex gap-x-4'>
         <li>
           <a
-            href="mailto:ws.2000.sja@gmail.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Send me a message via Mail"
+            href='mailto:ws.2000.sja@gmail.com'
+            target='_blank'
+            rel='noopener noreferrer'
+            aria-label='Send me a message via Mail'
           >
             <Mail classProps={classProps} />
           </a>
         </li>
         <li>
           <a
-            href="https://twitter.com/javslvt"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Read more about Twitter/X"
+            href='https://twitter.com/javslvt'
+            target='_blank'
+            rel='noopener noreferrer'
+            aria-label='Read more about Twitter/X'
           >
             <Twitter classProps={classProps} />
           </a>
         </li>
         <li>
           <a
-            href="https://github.com/di4m0nds"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Read more about Github"
+            href='https://github.com/di4m0nds'
+            target='_blank'
+            rel='noopener noreferrer'
+            aria-label='Read more about Github'
           >
             <Github classProps={classProps} />
           </a>
         </li>
         <li>
           <a
-            href="https://www.linkedin.com/in/silvestrijavier/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Read more about LinkedIn"
+            href='https://www.linkedin.com/in/silvestrijavier/'
+            target='_blank'
+            rel='noopener noreferrer'
+            aria-label='Read more about LinkedIn'
           >
             <Linkedin classProps={classProps} />
           </a>
@@ -70,6 +74,6 @@ const classProps = "w-8 h-8 hover:text-orange-500 group-hover:text-orange-500 du
     </div>
   </div>
 </div>
-<div class="text-center pb-[30px]">
-  <p class="text-gray-800">&copy; {new Date().getFullYear()} Javi.</p>
+<div class='pb-[30px] text-center'>
+  <p class='text-gray-800'>&copy; {new Date().getFullYear()} Javi.</p>
 </div>

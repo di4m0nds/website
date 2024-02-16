@@ -16,7 +16,7 @@ function switchMode() {
     moonMode.style.display = 'block'
     darkModeSwitch.checked = false
   }
-  
+
   darkModeSwitch.addEventListener('change', function () {
     if (darkModeSwitch.checked) {
       document.body.classList.add('dark')
@@ -29,7 +29,7 @@ function switchMode() {
       sunMode.style.display = 'none'
       localStorage.setItem('darkMode', 'disabled')
     }
-  });
+  })
 }
 
 document.addEventListener('DOMContentLoaded', switchMode)

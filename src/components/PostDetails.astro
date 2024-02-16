@@ -15,41 +15,44 @@ const { pubDate, title, description, author, tags } = Astro.props
 
 const postDate = new Date(pubDate)
 ---
-<header class="w-full flex flex-col mb-5">
-  <div class="flex flex-col md:flex-row justify-between">
-    <p class="flex flex-row gap-x-2">
-      <span class="font-bold">Author:</span>{author}
+
+<header class='mb-5 flex w-full flex-col'>
+  <div class='flex flex-col justify-between md:flex-row'>
+    <p class='flex flex-row gap-x-2'>
+      <span class='font-bold'>Author:</span>{author}
     </p>
-    <p
-      class="flex flex-row gap-x-2 mb-4 md:mb-auto"
-    >
-      <span class="font-bold">Publication date:</span>{displayDate(postDate, DateFormat.LongDateTime)}
+    <p class='mb-4 flex flex-row gap-x-2 md:mb-auto'>
+      <span class='font-bold'>Publication date:</span>{
+        displayDate(postDate, DateFormat.LongDateTime)
+      }
     </p>
   </div>
 
   <h2>{title}</h2>
 
-  <div class="flex flex-wrap gap-2 ">
+  <div class='flex flex-wrap gap-2'>
     {
-      tags && tags.length > 0 && tags.map((tag, i) => (
-        <span
-          transition:animate={slide({ duration: `0.${i + 3}s` })}
-          class={`
-            px-3 py-1
+      tags &&
+        tags.length > 0 &&
+        tags.map((tag, i) => (
+          <span
+            transition:animate={slide({ duration: `0.${i + 3}s` })}
+            class={`
+            rounded-full bg-gradient-to-r
 
-            bg-gradient-to-r 
-            from-orange-500 to-yellow-500
+            from-orange-500 
+            to-yellow-500 px-3
 
-            text-white dark:text-black
-            text-sm font-medium rounded-full
-            hover:scale-105 duration-75
+            py-1 text-sm
+            font-medium text-white duration-75
+            hover:scale-105 dark:text-black
           `}
-        >
-          {tag}
-        </span>
-      ))
+          >
+            {tag}
+          </span>
+        ))
     }
   </div>
 
-  <p class="w-full mt-5">{description}</p>
+  <p class='mt-5 w-full'>{description}</p>
 </header>
