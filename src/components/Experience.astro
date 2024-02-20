@@ -43,8 +43,8 @@ const { title, experiences } = ExperienceInfo
           <div>
             <h4 class='text-lg font-bold'>Responsibilities</h4>
             <ul>
-              {responsibilities?.map((item, index) => (
-                <li class='my-1 ml-[5px] md:ml-[10px]'>{item}</li>
+              {responsibilities?.map(item => (
+                <li class='my-1 ml-[5px] md:ml-[10px]'>• {item}</li>
               ))}
             </ul>
           </div>
@@ -52,8 +52,8 @@ const { title, experiences } = ExperienceInfo
           <div>
             <h4 class='text-lg font-bold'>Key Accomplishments</h4>
             <ul>
-              {keyAccomplishments?.map((item, index) => (
-                <li class='my-1 ml-[5px] md:ml-[10px]'>{item}</li>
+              {keyAccomplishments?.map(item => (
+                <li class='my-1 ml-[5px] md:ml-[10px]'>• {item}</li>
               ))}
             </ul>
           </div>
