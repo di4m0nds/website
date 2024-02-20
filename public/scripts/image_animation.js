@@ -11,9 +11,9 @@ const imageAnimation = () => {
 
   const widthScreen = window.screen.width
 
-  console.log(`deltaX: ${deltaX} - deltaY: ${deltaY}`)
-  console.log(`imagePositionOrigin: ${imagePositionOrigin.top}`)
-  console.log(`imagePositionDestination: ${imagePositionDestination.top}`)
+  // console.log(`deltaX: ${deltaX} - deltaY: ${deltaY}`)
+  // console.log(`imagePositionOrigin: ${imagePositionOrigin.top}`)
+  // console.log(`imagePositionDestination: ${imagePositionDestination.top}`)
 
   const device = {
     x: widthScreen > 800 ? 100 : 60,
