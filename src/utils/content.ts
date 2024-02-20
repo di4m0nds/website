@@ -15,13 +15,13 @@ export const ExperienceInfo = {
       type: 'Full-Time',
       location: 'San Luis, Argentina',
       responsibilities: [
-        'Led the development of dynamic web and mobile applications, utilizing cutting-edge technologies such as Groovy, Grails, Dart, and Flutter.',
-        'Played a pivotal role in both front-end and API development, ensuring seamless integration and superior user experiences.',
-        'Collaborated closely with cross-functional teams, contributing to the delivery of high-quality solutions and meeting client objectives.'
+        'Stepped into the early stages of a project, and efficiently propelled it forward with agile development practices.',
+        'Played a pivotal role in translating designer specifications into functional screens. Applied advanced principles of object-oriented programming to elevate code quality and maintainability',
+        ' Contributed to both front-end and API development for a diverse range of web and mobile applications.'
       ],
       keyAccomplishments: [
-        'Swiftly onboarded to Flutter and Dart through an immersive course, showcasing immediate application of acquired skills in a Greenfield project.',
-        'Demonstrated agile adaptability by seamlessly transitioning between diverse projects, consistently delivering successful outcomes.'
+        'Rapidly onboarded to Flutter and Dart through an immersive course, swiftly transitioning to a Greenfield project, showcasing immediate application of acquired skills.',
+        'Transitioned between diverse projects, showcasing agile adaptability and delivering successful outcomes.'
       ]
     }
   ]
