@@ -1,10 +1,10 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
 
-export async function GET(context) {
+export async function GET() {
   const postsData = await getCollection('posts')
   const posts = postsData.sort(
-    (a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
+    (a, b) => a.data.pubDate.valueOf() + b.data.pubDate.valueOf()
   )
 
   return rss({
