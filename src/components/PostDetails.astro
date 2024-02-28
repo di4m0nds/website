@@ -16,8 +16,39 @@ const { pubDate, title, description, author, tags } = Astro.props
 const postDate = new Date(pubDate)
 ---
 
-<header class='mb-5 flex w-full flex-col'>
-  <div class='flex flex-col justify-between md:flex-row'>
+<header class='mb-5 flex w-full flex-col font-content'>
+
+  <div class='flex flex-wrap gap-4 mb-2'>
+    {
+      tags &&
+        tags.length > 0 &&
+        tags.map((tag, i) => (
+          <span
+            transition:animate={slide({ duration: `0.${i + 3}s` })}
+            class={`
+            rounded-full
+            bg-orange-500 
+            uppercase
+
+            \bg-gradient-to-r
+            \from-orange-500 
+            \to-yellow-500 px-3
+
+            py-1 text-sm
+            font-bold text-white duration-75
+            hover:scale-110 dark:text-black hover:-rotate-6
+            dark:hover:bg-orange-300 hover:bg-orange-700 
+          `}
+          >
+            {tag}
+          </span>
+        ))
+    }
+  </div>
+
+  <p class='my-5 w-full'>{description}</p>
+
+  <div class='flex flex-col justify-between md:flex-row text-lg opacity-70'>
     <p class='flex flex-row gap-x-2'>
       <span class='font-bold'>Author:</span>{author}
     </p>
@@ -27,32 +58,4 @@ const postDate = new Date(pubDate)
       }
     </p>
   </div>
-
-  <h2>{title}</h2>
-
-  <div class='flex flex-wrap gap-2'>
-    {
-      tags &&
-        tags.length > 0 &&
-        tags.map((tag, i) => (
-          <span
-            transition:animate={slide({ duration: `0.${i + 3}s` })}
-            class={`
-            rounded-full bg-gradient-to-r
-
-            from-orange-500 
-            to-yellow-500 px-3
-
-            py-1 text-sm
-            font-medium text-white duration-75
-            hover:scale-105 dark:text-black
-          `}
-          >
-            {tag}
-          </span>
-        ))
-    }
-  </div>
-
-  <p class='mt-5 w-full'>{description}</p>
 </header>
