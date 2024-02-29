@@ -3,9 +3,9 @@ import { getCollection } from 'astro:content';
 
 export async function GET() {
   const postsData = await getCollection('posts')
-  const posts = postsData.sort(
-    (a, b) => a.data.pubDate.valueOf() + b.data.pubDate.valueOf()
-  )
+  const posts = postsData
+    .sort((a, b) => a.data.pubDate.valueOf() + b.data.pubDate.valueOf())
+    .filter(item => item.data.ready) // Only ready posts
 
   return rss({
     title: 'Javi’s Blog',
@@ -21,3 +21,4 @@ export async function GET() {
     })),
   });
 }
+
