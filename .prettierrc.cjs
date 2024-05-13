@@ -1,16 +1,27 @@
+/** @type {import("prettier").Config} */
 module.exports = {
-  semi: true,
-  singleQuote: false,
-  tabWidth: 2,
-  useTabs: true,
+  // semi: false,
+  // singleQuote: true,
+  // tabWidth: 2,
+  // useTabs: false,
+  ...require('prettier-config-standard'),
   plugins: [
-    require("prettier-plugin-astro"),
+    require.resolve("prettier-plugin-astro"),
+    require.resolve("prettier-plugin-tailwindcss"),
   ],
-  override: [
+  // override: [
+  //   {
+  //     files: "**/*astro",
+  //     options: {
+  //       parser: "astro",
+  //     }
+  //   }
+  // ]
+  overrides: [
     {
-      files: "**/*astro",
+      files: '*.astro',
       options: {
-        parser: "astro",
+        parser: 'astro'
       }
     }
   ]

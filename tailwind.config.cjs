@@ -6,6 +6,8 @@ module.exports = {
 		fontFamily: {
 			sans: ['Quicksand', 'sans-serif'],
 			poiret: ['Poiret One', 'sans-serif'],
+			bebas: ['BebasNeue'],
+      content: ['Inter'],
 			code: ['Courier New', 'monospace']
 		},
 		extend: {

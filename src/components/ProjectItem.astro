@@ -1,40 +1,42 @@
 ---
 interface Props {
-	id: string;
-	title: string;
-	img: string;
-	body: string;
-	href: string;
+  id: string
+  title: string
+  img: string
+  body: string
+  href: string
 }
 
-const { id, href, title, img, body } = Astro.props;
+const { id, href, title, img, body } = Astro.props
 ---
 
 <li class={`work-${id}`}>
-	<a class="relative element-focus-animation" href={href}>
-			<!-- w-[300px] h-[410px] sm:w-[500px] md:w-[1000px] sm:h-[550px] md:h-[800px] -->
-		<article class={`
+  <a class='element-focus-animation relative' href={href}>
+    <!-- w-[300px] h-[410px] sm:w-[500px] md:w-[1000px] sm:h-[550px] md:h-[800px] -->
+    <article
+      class={`
 			relative py-2
 			rounded-lg
 			px-8 md:px-16
 			w-full h-auto
 			flex flex-col justify-between
 			duration-300 transition-colors
-		`} >
-			<section class="relative animate-h-one">
-				<h1 class="pt-5 font-medium text-xl md:text-2xl">{title}</h1>
-				<p class="mt-5 font-thin text-lg md:text-xl">{body}</p>
-			</section>
+		`}
+    >
+      <section class='animate-h-one relative'>
+        <h1 class='pt-5 text-xl font-medium md:text-2xl'>{title}</h1>
+        <p class='mt-5 text-lg font-thin md:text-xl'>{body}</p>
+      </section>
 
-			<picture class="object-cover object-center animate-h-two">
-				<source srcset={`${img}.webp`} type="image/webp">
-				<source srcset={`${img}.png`} type="image/png">
-				<img
-					src={`${img}.png`}
-					alt={`${img} shot image`}
-					class="rounded scale-105 hover:scale-110 md:hover:scale-110 hover:rotate-1 duration-200"
-				>
-			</picture>
-		</article>
-	</a>
+      <picture class='animate-h-two object-cover object-center'>
+        <source srcset={`${img}.webp`} type='image/webp' />
+        <source srcset={`${img}.png`} type='image/png' />
+        <img
+          src={`${img}.png`}
+          alt={`${img} shot image`}
+          class='scale-105 rounded duration-200 hover:rotate-1 hover:scale-110 md:hover:scale-110'
+        />
+      </picture>
+    </article>
+  </a>
 </li>
