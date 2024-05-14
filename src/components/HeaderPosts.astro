@@ -8,8 +8,6 @@ interface Props {
 }
 
 const { title } = Astro.props
-
-// transition:name={`${title.toLowerCase().replaceAll(' ', '_')}`}
 ---
 
 <header class='relative mx-auto max-w-5xl px-5 pt-10 lg:px-0'>
@@ -20,12 +18,12 @@ const { title } = Astro.props
       Javi's Posts
       {
         title != null ? (
-          <span class='flex flex-col md:flex-row'>
+          <span class='flex flex-row flex-wrap mt-10 font-bebas'>
             {title.split(' ').map((word, i) => (
               <span
                 key={i}
                 transition:animate={slide({ duration: `0.${i + 5}s` })}
-                class='m-0 p-0 font-thin text-orange-600 duration-100 dark:text-orange-500'
+                class='sm:my-3 md:my-7 p-0 font-semibold text-orange-600 duration-100 dark:text-orange-500 text-[50px] sm:text-[75px] md:text-[120px] hover:scale-95 hover:bg-orange-500 dark:hover:text-white hover:text-black'
               >
                 {word}&nbsp;
               </span>
@@ -44,6 +42,7 @@ const { title } = Astro.props
         py-2 px-4 dark:bg-slate-800/80 bg-slate-100/50 rounded-full
         shadow-sm hover:shadow-xl mr-1 duration-300 z-50
         backdrop-blur-sm
+        opacity-50 hover:opacity-100
       `}
       id='menu'
     >

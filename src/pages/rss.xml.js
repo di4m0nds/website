@@ -1,5 +1,6 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
+import { URL } from '../utils/enums'
 
 export async function GET() {
   const postsData = await getCollection('posts')
@@ -10,7 +11,7 @@ export async function GET() {
   return rss({
     title: 'Javi’s Blog',
     description: 'Posts about topics that I currently learning.',
-    site: 'https://javiersilvestri.vercel.app',
+    site: URL.BASE_URL,
     items: posts.map((post) => ({
       title: post.data.title,
       description: post.data.description,
