@@ -1,8 +1,8 @@
 ---
 import '../styles/global.css'
 import Cursor from '../components/effects/Cursor.astro'
-import { siteConfig } from '../data/portfolio'
 import DotsBackground from '../components/effects/DotsBackground.astro'
+import { siteConfig } from '../data/portfolio'
 
 interface Props {
   title?: string
@@ -12,10 +12,10 @@ interface Props {
 }
 
 const {
-  title = siteConfig.title,
+  title       = siteConfig.title,
   description = siteConfig.description,
-  ogImage = siteConfig.ogImage,
-  noIndex = false
+  ogImage     = siteConfig.ogImage,
+  noIndex     = false,
 } = Astro.props
 
 const canonicalURL = new URL(Astro.url.pathname, siteConfig.url)
@@ -81,10 +81,31 @@ const canonicalURL = new URL(Astro.url.pathname, siteConfig.url)
     </script>
   </head>
 
-  <body class='page-enter'>
-    <slot />
+  <body>
+    <!--
+      ⚠️  DotsBackground MUST live directly in <body>, NOT inside any element
+          that has an active CSS transform/animation (e.g. a page-enter wrapper).
+          A transform on a parent breaks `position: fixed` — it makes the canvas
+          position relative to the transformed ancestor, not the viewport.
+          That's why the background was "distorted" before: the old code put
+          page-enter on <body> itself.
+    -->
+    <!--
+      Both DotsBackground (canvas, fixed, z-index:0) and Cursor (fixed, z-index:9999)
+      must live OUTSIDE the page-enter wrapper.  During the fade-up animation the
+      wrapper div has an active CSS transform, which turns it into the containing
+      block for any position:fixed descendants — offsetting them from the viewport.
+      Keeping these two outside avoids that entirely.
+    -->
+    <DotsBackground />
+    <Cursor />
 
-    <!-- Section reveal via IntersectionObserver -->
+    <!-- Page-enter animation wrapper — wraps all visible page content -->
+    <div class='page-enter'>
+      <slot />
+    </div>
+
+    <!-- ── Section reveal via IntersectionObserver ─────────── -->
     <script is:inline>
       ;(function () {
         var obs = new IntersectionObserver(
@@ -110,16 +131,11 @@ const canonicalURL = new URL(Astro.url.pathname, siteConfig.url)
       })()
     </script>
 
-    <!-- Navbar active section highlight -->
+    <!-- ── Navbar active-section highlight ─────────────────── -->
     <script is:inline>
       ;(function () {
         var sections = [
-          'home',
-          'about',
-          'experience',
-          'projects',
-          'skills',
-          'github'
+          'home', 'about', 'experience', 'projects', 'skills', 'github',
         ]
         var navObs = new IntersectionObserver(
           function (entries) {

@@ -8,10 +8,11 @@ import Experience from '../components/sections/Experience.astro'
 import Projects from '../components/sections/Projects.astro'
 import Skills from '../components/sections/Skills.astro'
 import GitHubStats from '../components/sections/GitHubStats.astro'
-import DotsBackground from '../components/effects/DotsBackground.astro'
+// NOTE: DotsBackground is rendered once globally inside BaseLayout — do NOT
+//       import or render it here, or you'll get two canvases with the same id.
 
 const divider = 'mx-auto max-w-6xl px-6'
-const line = 'h-px bg-gradient-to-r from-transparent via-border to-transparent'
+const line    = 'h-px bg-gradient-to-r from-transparent via-border to-transparent'
 ---
 
 <BaseLayout>

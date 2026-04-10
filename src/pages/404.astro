@@ -1,31 +1,29 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
-import DotsBackground from '../components/effects/DotsBackground.astro'
+// NOTE: DotsBackground is rendered once inside BaseLayout — no need to add it here.
 ---
 
-<BaseLayout title="404 — Page Not Found" noIndex>
-  <DotsBackground />
-
-  <main class="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 text-center">
-    <p class="font-mono text-sm text-accent tracking-widest uppercase mb-4">Error</p>
-    <h1 class="font-display text-[clamp(5rem,25vw,15rem)] leading-none text-white/10 select-none">
+<BaseLayout title='404 — Page Not Found' noIndex>
+  <main class='relative z-10 flex min-h-screen flex-col items-center justify-center px-6 text-center'>
+    <p class='text-accent mb-4 font-mono text-sm uppercase tracking-widest'>Error</p>
+    <h1 class='font-display select-none text-[clamp(5rem,25vw,15rem)] leading-none text-white/10'>
       404
     </h1>
-    <p class="mt-4 text-xl font-medium text-white">Page not found</p>
-    <p class="mt-2 text-muted-2 text-sm max-w-xs">
+    <p class='mt-4 text-xl font-medium text-white'>Page not found</p>
+    <p class='text-muted-2 mt-2 max-w-xs text-sm'>
       The page you're looking for doesn't exist or has been moved.
     </p>
 
-    <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+    <div class='mt-8 flex flex-wrap items-center justify-center gap-4'>
       <a
-        href="/"
-        class="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-accent-hover hover:glow-accent"
+        href='/'
+        class='hover:bg-accent-hover hover:glow-accent inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white transition-all'
       >
         Go Home
       </a>
       <a
-        href="/posts"
-        class="inline-flex items-center gap-2 rounded-full glass border border-border px-6 py-3 text-sm font-medium text-muted-2 transition-all hover:border-border-2 hover:text-white"
+        href='/posts'
+        class='glass border-border text-muted-2 hover:border-border-2 inline-flex items-center gap-2 rounded-full border px-6 py-3 text-sm font-medium transition-all hover:text-white'
       >
         Read the blog
       </a>
