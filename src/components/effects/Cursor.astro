@@ -1,0 +1,139 @@
+---
+// Custom cursor — dot + lagging ring. Desktop only. Zero deps.
+// Global: mounted in BaseLayout. Persists across view transitions.
+---
+
+<!-- Dot: follows instantly -->
+<div
+  id="cur-dot"
+  aria-hidden="true"
+  style="position:fixed;z-index:9999;width:8px;height:8px;border-radius:50%;background:var(--color-accent);pointer-events:none;transform:translate(-50%,-50%);opacity:0;will-change:left,top;transition:opacity .3s,transform .15s,background .15s,border .15s"
+/>
+<!-- Ring: follows with lerp lag -->
+<div
+  id="cur-ring"
+  aria-hidden="true"
+  style="position:fixed;z-index:9998;width:36px;height:36px;border-radius:50%;border:1px solid rgba(249,115,22,.5);pointer-events:none;transform:translate(-50%,-50%);opacity:0;will-change:left,top;transition:opacity .3s,width .2s,height .2s,border .2s"
+/>
+
+<script is:inline>
+;(function initCursor() {
+  // Touch/stylus devices — skip entirely
+  if (window.matchMedia('(hover: none)').matches) return
+
+  // Hide native cursor globally
+  document.documentElement.classList.add('cursor-ready')
+
+  // Element refs — re-queried each call so they survive view-transition DOM swaps
+  function dot()  { return document.getElementById('cur-dot')  }
+  function ring() { return document.getElementById('cur-ring') }
+
+  let mx = -300, my = -300   // mouse position
+  let rx = -300, ry = -300   // ring lerp position
+  let raf = null
+
+  // Show cursors
+  function show() {
+    const d = dot(), r = ring()
+    if (d) d.style.opacity = '1'
+    if (r) r.style.opacity = '1'
+  }
+
+  // ── RAF loop ────────────────────────────────────────────────
+  function tick() {
+    const d = dot(), r = ring()
+
+    rx += (mx - rx) * 0.14
+    ry += (my - ry) * 0.14
+
+    if (d) { d.style.left = mx + 'px'; d.style.top = my + 'px' }
+    if (r) { r.style.left = rx + 'px'; r.style.top  = ry + 'px' }
+
+    raf = requestAnimationFrame(tick)
+  }
+
+  // ── Mouse events ─────────────────────────────────────────────
+  window.addEventListener('mousemove', function(e) {
+    mx = e.clientX; my = e.clientY
+    show()
+  }, { passive: true })
+
+  window.addEventListener('mouseleave', function() {
+    const d = dot(), r = ring()
+    if (d) d.style.opacity = '0'
+    if (r) r.style.opacity = '0'
+  })
+
+  window.addEventListener('mouseenter', show)
+
+  // ── Click feedback ───────────────────────────────────────────
+  window.addEventListener('mousedown', function() {
+    const d = dot(), r = ring()
+    if (d) d.style.transform = 'translate(-50%,-50%) scale(.6)'
+    if (r) r.style.transform = 'translate(-50%,-50%) scale(1.4)'
+  })
+  window.addEventListener('mouseup', function() {
+    const d = dot(), r = ring()
+    if (d) d.style.transform = 'translate(-50%,-50%)'
+    if (r) r.style.transform = 'translate(-50%,-50%)'
+  })
+
+  // ── Hover state on interactive elements ──────────────────────
+  var INTERACTIVE = 'a,button,[data-magnetic],[role="button"],[tabindex]'
+  var hoveredEl = null
+
+  document.addEventListener('mouseover', function(e) {
+    var el = e.target && e.target.closest && e.target.closest(INTERACTIVE)
+    if (!el) return
+    hoveredEl = el
+    var d = dot(), r = ring()
+    if (d) {
+      d.style.transform  = 'translate(-50%,-50%) scale(2.5)'
+      d.style.background = 'transparent'
+      d.style.border     = '1px solid var(--color-accent)'
+    }
+    if (r) {
+      r.style.transform = 'translate(-50%,-50%) scale(.4)'
+      r.style.opacity   = '.3'
+    }
+  })
+
+  document.addEventListener('mouseout', function(e) {
+    var el = e.target && e.target.closest && e.target.closest(INTERACTIVE)
+    if (!el) return
+    hoveredEl = null
+    var d = dot(), r = ring()
+    if (d) {
+      d.style.transform  = 'translate(-50%,-50%)'
+      d.style.background = 'var(--color-accent)'
+      d.style.border     = 'none'
+    }
+    if (r) {
+      r.style.transform = 'translate(-50%,-50%)'
+      r.style.opacity   = '1'
+    }
+    el.style.transform  = ''
+    el.style.transition = 'transform .4s cubic-bezier(.175,.885,.32,1.275)'
+  })
+
+  // ── Magnetic pull ─────────────────────────────────────────────
+  document.addEventListener('mousemove', function(e) {
+    if (!hoveredEl) return
+    var rect = hoveredEl.getBoundingClientRect()
+    var cx   = rect.left + rect.width  / 2
+    var cy   = rect.top  + rect.height / 2
+    var dx   = e.clientX - cx
+    var dy   = e.clientY - cy
+    var dist = Math.sqrt(dx * dx + dy * dy)
+    var maxD = Math.max(rect.width, rect.height) * 0.6
+    if (dist < maxD) {
+      var pull = (1 - dist / maxD) * 8
+      hoveredEl.style.transform  = 'translate(' + dx * pull / maxD + 'px,' + dy * pull / maxD + 'px)'
+      hoveredEl.style.transition = 'transform .1s ease'
+    }
+  })
+
+  // Start loop
+  tick()
+})()
+</script>

@@ -1,22 +1,32 @@
 ---
-import Layout from '../layouts/Layout.astro'
+import BaseLayout from '../layouts/BaseLayout.astro'
+// NOTE: DotsBackground is rendered once inside BaseLayout — no need to add it here.
 ---
 
-<Layout title='404 - Not Found'>
-  <main class='flex h-screen items-center justify-center'>
-    <div
-      class='flex flex-col items-center justify-center text-center text-black/70'
-    >
-      <h1 class='mb-4 text-9xl font-bold'>404</h1>
-      <div class='my-5 h-[1px] w-[400px] rounded bg-black/80'></div>
-      <h1 class='mb-4 text-6xl font-extrabold'>Oops!</h1>
+<BaseLayout title='404 — Page Not Found' noIndex>
+  <main class='relative z-10 flex min-h-screen flex-col items-center justify-center px-6 text-center'>
+    <p class='text-accent mb-4 font-mono text-sm uppercase tracking-widest'>Error</p>
+    <h1 class='font-display select-none text-[clamp(5rem,25vw,15rem)] leading-none text-white/10'>
+      404
+    </h1>
+    <p class='mt-4 text-xl font-medium text-white'>Page not found</p>
+    <p class='text-muted-2 mt-2 max-w-xs text-sm'>
+      The page you're looking for doesn't exist or has been moved.
+    </p>
+
+    <div class='mt-8 flex flex-wrap items-center justify-center gap-4'>
       <a
         href='/'
-        target='_top'
-        rel='noopener noreferrer'
-        class='text-lg font-bold text-zinc-500 transition duration-200 hover:text-black'
-        >Return to Home</a
+        class='hover:bg-accent-hover hover:glow-accent inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white transition-all'
       >
+        Go Home
+      </a>
+      <a
+        href='/posts'
+        class='glass border-border text-muted-2 hover:border-border-2 inline-flex items-center gap-2 rounded-full border px-6 py-3 text-sm font-medium transition-all hover:text-white'
+      >
+        Read the blog
+      </a>
     </div>
   </main>
-</Layout>
+</BaseLayout>

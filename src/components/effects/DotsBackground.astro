@@ -1,0 +1,203 @@
+---
+// Interactive dots background — mouse repulsion + spring physics + idle wave.
+// Pure canvas, zero dependencies, 60 fps rAF.
+//
+// Placement rule: this component MUST be a direct child of <body> (or any
+// ancestor that has NO CSS transform/filter/will-change active on it at paint
+// time).  A CSS transform on a parent breaks position:fixed containment,
+// shifting the canvas off-screen during animations like page-enter.
+---
+
+<canvas
+  id='dots-bg-canvas'
+  aria-hidden='true'
+  class='pointer-events-none fixed inset-0 z-0'
+  style='width:100%;height:100%;opacity:0.55;'
+></canvas>
+
+<script is:inline>
+  ;(function () {
+    // Guard: only ever run one instance
+    if (window.__dotsBgRunning) return
+    window.__dotsBgRunning = true
+
+    var canvas = document.getElementById('dots-bg-canvas')
+    if (!canvas) return
+    var ctx = canvas.getContext('2d')
+
+    // ── Config ────────────────────────────────────────────
+    var CFG = {
+      spacingDesktop:  30,
+      spacingMobile:   40,   // fewer dots on small screens
+      radius:          1.3,
+      repelRadius:     130,
+      repelStrength:   4.2,
+      spring:          0.055,
+      damping:         0.72,
+      waveAmp:         4.0,
+      waveFreq:        0.0012,
+      waveSpeed:       0.00075,
+      colorBase:       [148, 163, 184], // slate-400
+      colorAccent:     [249, 115,  22], // orange
+    }
+
+    var mouse        = { x: -9999, y: -9999 }
+    var dots         = []
+    var t            = 0
+    var lastTs       = 0
+    var raf          = null
+    var mouseTimer   = null
+
+    // ── Helpers ───────────────────────────────────────────
+    function lerp(a, b, n) { return a + (b - a) * n }
+
+    function spacing() {
+      return window.innerWidth < 768 ? CFG.spacingMobile : CFG.spacingDesktop
+    }
+
+    // ── Resize ────────────────────────────────────────────
+    function resize() {
+      // Use device pixel ratio for sharp canvas on HiDPI/retina
+      var dpr = Math.min(window.devicePixelRatio || 1, 2)
+      var w   = window.innerWidth
+      var h   = window.innerHeight
+      canvas.width  = Math.round(w * dpr)
+      canvas.height = Math.round(h * dpr)
+      canvas.style.width  = w + 'px'
+      canvas.style.height = h + 'px'
+      ctx.scale(dpr, dpr)
+      buildDots(w, h)
+    }
+
+    function buildDots(w, h) {
+      dots = []
+      var sp   = spacing()
+      var cols = Math.ceil(w / sp) + 1
+      var rows = Math.ceil(h / sp) + 1
+      for (var r = 0; r < rows; r++) {
+        for (var c = 0; c < cols; c++) {
+          dots.push({
+            ox: c * sp,
+            oy: r * sp,
+            x:  c * sp,
+            y:  r * sp,
+            vx: 0,
+            vy: 0,
+          })
+        }
+      }
+    }
+
+    // ── Render loop ───────────────────────────────────────
+    function tick(ts) {
+      var dt = Math.min(ts - lastTs, 33) // cap at ~30 fps delta
+      lastTs = ts
+      t += dt
+
+      var W = canvas.width  / (Math.min(window.devicePixelRatio || 1, 2))
+      var H = canvas.height / (Math.min(window.devicePixelRatio || 1, 2))
+      ctx.clearRect(0, 0, W, H)
+
+      for (var i = 0; i < dots.length; i++) {
+        var d = dots[i]
+
+        // Idle wave
+        var waveX = Math.sin(d.ox * CFG.waveFreq + t * CFG.waveSpeed)        * CFG.waveAmp
+        var waveY = Math.cos(d.oy * CFG.waveFreq + t * CFG.waveSpeed * 1.3)  * CFG.waveAmp
+
+        // Mouse repulsion
+        var dx   = d.x - mouse.x
+        var dy   = d.y - mouse.y
+        var dist = Math.sqrt(dx * dx + dy * dy)
+        var repulseBlend = 0
+
+        if (dist < CFG.repelRadius && dist > 0) {
+          var norm  = (CFG.repelRadius - dist) / CFG.repelRadius
+          var force = norm * norm * CFG.repelStrength
+          d.vx += (dx / dist) * force
+          d.vy += (dy / dist) * force
+          repulseBlend = norm
+        }
+
+        // Spring to origin + wave
+        var targetX = d.ox + waveX * (1 - repulseBlend)
+        var targetY = d.oy + waveY * (1 - repulseBlend)
+        d.vx += (targetX - d.x) * CFG.spring
+        d.vy += (targetY - d.y) * CFG.spring
+        d.vx *= CFG.damping
+        d.vy *= CFG.damping
+        d.x  += d.vx
+        d.y  += d.vy
+
+        // Color: lerp base→accent based on displacement
+        var displaced = Math.min(
+          Math.sqrt((d.x - d.ox) * (d.x - d.ox) + (d.y - d.oy) * (d.y - d.oy)) / 18,
+          1
+        )
+        var blend = displaced * 0.8
+        var rr = lerp(CFG.colorBase[0], CFG.colorAccent[0], blend)
+        var gg = lerp(CFG.colorBase[1], CFG.colorAccent[1], blend)
+        var bb = lerp(CFG.colorBase[2], CFG.colorAccent[2], blend)
+        var aa = 0.18 + displaced * 0.55
+
+        ctx.beginPath()
+        ctx.arc(d.x, d.y, CFG.radius + displaced * 0.9, 0, Math.PI * 2)
+        ctx.fillStyle = 'rgba(' + rr + ',' + gg + ',' + bb + ',' + aa + ')'
+        ctx.fill()
+      }
+
+      raf = requestAnimationFrame(tick)
+    }
+
+    // ── Init ──────────────────────────────────────────────
+    resize()
+    raf = requestAnimationFrame(function (ts) {
+      lastTs = ts
+      tick(ts)
+    })
+
+    // ── Mouse / touch ─────────────────────────────────────
+    window.addEventListener('mousemove', function (e) {
+      mouse.x = e.clientX
+      mouse.y = e.clientY
+      clearTimeout(mouseTimer)
+      mouseTimer = setTimeout(function () {
+        mouse.x = -9999
+        mouse.y = -9999
+      }, 2000)
+    }, { passive: true })
+
+    window.addEventListener('mouseleave', function () {
+      mouse.x = -9999
+      mouse.y = -9999
+    })
+
+    window.addEventListener('touchmove', function (e) {
+      if (e.touches[0]) {
+        mouse.x = e.touches[0].clientX
+        mouse.y = e.touches[0].clientY
+      }
+    }, { passive: true })
+
+    window.addEventListener('touchend', function () {
+      mouse.x = -9999
+      mouse.y = -9999
+    }, { passive: true })
+
+    // ── Resize (debounced) ────────────────────────────────
+    var resizeTimer
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer)
+      resizeTimer = setTimeout(resize, 160)
+    })
+
+    // ── Astro View Transitions cleanup ────────────────────
+    document.addEventListener('astro:before-swap', function () {
+      if (raf) {
+        cancelAnimationFrame(raf)
+        raf = null
+      }
+      window.__dotsBgRunning = false
+    })
+  })()
+</script>
