@@ -1,0 +1,96 @@
+---
+import '../styles/global.css'
+import { siteConfig } from '../data/portfolio'
+
+interface Props {
+  title?: string
+  description?: string
+  ogImage?: string
+  noIndex?: boolean
+}
+
+const {
+  title = siteConfig.title,
+  description = siteConfig.description,
+  ogImage = siteConfig.ogImage,
+  noIndex = false,
+} = Astro.props
+
+const canonicalURL = new URL(Astro.url.pathname, siteConfig.url)
+---
+
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={siteConfig.author} />
+    <meta name="keywords" content="software developer, portfolio, web development, frontend, fullstack" />
+    <link rel="canonical" href={canonicalURL} />
+    {noIndex && <meta name="robots" content="noindex, nofollow" />}
+    {!noIndex && <meta name="robots" content="index, follow" />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(ogImage, siteConfig.url)} />
+    <meta property="og:site_name" content={siteConfig.name} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content={siteConfig.twitter} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(ogImage, siteConfig.url)} />
+
+    <!-- Theme -->
+    <meta name="theme-color" content="#f97316" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- RSS -->
+    <link rel="alternate" type="application/rss+xml" title={`${siteConfig.name} Blog`} href="/rss.xml" />
+
+    <!-- Fonts (Google Fonts — faster than local .ttf) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Prevent FOUC: dark mode class always applied -->
+    <script is:inline>
+      document.documentElement.classList.add('dark')
+    </script>
+  </head>
+
+  <body>
+    <slot />
+
+    <!-- Section reveal observer -->
+    <script is:inline>
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add('visible')
+              observer.unobserve(e.target)
+            }
+          })
+        },
+        { threshold: 0.1 }
+      )
+      document.querySelectorAll('.reveal').forEach((el) => observer.observe(el))
+      document.addEventListener('astro:page-load', () => {
+        document.querySelectorAll('.reveal').forEach((el) => observer.observe(el))
+      })
+    </script>
+  </body>
+</html>

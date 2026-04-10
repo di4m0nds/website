@@ -1,0 +1,48 @@
+---
+import SectionHeader from '../ui/SectionHeader.astro'
+import GlassCard from '../ui/GlassCard.astro'
+import { skills } from '../../data/portfolio'
+
+const categories = [
+  { key: 'frontend', label: 'Frontend',  color: 'text-accent',   border: 'border-accent/30' },
+  { key: 'backend',  label: 'Backend',   color: 'text-cyan',     border: 'border-cyan/30' },
+  { key: 'mobile',   label: 'Mobile',    color: 'text-violet-400', border: 'border-violet-400/30' },
+  { key: 'devops',   label: 'DevOps',    color: 'text-emerald-400', border: 'border-emerald-400/30' },
+  { key: 'tools',    label: 'Tools',     color: 'text-muted-2',  border: 'border-border' },
+] as const
+---
+
+<section id="skills" class="relative z-10 mx-auto max-w-6xl px-6 py-24 md:py-32">
+  <SectionHeader
+    tag="04 — Skills"
+    title="MY TOOLKIT"
+    subtitle="Technologies and tools I use to build things."
+  />
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+    {categories.map(({ key, label, color, border }, i) => (
+      <GlassCard
+        class={`reveal border ${border} hover:${border}`}
+        style={`transition-delay: ${i * 60}ms`}
+      >
+        <!-- Category header -->
+        <h3 class={`font-mono text-xs font-semibold tracking-widest uppercase mb-4 ${color}`}>
+          {label}
+        </h3>
+        <!-- Skill tags -->
+        <div class="flex flex-wrap gap-2">
+          {(skills[key] as string[]).map(skill => (
+            <span class={`px-3 py-1.5 text-sm font-mono text-muted-2 glass border border-border rounded-lg hover:text-white hover:${border} transition-colors duration-200`}>
+              {skill}
+            </span>
+          ))}
+        </div>
+      </GlassCard>
+    ))}
+  </div>
+
+  <!-- Proficiency note -->
+  <p class="mt-8 text-center text-xs text-muted font-mono">
+    Always learning. Always building.
+  </p>
+</section>

@@ -1,0 +1,88 @@
+---
+import { formatDate, timeSince } from '../../lib/helpers'
+
+interface Props {
+  slug: string
+  title: string
+  description: string
+  tags: string[]
+  pubDate: Date
+  ready: boolean
+  index: number
+}
+
+const { slug, title, description, tags, pubDate, ready, index } = Astro.props
+
+const truncated = description.length > 120 ? description.slice(0, 119) + '…' : description
+const dateStr = formatDate(pubDate)
+const timeAgo = timeSince(pubDate)
+---
+
+<article
+  class:list={[
+    'group relative rounded-2xl border p-5 h-full flex flex-col gap-4 transition-all duration-300',
+    ready
+      ? 'glass border-border hover:border-border-2 hover:bg-surface-2 cursor-pointer'
+      : 'bg-surface/40 border-border/50 opacity-60 cursor-default',
+  ]}
+>
+  <!-- Index badge -->
+  <span
+    class="absolute top-4 right-4 font-display text-5xl text-muted/10 select-none leading-none"
+    aria-hidden="true"
+  >
+    {String(index).padStart(2, '0')}
+  </span>
+
+  <!-- Ready indicator -->
+  {!ready && (
+    <span class="inline-flex items-center gap-1.5 font-mono text-xs text-muted/60 border border-border/50 rounded-full px-2.5 py-0.5 self-start">
+      <span class="h-1.5 w-1.5 rounded-full bg-muted/40" />
+      In Progress
+    </span>
+  )}
+
+  <!-- Title -->
+  <h2 class:list={[
+    'text-base font-semibold leading-snug transition-colors duration-200',
+    ready ? 'text-white group-hover:text-accent' : 'text-muted',
+  ]}>
+    {title}
+  </h2>
+
+  <!-- Description -->
+  <p class="text-sm text-muted-2 leading-relaxed flex-1">{truncated}</p>
+
+  <!-- Tags -->
+  <div class="flex flex-wrap gap-1.5">
+    {tags.slice(0, 3).map(tag => (
+      <span class:list={[
+        'px-2 py-0.5 text-xs font-mono rounded-full',
+        ready
+          ? 'bg-accent/10 text-accent/80 border border-accent/20'
+          : 'bg-surface text-muted border border-border',
+      ]}>
+        {tag}
+      </span>
+    ))}
+  </div>
+
+  <!-- Date -->
+  <p class="text-xs font-mono text-muted">
+    {ready ? (
+      <><span class="text-cyan">{dateStr}</span> · {timeAgo}</>
+    ) : (
+      'Coming soon'
+    )}
+  </p>
+
+  <!-- Arrow indicator for ready posts -->
+  {ready && (
+    <span
+      aria-hidden="true"
+      class="absolute bottom-4 right-5 text-accent/0 group-hover:text-accent/80 transition-all duration-300 translate-x-0 group-hover:translate-x-1"
+    >
+      →
+    </span>
+  )}
+</article>

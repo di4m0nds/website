@@ -1,0 +1,131 @@
+---
+// Interactive dots grid with mouse repulsion + spring return
+// Pure canvas, zero dependencies, 60fps via rAF
+---
+
+<canvas
+  id="dots-canvas"
+  aria-hidden="true"
+  class="pointer-events-none fixed inset-0 z-0 h-full w-full opacity-60"
+></canvas>
+
+<script is:inline>
+  (function () {
+    const canvas = document.getElementById('dots-canvas')
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+
+    const CONFIG = {
+      spacing: 32,
+      radius: 1.4,
+      repelRadius: 110,
+      repelStrength: 3.5,
+      spring: 0.06,
+      damping: 0.72,
+      color: 'rgba(148,163,184,',  // slate-400 prefix (appended with alpha)
+      accentColor: 'rgba(249,115,22,',
+      accentThreshold: 60,
+    }
+
+    let mouse = { x: -9999, y: -9999 }
+    let dots = []
+    let raf = null
+
+    function resize() {
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
+      buildDots()
+    }
+
+    function buildDots() {
+      dots = []
+      const cols = Math.ceil(canvas.width / CONFIG.spacing) + 1
+      const rows = Math.ceil(canvas.height / CONFIG.spacing) + 1
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const ox = c * CONFIG.spacing
+          const oy = r * CONFIG.spacing
+          dots.push({ ox, oy, x: ox, y: oy, vx: 0, vy: 0 })
+        }
+      }
+    }
+
+    function tick() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+      for (let i = 0; i < dots.length; i++) {
+        const d = dots[i]
+        const dx = d.x - mouse.x
+        const dy = d.y - mouse.y
+        const dist = Math.sqrt(dx * dx + dy * dy)
+
+        // Repulsion
+        if (dist < CONFIG.repelRadius && dist > 0) {
+          const norm = (CONFIG.repelRadius - dist) / CONFIG.repelRadius
+          const force = norm * norm * CONFIG.repelStrength
+          d.vx += (dx / dist) * force
+          d.vy += (dy / dist) * force
+        }
+
+        // Spring back to origin
+        d.vx += (d.ox - d.x) * CONFIG.spring
+        d.vy += (d.oy - d.y) * CONFIG.spring
+
+        // Damping
+        d.vx *= CONFIG.damping
+        d.vy *= CONFIG.damping
+
+        d.x += d.vx
+        d.y += d.vy
+
+        // Dot color: accent near cursor, normal otherwise
+        const distFromOrigin = Math.sqrt((d.x - d.ox) ** 2 + (d.y - d.oy) ** 2)
+        const displaced = Math.min(distFromOrigin / 20, 1)
+
+        const alpha = 0.2 + displaced * 0.55
+        const color = displaced > 0.15
+          ? `${CONFIG.accentColor}${alpha})`
+          : `${CONFIG.color}${0.25})`
+
+        ctx.beginPath()
+        ctx.arc(d.x, d.y, CONFIG.radius + displaced * 0.8, 0, Math.PI * 2)
+        ctx.fillStyle = color
+        ctx.fill()
+      }
+
+      raf = requestAnimationFrame(tick)
+    }
+
+    // Init
+    resize()
+    tick()
+
+    // Events
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX
+      mouse.y = e.clientY
+    })
+    window.addEventListener('mouseleave', () => {
+      mouse.x = -9999
+      mouse.y = -9999
+    })
+    window.addEventListener('resize', resize)
+
+    // Touch support
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches[0]) {
+        mouse.x = e.touches[0].clientX
+        mouse.y = e.touches[0].clientY
+      }
+    }, { passive: true })
+    window.addEventListener('touchend', () => {
+      mouse.x = -9999
+      mouse.y = -9999
+    })
+
+    // Cleanup on Astro page transitions
+    document.addEventListener('astro:before-swap', () => {
+      if (raf) cancelAnimationFrame(raf)
+    })
+  })()
+</script>

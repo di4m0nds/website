@@ -1,0 +1,103 @@
+---
+import GlassCard from '../ui/GlassCard.astro'
+import SectionHeader from '../ui/SectionHeader.astro'
+import { aboutInfo } from '../../data/portfolio'
+---
+
+<section id="about" class="relative z-10 mx-auto max-w-6xl px-6 py-24 md:py-32">
+  <SectionHeader
+    tag="01 — About"
+    title="WHO AM I"
+    subtitle="A bit about me, my background, and what drives my work."
+  />
+
+  <div class="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16 items-start">
+
+    <!-- Left: photo + stats -->
+    <div class="reveal flex flex-col items-center lg:items-start gap-8">
+      <!-- Photo with glow ring -->
+      <div class="relative">
+        <div class="absolute inset-0 rounded-full bg-gradient-to-br from-accent/30 to-cyan/20 blur-xl" />
+        <div class="relative h-48 w-48 md:h-64 md:w-64 rounded-full overflow-hidden border-2 border-border">
+          <img
+            src={aboutInfo.photo}
+            alt="Javier Silvestri"
+            loading="lazy"
+            decoding="async"
+            class="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+          />
+        </div>
+      </div>
+
+      <!-- Quick stats -->
+      <div class="grid grid-cols-2 gap-4 w-full max-w-xs">
+        <GlassCard padding="p-4" class="text-center">
+          <p class="font-display text-4xl text-accent">1+</p>
+          <p class="text-xs text-muted mt-1 font-mono">YRS EXPERIENCE</p>
+        </GlassCard>
+        <GlassCard padding="p-4" class="text-center">
+          <p class="font-display text-4xl text-accent">4+</p>
+          <p class="text-xs text-muted mt-1 font-mono">PROJECTS SHIPPED</p>
+        </GlassCard>
+        <GlassCard padding="p-4" class="text-center col-span-2">
+          <p class="font-display text-4xl text-cyan">∞</p>
+          <p class="text-xs text-muted mt-1 font-mono">COFFEE CONSUMED</p>
+        </GlassCard>
+      </div>
+    </div>
+
+    <!-- Right: bio + links -->
+    <div class="reveal reveal-delay-1 flex flex-col gap-6">
+      <GlassCard hoverable={false} class="space-y-4">
+        <p class="text-base md:text-lg text-text leading-relaxed">
+          {aboutInfo.bio}
+        </p>
+        <p class="text-sm text-muted-2 leading-relaxed">
+          {aboutInfo.bioContinued}
+        </p>
+      </GlassCard>
+
+      <!-- CV Downloads -->
+      <div class="flex flex-wrap gap-3">
+        <a
+          href={aboutInfo.cvEn}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group inline-flex items-center gap-2 rounded-full glass border border-border px-5 py-2.5 text-sm font-medium text-muted-2 transition-all duration-300 hover:border-accent hover:text-accent"
+        >
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14,2 14,8 20,8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10,9 9,9 8,9"/>
+          </svg>
+          Resume (EN)
+        </a>
+        <a
+          href={aboutInfo.cvEs}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group inline-flex items-center gap-2 rounded-full glass border border-border px-5 py-2.5 text-sm font-medium text-muted-2 transition-all duration-300 hover:border-accent hover:text-accent"
+        >
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14,2 14,8 20,8"/>
+          </svg>
+          CV (ES)
+        </a>
+      </div>
+
+      <!-- Current status -->
+      <GlassCard padding="p-4" class="flex items-center gap-3 border-l-2 border-l-accent !rounded-l-none">
+        <span class="relative flex h-3 w-3 shrink-0">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
+          <span class="relative inline-flex rounded-full h-3 w-3 bg-accent" />
+        </span>
+        <p class="text-sm text-muted-2">
+          Currently open to <span class="text-accent font-medium">junior / mid-level positions</span> — remote or hybrid.
+        </p>
+      </GlassCard>
+    </div>
+  </div>
+</section>
