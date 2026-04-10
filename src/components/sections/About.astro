@@ -1,0 +1,404 @@
+---
+import GlassCard from '../ui/GlassCard.astro'
+import SectionHeader from '../ui/SectionHeader.astro'
+import { aboutInfo } from '../../data/portfolio'
+
+// Terminal prompt definitions — shown as clickable buttons
+const prompts = [
+  { label: 'who am i',   key: 'who'     },
+  { label: 'stack',      key: 'stack'   },
+  { label: 'mindset',    key: 'mindset' },
+  { label: 'motivation', key: 'goal'    },
+  { label: 'next',       key: 'next'    },
+]
+
+// Terminal responses — define:vars will JSON-encode this for the client script
+const responses: Record<string, string[]> = {
+  who: [
+    'Javier Silvestri — Junior Software Developer.',
+    'Based in Barcelona (ES). Originally from San Luis, Argentina.',
+    '1+ year shipping production mobile & web apps.',
+    'Core: Flutter · Dart · TypeScript · React · Node.js',
+    'Status: open to work — remote-first, hybrid welcome.',
+  ],
+  stack: [
+    'Mobile ——  Flutter (v2/v3) · Dart · Swift · Kotlin',
+    'State   ——  BLoC · Provider · GetX · Zustand · Redux',
+    'Web     ——  TypeScript · React · Next.js · Astro',
+    'Backend ——  Node.js · NestJS · Firebase · PostgreSQL',
+    'DevOps  ——  Git · Docker · GitHub Actions · CI/CD',
+    'AI pair ——  GitHub Copilot · Claude · Gemini',
+  ],
+  mindset: [
+    '"Code is read far more than it is written."',
+    'Clean architecture > clever hacks. Every time.',
+    'Performance is a feature, not an afterthought.',
+    'Great UX hides complexity. Bad UX exposes it.',
+    'Ship → iterate → learn. Then repeat.',
+  ],
+  goal: [
+    'Building apps that 50,000+ people use every day.',
+    'The feedback loop between code and real-world impact.',
+    'Bridging mobile and web — owning full product scopes.',
+    'Science + software: where I want to go next.',
+  ],
+  next: [
+    'Deepening Flutter arch — Clean Arch + TDD patterns.',
+    'Expanding Swift/iOS skills for cross-platform reach.',
+    'Open source contributions to the Flutter ecosystem.',
+    'Growing into a dev who ships end-to-end products.',
+  ],
+}
+---
+
+<section id='about' class='relative z-10 mx-auto max-w-6xl px-6 py-24 md:py-32'>
+  <SectionHeader tag='01 — About' title='WHO AM I' />
+
+  <div class='grid grid-cols-1 items-start gap-8 lg:grid-cols-2 lg:gap-14'>
+
+    <!-- ── Left: photo + stats + bio ──────────────────────── -->
+    <div class='reveal flex flex-col items-center gap-8 lg:items-start'>
+
+      <!-- Photo with ambient glow + rotating border -->
+      <div class='group relative'>
+        <!-- Ambient glow -->
+        <div
+          class='from-accent/30 to-cyan/20 group-hover:from-accent/50 absolute inset-0 rounded-full bg-gradient-to-br blur-2xl transition-all duration-700 group-hover:blur-3xl'
+          aria-hidden='true'
+        ></div>
+        <!-- Rotating gradient ring -->
+        <div
+          class='absolute inset-[-3px] rounded-full'
+          style='background: conic-gradient(from 0deg, rgba(249,115,22,0.4), rgba(14,165,233,0.2), rgba(249,115,22,0.4)); animation: spin-slow 8s linear infinite;'
+          aria-hidden='true'
+        ></div>
+        <!-- Inner bg to mask ring except border -->
+        <div class='bg-bg absolute inset-[1px] rounded-full' aria-hidden='true'></div>
+        <!-- Photo -->
+        <div class='border-border relative h-56 w-56 overflow-hidden rounded-full border md:h-72 md:w-72'>
+          <img
+            src={aboutInfo.photo}
+            alt='Javier Silvestri'
+            loading='lazy'
+            decoding='async'
+            class='h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105'
+          />
+        </div>
+        <!-- Location badge -->
+        <span
+          class='glass border-border text-muted-2 absolute right-2 bottom-4 flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-xs'
+        >
+          <svg class='text-accent h-3 w-3' viewBox='0 0 16 16' fill='currentColor'>
+            <path d='M8 1a5 5 0 0 0-5 5c0 3.5 5 9 5 9s5-5.5 5-9a5 5 0 0 0-5-5Zm0 6.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z'></path>
+          </svg>
+          Barcelona
+        </span>
+      </div>
+
+      <!-- Stats grid -->
+      <div class='grid w-full max-w-xs grid-cols-2 gap-3'>
+        {
+          [
+            { val: '1+',   label: 'YRS EXP',    color: 'text-accent' },
+            { val: '50K+', label: 'APP USERS',  color: 'text-accent' },
+            { val: '20+',  label: 'SKILLS',     color: 'text-cyan'   },
+            { val: '∞',    label: 'COFFEE',     color: 'text-cyan'   },
+          ].map(({ val, label, color }) => (
+            <GlassCard padding='p-4' class='text-center' hoverable glow='none'>
+              <p class={`font-display text-3xl tracking-wide ${color}`}>{val}</p>
+              <p class='text-muted mt-1 font-mono text-[10px] tracking-widest'>{label}</p>
+            </GlassCard>
+          ))
+        }
+      </div>
+
+      <!-- Bio -->
+      <div class='text-muted-2 max-w-sm space-y-3 font-mono text-sm leading-relaxed'>
+        <p>{aboutInfo.bio}</p>
+        <p>{aboutInfo.bioContinued}</p>
+      </div>
+
+      <!-- CV download -->
+      <a
+        href={aboutInfo.cvEn}
+        target='_blank'
+        rel='noopener noreferrer'
+        data-magnetic
+        class='glass border-border text-muted-2 hover:border-accent/50 group inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-mono text-sm transition-all duration-300 hover:text-white'
+      >
+        <svg class='text-accent h-4 w-4' viewBox='0 0 16 16' fill='none' stroke='currentColor' stroke-width='1.5'>
+          <path d='M3 2h7l3 3v9H3V2Z'></path>
+          <path d='M10 2v3h3'></path>
+          <path d='M5 8h6M5 11h4'></path>
+        </svg>
+        Download CV
+        <svg class='h-3 w-3 transition-transform group-hover:translate-y-0.5' viewBox='0 0 12 12' fill='none' stroke='currentColor' stroke-width='1.5'>
+          <path d='M6 1v7M2 8l4 3 4-3'></path>
+        </svg>
+      </a>
+    </div>
+
+    <!-- ── Right: AI terminal ──────────────────────────────── -->
+    <div
+      class='reveal reveal-delay-2 border-border scanlines flex flex-col overflow-hidden rounded-2xl border'
+      style='background: rgba(8,8,15,0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);'
+    >
+      <!-- macOS chrome bar -->
+      <div class='border-border flex items-center gap-2 border-b px-4 py-3 select-none' style='background: rgba(255,255,255,0.03);'>
+        <!-- Draggable macOS dots -->
+        <button
+          type='button'
+          class='console-dot h-3 w-3 cursor-default rounded-full'
+          style='background: #ff5f57; box-shadow: 0 0 0 0.5px rgba(0,0,0,0.4);'
+          aria-label='Close'
+        ></button>
+        <button
+          type='button'
+          class='console-dot h-3 w-3 cursor-default rounded-full'
+          style='background: #ffbc2e; box-shadow: 0 0 0 0.5px rgba(0,0,0,0.4);'
+          aria-label='Minimize'
+        ></button>
+        <button
+          type='button'
+          class='console-dot h-3 w-3 cursor-default rounded-full'
+          style='background: #28c840; box-shadow: 0 0 0 0.5px rgba(0,0,0,0.4);'
+          aria-label='Fullscreen'
+        ></button>
+        <span class='text-muted ml-4 font-mono text-xs tracking-wider'>javier@portfolio:~</span>
+        <span id='about-status' class='ml-auto font-mono text-[10px] text-green-400/60'>● READY</span>
+      </div>
+
+      <!-- Output area -->
+      <div
+        id='about-output'
+        class='text-muted/80 max-h-[300px] min-h-[240px] flex-1 space-y-0.5 overflow-y-auto p-4 font-mono text-xs leading-5'
+        aria-live='polite'
+        aria-label='Terminal output'
+      >
+        <!-- Filled by JS on mount -->
+      </div>
+
+      <!-- Input row: clicking a prompt types it -->
+      <div class='border-border flex flex-wrap gap-2 border-t p-3'>
+        {
+          prompts.map(({ label, key }) => (
+            <button
+              type='button'
+              data-key={key}
+              class='about-btn glass border-border text-muted-2 hover:text-accent hover:border-accent/40 rounded-lg border px-3 py-1.5 font-mono text-[11px] transition-all duration-200 active:scale-95'
+            >
+              <span class='text-accent/50 mr-1'>$</span>{label}
+            </button>
+          ))
+        }
+        <button
+          type='button'
+          id='about-clear'
+          class='text-muted/40 hover:text-muted ml-auto rounded-lg px-3 py-1.5 font-mono text-[11px] transition-colors duration-200'
+        >
+          clear
+        </button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script is:inline define:vars={{ responsesJson: JSON.stringify(responses) }}>
+  ;(function () {
+    var RESP   = JSON.parse(responsesJson)
+    var output = document.getElementById('about-output')
+    var status = document.getElementById('about-status')
+    var clearBtn = document.getElementById('about-clear')
+    if (!output) return
+
+    // ── Typing engine ─────────────────────────────────────
+    var activeTimer = null
+
+    function cancelTyping() {
+      clearTimeout(activeTimer)
+      activeTimer = null
+    }
+
+    /** Type a string character-by-character into an existing <p>. */
+    function typeInto(el, text, speed, onDone) {
+      var i = 0
+      el.textContent = ''
+
+      // Show a blinking cursor
+      var cur = document.createElement('span')
+      cur.className = 'typing-cursor'
+      cur.textContent = '█'
+      el.appendChild(cur)
+
+      function nextChar() {
+        if (i < text.length) {
+          cur.before(document.createTextNode(text[i++]))
+          output.scrollTop = output.scrollHeight
+          var jitter = Math.random() * 25 + speed
+          activeTimer = setTimeout(nextChar, jitter)
+        } else {
+          cur.remove()
+          output.scrollTop = output.scrollHeight
+          if (onDone) onDone()
+        }
+      }
+      nextChar()
+    }
+
+    /** Print multiple lines sequentially, each typed out. */
+    function typeLines(lines, idx, cls) {
+      if (idx >= lines.length) {
+        setStatus('● READY', 'text-green-400/60')
+        return
+      }
+      var p = appendEl('p', cls || 'text-muted-2/80')
+      typeInto(p, lines[idx], 14, function () {
+        activeTimer = setTimeout(function () {
+          typeLines(lines, idx + 1, cls)
+        }, 55)
+      })
+    }
+
+    // ── DOM helpers ───────────────────────────────────────
+    function appendEl(tag, cls) {
+      var el = document.createElement(tag)
+      el.className = cls
+      output.appendChild(el)
+      output.scrollTop = output.scrollHeight
+      return el
+    }
+
+    function setStatus(text, colorCls) {
+      status.textContent = text
+      status.className = 'ml-auto font-mono text-[10px] ' + colorCls
+    }
+
+    // ── Run a prompt command ──────────────────────────────
+    function runPrompt(key) {
+      cancelTyping()
+      var lines = RESP[key]
+      if (!lines) return
+
+      appendEl('p', '') // blank line spacer
+
+      // Show command being "typed" first
+      var cmdEl = appendEl('p', 'text-accent/70')
+      setStatus('● RUNNING', 'text-yellow-400/60')
+
+      typeInto(cmdEl, '❯ ' + key.replace(/_/g, ' '), 30, function () {
+        activeTimer = setTimeout(function () {
+          appendEl('p', '') // blank line after command
+          typeLines(lines, 0)
+        }, 200)
+      })
+    }
+
+    // ── Boot sequence ─────────────────────────────────────
+    function boot() {
+      var bootLines = [
+        { text: 'Initializing javier.dev...', cls: 'text-muted/50' },
+        { text: 'Loading profile data ✓',      cls: 'text-green-400/50' },
+        { text: 'Ready. Click a prompt below.', cls: 'text-cyan/60' },
+      ]
+
+      function bootStep(i) {
+        if (i >= bootLines.length) {
+          appendEl('p', '')
+          return
+        }
+        var p = appendEl('p', bootLines[i].cls)
+        typeInto(p, bootLines[i].text, 18, function () {
+          activeTimer = setTimeout(function () {
+            bootStep(i + 1)
+          }, 120)
+        })
+      }
+      bootStep(0)
+    }
+    boot()
+
+    // ── Button listeners ──────────────────────────────────
+    document.querySelectorAll('.about-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        runPrompt(btn.dataset.key)
+      })
+    })
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', function () {
+        cancelTyping()
+        output.innerHTML = ''
+        setStatus('● READY', 'text-green-400/60')
+        boot()
+      })
+    }
+
+    // ── macOS dots — spring drag micro-interaction ────────
+    document.querySelectorAll('.console-dot').forEach(function (dot) {
+      var isDown = false
+      var startX, startY
+
+      dot.addEventListener('mousedown', function (e) {
+        isDown = true
+        startX = e.clientX
+        startY = e.clientY
+        dot.style.transition = 'none'
+        dot.style.transform  = 'scale(0.78)'
+        e.preventDefault()
+      })
+
+      document.addEventListener('mousemove', function (e) {
+        if (!isDown) return
+        var dx = Math.max(-4, Math.min(4, (e.clientX - startX) * 0.35))
+        var dy = Math.max(-4, Math.min(4, (e.clientY - startY) * 0.35))
+        dot.style.transform = 'scale(0.88) translate(' + dx + 'px,' + dy + 'px)'
+      })
+
+      document.addEventListener('mouseup', function () {
+        if (!isDown) return
+        isDown = false
+        dot.style.transition = 'transform 0.45s cubic-bezier(0.175,0.885,0.32,1.275)'
+        dot.style.transform  = 'scale(1) translate(0,0)'
+        setTimeout(function () { dot.style.transition = '' }, 450)
+      })
+    })
+  })()
+</script>
+
+<style>
+  /* Typing cursor blink */
+  .typing-cursor {
+    color: var(--color-accent);
+    opacity: 1;
+    animation: cur-blink 0.65s step-end infinite;
+    font-size: 0.85em;
+    vertical-align: baseline;
+    line-height: 1;
+  }
+  @keyframes cur-blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+  }
+
+  /* Thin scrollbar for output */
+  #about-output::-webkit-scrollbar { width: 2px; }
+  #about-output::-webkit-scrollbar-thumb {
+    background: var(--color-accent);
+    border-radius: 1px;
+  }
+  #about-output::-webkit-scrollbar-track { background: transparent; }
+
+  /* Slow spinning ring on photo */
+  @keyframes spin-slow {
+    from { transform: rotate(0deg);   }
+    to   { transform: rotate(360deg); }
+  }
+
+  /* Dot hover brightness */
+  .console-dot {
+    transition: filter 0.15s ease, transform 0.15s ease;
+    will-change: transform;
+  }
+  .console-dot:hover { filter: brightness(1.25); }
+</style>

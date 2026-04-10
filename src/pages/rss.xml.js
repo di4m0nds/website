@@ -1,25 +1,28 @@
-import rss from '@astrojs/rss';
-import { getCollection } from 'astro:content';
-import { URL } from '../utils/enums'
+import rss from '@astrojs/rss'
+import { getCollection } from 'astro:content'
+import { siteConfig } from '../data/portfolio'
 
-export async function GET() {
+export async function GET(context) {
   const postsData = await getCollection('posts')
   const posts = postsData
-    .sort((a, b) => a.data.pubDate.valueOf() + b.data.pubDate.valueOf())
-    .filter(item => item.data.ready) // Only ready posts
+    .filter((p) => p.data.ready)
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
 
   return rss({
-    title: 'Javi’s Blog',
-    description: 'Posts about topics that I currently learning.',
-    site: URL.BASE_URL,
+    title: siteConfig.name + ' — Blog',
+    description: 'Articles about software development, mobile engineering, and things I am learning.',
+    site: context.site ?? siteConfig.url,
+    xmlns: {
+      atom: 'http://www.w3.org/2005/Atom',
+    },
+    customData:
+      '<atom:link href="' + (context.site ?? siteConfig.url) + '/rss.xml" rel="self" type="application/rss+xml" />',
     items: posts.map((post) => ({
-      title: post.data.title,
+      title:       post.data.title,
       description: post.data.description,
-      tags: `${post.data.tags}`,
-      ready: `${post.data.ready}`,
-      pubDate: post.data.pubDate,
-      link: `/posts/${post.slug}/`,
+      pubDate:     post.data.pubDate,
+      link:        '/posts/' + post.slug + '/',
+      categories:  post.data.tags,
     })),
-  });
+  })
 }
-

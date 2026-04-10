@@ -1,20 +1,6 @@
+// Tailwind v4 — design tokens live in src/styles/global.css via @theme.
+// This file is kept minimal for editor tooling compatibility.
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
-	darkMode: 'class',
-	theme: {
-		fontFamily: {
-			sans: ['Quicksand', 'sans-serif'],
-			poiret: ['Poiret One', 'sans-serif'],
-			bebas: ['BebasNeue'],
-      content: ['Inter'],
-			code: ['Courier New', 'monospace']
-		},
-		extend: {
-			screens: {
-        'tall': { 'raw': '(min-height: 800px)' },
-      }
-		},
-	},
-	plugins: [],
+  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,ts,tsx}'],
 }

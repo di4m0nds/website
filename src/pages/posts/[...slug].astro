@@ -1,153 +1,82 @@
 ---
-import Blog from '../../layouts/Blog.astro'
-
-import Footer from '../../components/Footer.astro'
-
+import BlogLayout from '../../layouts/BlogLayout.astro'
+import { formatDate } from '../../lib/helpers'
 import { getCollection } from 'astro:content'
-import HeaderPosts from '../../components/HeaderPosts.astro'
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts')
   return posts.map((post) => ({
     params: { slug: post.slug },
-    props: post
+    props: post,
   }))
 }
+
 const post = Astro.props
 const { Content } = await post.render()
+const dateStr = formatDate(post.data.pubDate as Date)
 ---
 
-<Blog title={post.data.title}>
-  <HeaderPosts title={post.data.title} />
+<BlogLayout
+  title={`${post.data.title} — Javier Silvestri`}
+  description={post.data.description as string}
+>
+  <div class="relative mx-auto max-w-3xl px-6 pb-24 pt-8">
 
-  <aside class="fixed top-[10%] hidden xl:block" transition:animate="slide">
-    <div class="ml-8 2xl:ml-20 flex flex-col items-start font-bold w-full text-3xl font-bebas text-black/70 dark:text-white/80 group/aside">
-      <span class="text-4xl underline text-black/80 dark:text-white/90 font-bebas tracking-widest group-hover/aside:animate-bounce mb-2">Explore</span>
-      <a class="flex items-center gap-x-2 hover:text-orange-600 group tracking-wider" target="_blank" href="/">
-        - Portfolio<span class="hidden group-hover:block animate-pulse">⇠</span>
+    <!-- Back link -->
+    <a
+      href="/posts"
+      class="inline-flex items-center gap-2 font-mono text-sm text-muted hover:text-accent transition-colors mb-10"
+    >
+      ← Back to posts
+    </a>
+
+    <!-- Post meta -->
+    <header class="mb-10 pb-8 border-b border-border">
+      <!-- Tags -->
+      <div class="flex flex-wrap gap-2 mb-4">
+        {(post.data.tags as string[]).map(tag => (
+          <span class="px-2.5 py-0.5 text-xs font-mono rounded-full bg-accent/10 text-accent/80 border border-accent/20">
+            {tag}
+          </span>
+        ))}
+      </div>
+
+      <!-- Title -->
+      <h1 class="font-display text-4xl md:text-6xl tracking-wide text-white leading-tight mb-4">
+        {post.data.title}
+      </h1>
+
+      <!-- Description -->
+      <p class="text-muted-2 text-base leading-relaxed mb-6">
+        {post.data.description}
+      </p>
+
+      <!-- Meta row -->
+      <div class="flex flex-wrap items-center gap-4 text-sm font-mono text-muted">
+        <span class="text-cyan">{dateStr}</span>
+        <span>·</span>
+        <span>{post.data.author}</span>
+        {!(post.data.ready as boolean) && (
+          <span class="text-yellow-500/80 border border-yellow-500/30 rounded-full px-2 py-0.5 text-xs">
+            In Progress
+          </span>
+        )}
+      </div>
+    </header>
+
+    <!-- Article content -->
+    <article class="prose">
+      <Content />
+    </article>
+
+    <!-- Bottom nav -->
+    <div class="mt-16 pt-8 border-t border-border flex items-center justify-between">
+      <a href="/posts" class="font-mono text-sm text-muted hover:text-accent transition-colors">
+        ← All posts
       </a>
-
-      <div class="w-[20px] h-1 bg-gray-500/30 rounded-full my-2"></div>
-
-      <a class="flex items-center gap-x-2 hover:text-orange-600 group tracking-wider" href="/posts">
-        - Posts
-        <span class="hidden group-hover:block animate-pulse">⇠</span>
-      </a>
-      <a class="flex items-center gap-x-2 hover:text-orange-600 group tracking-wider" href="#top">
-        - Go to Top
-        <span class="hidden group-hover:block animate-pulse">⇡</span>
+      <a href="#" class="font-mono text-sm text-muted hover:text-accent transition-colors">
+        ↑ Back to top
       </a>
     </div>
-  </aside>
-
-  <article class='relative mx-auto w-full max-w-5xl px-6 pb-20 pt-10 lg:px-0 font-content text-lg md:text-2xl dark:text-white/90'>
-    <Content />
-  </article>
-
-  <footer class='mx-auto max-w-7xl pt-10'>
-    <Footer />
-  </footer>
-</Blog>
-
-<style is:global>
-  h1, h2, h3, h4, p, span, li, a {
-    text-wrap: pretty !important;
-  }
-  strong {
-    font-weight: 600 !important;
-  }
-
-  h1 {
-    font-size: 50px !important;
-    font-weight: 700 !important;
-    margin: 30px 0 20px 0 !important;
-    padding: 30px 0 0 0 !important;
-    color: rgb(249, 115, 22);
-    font-family: BebasNeue, Inter;
-    letter-spacing: 1.8px !important;
-    line-height: 45px !important;
-  }
-
-  h2 {
-    font-weight: 700 !important;
-    font-size: 28px !important;
-    margin-top: 20px !important;
-    margin-bottom: 10px !important;
-  }
-
-  h3 {
-    font-size: 24px !important;
-    font-weight: 700 !important;
-    margin-top: 10px !important;
-    margin-bottom: 5px !important;
-  }
-
-  h4 {
-    padding-top: 10px !important;
-    margin-bottom: 30px !important;
-  }
-  .none-styles {
-    padding: 0 !important;
-    margin: 0 !important;
-  }
-  p {
-    padding: 5px 0;
-  }
-
-  ul {
-    margin: 10px 0 !important;
-  }
-  li {
-    padding-left: 30px;
-    padding-top: 10px;
-    margin: 5px 0;
-    font-weight: 200;
-  }
-  li > strong {
-    font-weight: 700;
-  }
-  li.li-menu {
-    padding-left: 0px;
-    padding-top: 2px !important;
-    margin: 0;
-  }
-
-  pre {
-    margin: 5px 0 !important;
-    padding: 15px;
-    border-radius: 12px;
-    font-size: 80%;
-    max-height: 700px !important;
-    background: #101010 !important;
-  }
-
-  span.line, code  {
-    width: 800px !important;
-    display: inline-block !important;
-  }
-
-  blockquote > p {
-    padding: 6px 10px !important;
-    font-size: 20px !important;
-    border: 5px none rgba(255, 169, 93, 0.995);
-    border-left-style: solid;
-    color: black;
-    text-wrap: pretty !important;
-  }
-
-  body.dark blockquote > p {
-    color: white;
-  }
-
-  #tablecontent > ul > li {
-    padding-left: 10px;
-  }
-  #tablecontent > ul > li:hover,
-  #tablecontent > ul > li:hover {
-    color: rgb(249, 115, 22) !important;
-    text-decoration-line: underline;
-  }
-  #tablecontent > ul > li > a {
-    font-size: 20px !important;
-  }
-</style>
+  </div>
+</BlogLayout>
