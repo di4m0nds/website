@@ -1,78 +1,91 @@
 ---
 const navLinks = [
-  { label: 'About',      href: '/#about' },
+  { label: 'About', href: '/#about' },
   { label: 'Experience', href: '/#experience' },
-  { label: 'Projects',   href: '/#projects' },
-  { label: 'Skills',     href: '/#skills' },
-  { label: 'GitHub',     href: '/#github' },
-  { label: 'Blog',       href: '/posts' },
+  { label: 'Projects', href: '/#projects' },
+  { label: 'Skills', href: '/#skills' },
+  { label: 'GitHub', href: '/#github' },
+  { label: 'Blog', href: '/posts' }
 ]
 ---
 
 <header
-  id="navbar"
-  class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-10 h-16 transition-all duration-300"
+  id='navbar'
+  class='fixed top-0 right-0 left-0 z-50 flex h-16 items-center justify-between px-6 transition-all duration-300 md:px-10'
 >
   <!-- Logo -->
   <a
-    href="/"
-    class="font-display text-2xl tracking-widest text-white hover:text-accent transition-colors duration-200"
+    href='/'
+    class='font-display hover:text-accent text-2xl tracking-widest text-white transition-colors duration-200'
   >
-    JS<span class="text-accent">.</span>
+    JS<span class='text-accent'>.</span>
   </a>
 
   <!-- Desktop nav -->
-  <nav class="hidden md:flex items-center gap-1" aria-label="Main navigation">
-    {navLinks.map(({ label, href }) => (
-      <a
-        href={href}
-        class="relative px-4 py-2 text-sm text-muted-2 hover:text-white transition-colors duration-200 group"
-      >
-        {label}
-        <span class="absolute bottom-1 left-1/2 -translate-x-1/2 h-px w-0 bg-accent transition-all duration-300 group-hover:w-3/4" />
-      </a>
-    ))}
+  <nav class='hidden items-center gap-1 md:flex' aria-label='Main navigation'>
+    {
+      navLinks.map(({ label, href }) => (
+        <a
+          href={href}
+          class='text-muted-2 group relative px-4 py-2 text-sm transition-colors duration-200 hover:text-white'
+        >
+          {label}
+          <span class='bg-accent absolute bottom-1 left-1/2 h-px w-0 -translate-x-1/2 transition-all duration-300 group-hover:w-3/4' />
+        </a>
+      ))
+    }
   </nav>
 
   <!-- CTA -->
   <a
-    href="/#about"
-    class="hidden md:inline-flex items-center gap-2 px-4 py-2 text-sm font-medium
-           glass border border-border-2 text-accent rounded-full
-           hover:glow-accent hover:border-accent transition-all duration-300"
+    href='/#about'
+    class='glass border-border-2 text-accent hover:glow-accent hover:border-accent hidden items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-all duration-300 md:inline-flex'
   >
     Hire me
-    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-      <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <svg
+      width='12'
+      height='12'
+      viewBox='0 0 12 12'
+      fill='none'
+      aria-hidden='true'
+    >
+      <path
+        d='M2 6h8M6 2l4 4-4 4'
+        stroke='currentColor'
+        stroke-width='1.5'
+        stroke-linecap='round'
+        stroke-linejoin='round'></path>
     </svg>
   </a>
 
   <!-- Mobile menu button -->
   <button
-    id="mobile-menu-btn"
-    class="md:hidden flex flex-col gap-1.5 p-2"
-    aria-label="Toggle menu"
-    aria-expanded="false"
+    id='mobile-menu-btn'
+    class='flex flex-col gap-1.5 p-2 md:hidden'
+    aria-label='Toggle menu'
+    aria-expanded='false'
   >
-    <span class="block h-px w-6 bg-current transition-all duration-300" />
-    <span class="block h-px w-4 bg-current transition-all duration-300" />
-    <span class="block h-px w-6 bg-current transition-all duration-300" />
+    <span class='block h-px w-6 bg-current transition-all duration-300'></span>
+    <span class='block h-px w-4 bg-current transition-all duration-300'></span>
+    <span class='block h-px w-6 bg-current transition-all duration-300'></span>
   </button>
 </header>
 
 <!-- Mobile menu -->
 <div
-  id="mobile-menu"
-  class="fixed inset-0 z-40 hidden flex-col items-center justify-center gap-8 bg-bg/95 backdrop-blur-xl"
+  id='mobile-menu'
+  class='bg-bg/95 fixed inset-0 z-40 hidden flex-col items-center justify-center gap-8 backdrop-blur-xl'
 >
-  {navLinks.map(({ label, href }) => (
-    <a
-      href={href}
-      class="mobile-nav-link font-display text-4xl tracking-widest text-white hover:text-accent transition-colors"
-    >
-      {label}
-    </a>
-  ))}
+  {
+    navLinks.map(({ label, href }) => (
+      <a
+        href={href}
+        class='mobile-nav-link font-display hover:text-accent text-4xl tracking-widest text-white transition-colors'
+      >
+        {label}
+      </a>
+    ))
+  }
 </div>
 
 <script is:inline>
@@ -81,13 +94,17 @@ const navLinks = [
   const menu = document.getElementById('mobile-menu')
 
   // Scroll: add glass bg when scrolled
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 40) {
-      navbar.classList.add('glass', 'border-b', 'border-border')
-    } else {
-      navbar.classList.remove('glass', 'border-b', 'border-border')
-    }
-  }, { passive: true })
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (window.scrollY > 40) {
+        navbar.classList.add('glass', 'border-b', 'border-border')
+      } else {
+        navbar.classList.remove('glass', 'border-b', 'border-border')
+      }
+    },
+    { passive: true }
+  )
 
   // Mobile toggle
   btn?.addEventListener('click', () => {
@@ -97,8 +114,11 @@ const navLinks = [
   })
 
   // Close mobile menu on link click
-  document.querySelectorAll('.mobile-nav-link').forEach(link => {
+  document.querySelectorAll('.mobile-nav-link').forEach((link) => {
     link.addEventListener('click', () => {
       menu.classList.add('hidden')
       menu.classList.remove('flex')
-      btn?.setAttribute('ar
+      btn?.setAttribute('aria-expanded', 'false')
+    })
+  })
+</script>

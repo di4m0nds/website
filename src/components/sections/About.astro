@@ -2,13 +2,14 @@
 import GlassCard from '../ui/GlassCard.astro'
 import SectionHeader from '../ui/SectionHeader.astro'
 import { aboutInfo } from '../../data/portfolio'
+import DotsBackground from '../effects/DotsBackground.astro'
 
 const prompts = [
-  { id: 'who',     label: 'Who are you?',     short: 'who_are_you' },
-  { id: 'stack',   label: 'Tech stack?',       short: 'stack'       },
-  { id: 'mindset', label: 'Your mindset?',     short: 'mindset'     },
-  { id: 'goal',    label: 'What drives you?',  short: 'goal'        },
-  { id: 'next',    label: 'What is next?',     short: 'next'        },
+  { id: 'who', label: 'Who are you?', short: 'who_are_you' },
+  { id: 'stack', label: 'Tech stack?', short: 'stack' },
+  { id: 'mindset', label: 'Your mindset?', short: 'mindset' },
+  { id: 'goal', label: 'What drives you?', short: 'goal' },
+  { id: 'next', label: 'What is next?', short: 'next' }
 ]
 
 const responses: Record<string, string[]> = {
@@ -17,7 +18,7 @@ const responses: Record<string, string[]> = {
     '> Based in Barcelona, Spain. Originally from Argentina.',
     '> 1+ yr shipping production mobile & web apps.',
     '> Specialized in Flutter/Dart · React · TypeScript.',
-    '> Available now — remote-first, open to hybrid.',
+    '> Available now — remote-first, open to hybrid.'
   ],
   stack: [
     '> Mobile:    Flutter (v2/v3) · Dart · Swift · Kotlin · React Native',
@@ -25,68 +26,255 @@ const responses: Record<string, string[]> = {
     '> Frontend:  TypeScript · React · Next.js · Astro · Tailwind CSS',
     '> Backend:   Node.js · NestJS · Firebase · PostgreSQL · MongoDB',
     '> DevOps:    Git · Docker · GitHub Actions · CI/CD',
-    '> AI-Assisted: GitHub Copilot · Claude · ChatGPT · Gemini',
+    '> AI-Assisted: GitHub Copilot · Claude · ChatGPT · Gemini'
   ],
   mindset: [
     '> "Code is read far more than it is written."',
     '> Clean architecture over clever hacks — every time.',
     '> Performance is a feature, not an afterthought.',
     '> Great UX hides complexity. Bad UX exposes it.',
-    '> Ship, iterate, learn. Repeat.',
+    '> Ship, iterate, learn. Repeat.'
   ],
   goal: [
     '> Building apps that 50,000+ people actually use daily.',
     '> The feedback loop between code and real-world impact.',
     '> Bridging mobile and web — owning full product experiences.',
-    '> Science + software: where I want to keep going.',
+    '> Science + software: where I want to keep going.'
   ],
   next: [
     '> Deepening Flutter architecture — Clean Arch + TDD.',
     '> Expanding Swift/iOS skills for cross-platform reach.',
     '> Open source contributions to the Flutter ecosystem.',
-    '> Growing into a developer who ships end-to-end products.',
-  ],
+    '> Growing into a developer who ships end-to-end products.'
+  ]
 }
 ---
 
-<section id="about" class="relative z-10 mx-auto max-w-6xl px-6 py-24 md:py-32">
-  <SectionHeader
-    tag="01 — About"
-    title="WHO AM I"
-  />
+<section id='about' class='relative z-10 mx-auto max-w-6xl px-6 py-24 md:py-32'>
+  <SectionHeader tag='01 — About' title='WHO AM I' />
 
-  <div class="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-14 items-start">
-
+  <div class='grid grid-cols-1 items-start gap-8 lg:grid-cols-2 lg:gap-14'>
     <!-- ── Left: photo + stats ────────────────────────────── -->
-    <div class="reveal flex flex-col items-center lg:items-start gap-8">
-      <div class="relative group">
+    <div class='reveal flex flex-col items-center gap-8 lg:items-start'>
+      <div class='group relative'>
         <!-- Ambient glow -->
-        <div class="absolute inset-0 rounded-full bg-gradient-to-br from-accent/30 to-cyan/20 blur-2xl transition-all duration-500 group-hover:blur-3xl group-hover:from-accent/40" />
+        <div
+          class='from-accent/30 to-cyan/20 group-hover:from-accent/40 absolute inset-0 rounded-full bg-gradient-to-br blur-2xl transition-all duration-500 group-hover:blur-3xl'
+        >
+        </div>
         <!-- Rotating glitch ring -->
-        <div class="absolute inset-[-3px] rounded-full border border-accent/20 glitch-border" aria-hidden="true" />
+        <div
+          class='border-accent/20 glitch-border absolute inset-[-3px] rounded-full border'
+          aria-hidden='true'
+        >
+        </div>
         <!-- Photo -->
-        <div class="relative h-56 w-56 md:h-72 md:w-72 rounded-full overflow-hidden border border-border">
+        <div
+          class='border-border relative h-56 w-56 overflow-hidden rounded-full border md:h-72 md:w-72'
+        >
           <img
             src={aboutInfo.photo}
-            alt="Javier Silvestri"
-            loading="lazy"
-            decoding="async"
-            class="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+            alt='Javier Silvestri'
+            loading='lazy'
+            decoding='async'
+            class='h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105'
           />
         </div>
-        <!-- Location badge (replacing online badge) -->
-        <span class="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full glass border border-border px-2.5 py-1 text-xs font-mono text-muted-2">
-          <svg class="w-3 h-3 text-accent" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a5 5 0 0 0-5 5c0 3.5 5 9 5 9s5-5.5 5-9a5 5 0 0 0-5-5Zm0 6.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z"/></svg>
+        <!-- Location badge -->
+        <span
+          class='glass border-border text-muted-2 absolute right-3 bottom-3 flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-xs'
+        >
+          <svg
+            class='text-accent h-3 w-3'
+            viewBox='0 0 16 16'
+            fill='currentColor'
+            ><path
+              d='M8 1a5 5 0 0 0-5 5c0 3.5 5 9 5 9s5-5.5 5-9a5 5 0 0 0-5-5Zm0 6.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z'
+            ></path></svg
+          >
           Barcelona
         </span>
       </div>
 
       <!-- Quick stats -->
-      <div class="grid grid-cols-2 gap-3 w-full max-w-xs">
-        {[
-          { val: '1+',  label: 'YRS EXP',   color: 'text-accent' },
-          { val: '50K+',label: 'APP USERS',  color: 'text-accent' },
-          { val: '20+', label: 'SKILLS',    color: 'text-cyan'   },
-          { val: '∞',   label: 'COFFEE',    color: 'text-cyan'   },
-        ].map(({ val, label, color }) => (
-          <GlassCard padding="p-4" class="text-center" hoverable glow="none">
+      <div class='grid w-full max-w-xs grid-cols-2 gap-3'>
+        {
+          [
+            { val: '1+', label: 'YRS EXP', color: 'text-accent' },
+            { val: '50K+', label: 'APP USERS', color: 'text-accent' },
+            { val: '20+', label: 'SKILLS', color: 'text-cyan' },
+            { val: '∞', label: 'COFFEE', color: 'text-cyan' }
+          ].map(({ val, label, color }) => (
+            <GlassCard padding='p-4' class='text-center' hoverable glow='none'>
+              <p class={`font-display text-3xl tracking-wide ${color}`}>
+                {val}
+              </p>
+              <p class='text-muted mt-1 font-mono text-[10px] tracking-widest'>
+                {label}
+              </p>
+            </GlassCard>
+          ))
+        }
+      </div>
+
+      <!-- Bio -->
+      <div
+        class='text-muted-2 max-w-sm space-y-3 font-mono text-sm leading-relaxed'
+      >
+        <p>{aboutInfo.bio}</p>
+        <p>{aboutInfo.bioContinued}</p>
+      </div>
+
+      <!-- CV link -->
+      <a
+        href={aboutInfo.cvEn}
+        target='_blank'
+        rel='noopener noreferrer'
+        data-magnetic
+        class='glass border-border text-muted-2 hover:border-accent/50 group inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-mono text-sm transition-all duration-300 hover:text-white'
+      >
+        <svg
+          class='text-accent h-4 w-4'
+          viewBox='0 0 16 16'
+          fill='none'
+          stroke='currentColor'
+          stroke-width='1.5'
+        >
+          <path d='M3 2h7l3 3v9H3V2Z'></path><path d='M10 2v3h3'></path><path
+            d='M5 8h6M5 11h4'></path>
+        </svg>
+        Download CV
+        <svg
+          class='h-3 w-3 transition-transform group-hover:translate-y-0.5'
+          viewBox='0 0 12 12'
+          fill='none'
+          stroke='currentColor'
+          stroke-width='1.5'
+        >
+          <path d='M6 1v7M2 8l4 3 4-3'></path>
+        </svg>
+      </a>
+    </div>
+
+    <!-- ── Right: AI terminal ──────────────────────────────── -->
+    <div
+      class='reveal reveal-delay-2 glass border-border scanlines flex flex-col gap-0 overflow-hidden rounded-2xl border'
+    >
+      <!-- Chrome bar -->
+      <div
+        class='border-border bg-surface flex items-center gap-2 border-b px-4 py-3 select-none'
+      >
+        <span class='h-2.5 w-2.5 rounded-full bg-red-500/70'></span>
+        <span class='h-2.5 w-2.5 rounded-full bg-yellow-500/70'></span>
+        <span class='h-2.5 w-2.5 rounded-full bg-green-500/70'></span>
+        <span class='text-muted ml-4 font-mono text-xs tracking-wider'
+          >javier@portfolio:~$</span
+        >
+        <span
+          id='about-status'
+          class='ml-auto font-mono text-[10px] text-green-400/60'>● READY</span
+        >
+      </div>
+
+      <!-- Output area -->
+      <div
+        id='about-output'
+        class='text-muted/80 max-h-[280px] min-h-[220px] flex-1 space-y-1 overflow-y-auto p-4 font-mono text-xs'
+        aria-live='polite'
+        aria-label='Terminal output'
+      >
+        <p class='text-cyan/70'>Welcome. Ask me something.</p>
+      </div>
+
+      <!-- Prompt buttons -->
+      <div class='border-border flex flex-wrap gap-2 border-t p-3'>
+        {
+          prompts.map(({ id, label, short }) => (
+            <button
+              type='button'
+              data-prompt={short}
+              class='about-btn glass border-border text-muted-2 hover:text-accent hover:border-accent/40 rounded-lg border px-3 py-1.5 font-mono text-[11px] transition-all duration-200'
+            >
+              <span class='text-accent/60 mr-1'>$</span>
+              {label}
+            </button>
+          ))
+        }
+        <button
+          type='button'
+          id='about-clear'
+          class='text-muted/40 hover:text-muted ml-auto rounded-lg px-3 py-1.5 font-mono text-[11px] transition-colors duration-200'
+        >
+          clear
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline define:vars={{ responses: JSON.stringify(responses) }}>
+  ;(function () {
+    var RESPONSES = JSON.parse(responses)
+    var output = document.getElementById('about-output')
+    var status = document.getElementById('about-status')
+    var clearBtn = document.getElementById('about-clear')
+
+    if (!output) return
+
+    var typeTimer = null
+
+    function appendLine(text, cls) {
+      var p = document.createElement('p')
+      p.className = cls || 'text-muted/70'
+      p.textContent = text
+      output.appendChild(p)
+      output.scrollTop = output.scrollHeight
+    }
+
+    function typeLines(lines, idx) {
+      if (idx >= lines.length) {
+        status.textContent = '● READY'
+        status.className = 'ml-auto font-mono text-[10px] text-green-400/60'
+        return
+      }
+      appendLine(lines[idx], 'text-muted-2')
+      typeTimer = setTimeout(function () {
+        typeLines(lines, idx + 1)
+      }, 60)
+    }
+
+    function runPrompt(key) {
+      clearTimeout(typeTimer)
+      var lines = RESPONSES[key]
+      if (!lines) return
+      appendLine('', '')
+      appendLine('$ ' + key, 'text-accent/70')
+      status.textContent = '● LOADING..'
+      status.className = 'ml-auto font-mono text-[10px] text-yellow-400/60'
+      typeLines(lines, 0)
+    }
+
+    document.querySelectorAll('.about-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        runPrompt(btn.dataset.prompt)
+      })
+    })
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', function () {
+        output.innerHTML =
+          '<p class="text-cyan/70">Welcome. Ask me something.</p>'
+      })
+    }
+  })()
+</script>
+
+<style>
+  #about-output::-webkit-scrollbar {
+    width: 2px;
+  }
+  #about-output::-webkit-scrollbar-thumb {
+    background: var(--color-accent);
+    border-radius: 1px;
+  }
+</style>

@@ -154,4 +154,130 @@ const narrationJson = JSON.stringify(narration)
   var list      = document.getElementById('project-list')
   var detail    = document.getElementById('project-detail')
   var console_  = document.getElementById('proj-console')
-  var st
+  var status    = document.getElementById('proj-status')
+  var tpl       = document.getElementById('project-template')
+
+  if (!list || !detail || !console_ || !tpl) return
+
+  var typeTimer  = null
+  var consTimer  = null
+  var activeId   = PROJECTS[0] && PROJECTS[0].id
+
+  function consoleLog(text, cls) {
+    var p = document.createElement('p')
+    p.className = cls || 'text-muted/60'
+    p.textContent = text
+    console_.appendChild(p)
+    console_.scrollTop = console_.scrollHeight
+  }
+
+  function typeInto(el, text, speed, onDone) {
+    clearTimeout(typeTimer)
+    el.textContent = ''
+    var i = 0
+    function step() {
+      if (i < text.length) {
+        el.textContent += text[i++]
+        typeTimer = setTimeout(step, speed)
+      } else { onDone && onDone() }
+    }
+    step()
+  }
+
+  function runNarration(id) {
+    clearTimeout(consTimer)
+    var lines = NARRATION[id] || []
+    console_.innerHTML = ''
+    var idx = 0
+    function nextLine() {
+      if (idx >= lines.length) {
+        status.textContent = '● READY'
+        status.className   = 'ml-auto font-mono text-xs text-green-400/70'
+        return
+      }
+      var line = lines[idx++]
+      var cls  = line.startsWith('STATUS') ? 'text-green-400/80'
+               : line.startsWith('SYSTEM') ? 'text-accent/80'
+               : line.startsWith('INFO')   ? 'text-cyan/70'
+               : 'text-muted/70'
+      consoleLog(line, cls)
+      consTimer = setTimeout(nextLine, 280)
+    }
+    status.textContent = '● LOADING...'
+    status.className   = 'ml-auto font-mono text-xs text-yellow-400/70'
+    nextLine()
+  }
+
+  function triggerGlitch(el) {
+    if (!el) return
+    el.classList.add('glitch-active')
+    setTimeout(function() { el.classList.remove('glitch-active') }, 380)
+  }
+
+  function renderProject(p) {
+    var node    = tpl.content.cloneNode(true)
+    var nameEl  = node.querySelector('.project-name')
+    var descEl  = node.querySelector('.project-desc')
+    var tagsEl  = node.querySelector('.project-tags')
+    var yearEl  = node.querySelector('.project-year')
+    var featEl  = node.querySelector('.project-featured')
+    var linkEl  = node.querySelector('.project-link')
+
+    nameEl.setAttribute('data-text', p.name)
+    nameEl.textContent = p.name
+    yearEl.textContent = p.year
+    linkEl.href        = p.href
+
+    if (p.featured) {
+      featEl.innerHTML = '<span class="text-cyan">★ featured</span>'
+    }
+
+    p.tags.forEach(function(tag) {
+      var s = document.createElement('span')
+      s.className = 'inline-flex items-center rounded-full border border-cyan/30 bg-cyan/10 px-2.5 py-0.5 text-xs font-mono text-cyan'
+      s.textContent = tag
+      tagsEl.appendChild(s)
+    })
+
+    detail.innerHTML = ''
+    detail.appendChild(node)
+
+    var desc = detail.querySelector('.project-desc')
+    if (desc) typeInto(desc, p.description, 16, function() {
+      triggerGlitch(detail.querySelector('.project-name'))
+    })
+  }
+
+  function setActive(id) {
+    activeId = id
+    list.querySelectorAll('.project-tab').forEach(function(tab) {
+      var on = tab.dataset.id === id
+      tab.setAttribute('aria-selected', String(on))
+      tab.classList.toggle('bg-accent/15',      on)
+      tab.classList.toggle('text-accent',        on)
+      tab.classList.toggle('border-accent/30',   on)
+      tab.classList.toggle('text-muted-2',       !on)
+      tab.classList.toggle('border-transparent', !on)
+    })
+    var p = PROJECTS.find(function(p) { return p.id === id })
+    if (p) { renderProject(p); runNarration(id) }
+  }
+
+  list.querySelectorAll('.project-tab').forEach(function(tab) {
+    tab.addEventListener('click', function() { setActive(tab.dataset.id) })
+    tab.addEventListener('mouseenter', function() {
+      if (tab.dataset.id !== activeId) tab.style.borderColor = 'rgba(249,115,22,.15)'
+    })
+    tab.addEventListener('mouseleave', function() {
+      if (tab.dataset.id !== activeId) tab.style.borderColor = ''
+    })
+  })
+
+  if (PROJECTS[0]) setActive(PROJECTS[0].id)
+})()
+</script>
+
+<style>
+  #proj-console::-webkit-scrollbar       { width: 2px; }
+  #proj-console::-webkit-scrollbar-thumb { background: var(--color-accent); border-radius: 1px; }
+</style>

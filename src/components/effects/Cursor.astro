@@ -64,12 +64,14 @@
     if (r) r.style.opacity = '0'
   })
 
+  window.addEventListener('mouseenter', show)
+
+  // ── Click feedback ───────────────────────────────────────────
   window.addEventListener('mousedown', function() {
     const d = dot(), r = ring()
     if (d) d.style.transform = 'translate(-50%,-50%) scale(.6)'
-    if (r) r.style.transform = 'translate(-50%,-50%) scale(1.5)'
+    if (r) r.style.transform = 'translate(-50%,-50%) scale(1.4)'
   })
-
   window.addEventListener('mouseup', function() {
     const d = dot(), r = ring()
     if (d) d.style.transform = 'translate(-50%,-50%)'
@@ -77,7 +79,7 @@
   })
 
   // ── Hover state on interactive elements ──────────────────────
-  var INTERACTIVE = '[data-magnetic],button,a,[role="option"],[role="button"]'
+  var INTERACTIVE = 'a,button,[data-magnetic],[role="button"],[tabindex]'
   var hoveredEl = null
 
   document.addEventListener('mouseover', function(e) {
@@ -118,4 +120,20 @@
   document.addEventListener('mousemove', function(e) {
     if (!hoveredEl) return
     var rect = hoveredEl.getBoundingClientRect()
-    var c
+    var cx   = rect.left + rect.width  / 2
+    var cy   = rect.top  + rect.height / 2
+    var dx   = e.clientX - cx
+    var dy   = e.clientY - cy
+    var dist = Math.sqrt(dx * dx + dy * dy)
+    var maxD = Math.max(rect.width, rect.height) * 0.6
+    if (dist < maxD) {
+      var pull = (1 - dist / maxD) * 8
+      hoveredEl.style.transform  = 'translate(' + dx * pull / maxD + 'px,' + dy * pull / maxD + 'px)'
+      hoveredEl.style.transition = 'transform .1s ease'
+    }
+  })
+
+  // Start loop
+  tick()
+})()
+</script>

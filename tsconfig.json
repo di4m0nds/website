@@ -18,4 +18,26 @@
     ]
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts"],
- 
+  "exclude": [
+    "src/components/About.astro",
+    "src/components/DarkModeSwitch.astro",
+    "src/components/Experience.astro",
+    "src/components/Footer.astro",
+    "src/components/Header.astro",
+    "src/components/HeaderPosts.astro",
+    "src/components/MenuOptions.astro",
+    "src/components/PostCard.astro",
+    "src/components/PostDetails.astro",
+    "src/components/PostInProgress.astro",
+    "src/components/PressLetter.astro",
+    "src/components/ProjectItem.astro",
+    "src/components/Projects.astro",
+    "src/components/Skills.astro",
+    "src/layouts/Layout.astro",
+    "src/layouts/Blog.astro",
+    "src/styles/app.css",
+    "src/utils/enums.ts",
+    "src/utils/functions.ts",
+    "node_modules"
+  ]
+}

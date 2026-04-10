@@ -30,7 +30,7 @@ const mockStats = {
   </div>
 
   <div class="glass border border-border rounded-2xl overflow-hidden reveal">
-    <\!-- Terminal chrome -->
+    <!-- Terminal chrome -->
     <div class="flex items-center gap-2 px-4 py-3 border-b border-border bg-surface">
       <span class="h-2.5 w-2.5 rounded-full bg-red-500/70" />
       <span class="h-2.5 w-2.5 rounded-full bg-yellow-500/70" />
@@ -49,7 +49,7 @@ const mockStats = {
     </div>
 
     <div class="p-5 md:p-7 space-y-7">
-      <\!-- Stats grid -->
+      <!-- Stats grid -->
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="gh-stats">
         {[
           { key: 'repos',     label: 'Repositories', icon: '◈' },
@@ -64,7 +64,7 @@ const mockStats = {
         ))}
       </div>
 
-      <\!-- Language bar -->
+      <!-- Language bar -->
       <div>
         <p class="font-mono text-xs text-muted tracking-widest mb-3">
           <span class="text-cyan">output</span>: language breakdown
@@ -87,7 +87,7 @@ const mockStats = {
         </div>
       </div>
 
-      <\!-- Contribution grid -->
+      <!-- Contribution grid -->
       <div>
         <p class="font-mono text-xs text-muted tracking-widest mb-3">
           <span class="text-cyan">output</span>: contribution activity (last 52 weeks)
@@ -104,7 +104,7 @@ const mockStats = {
                 level === 3 ? 'background:rgba(249,115,22,0.70)' :
                               'background:rgba(249,115,22,0.95)'
               }
-              title={`${level} contribution${level \!== 1 ? 's' : ''}`} />
+              title={`${level} contribution${level !== 1 ? 's' : ''}`} />
           ))}
         </div>
         <div class="flex items-center gap-2 mt-2 text-xs font-mono text-muted">
@@ -132,7 +132,7 @@ const mockStats = {
 
   function updateStat(key, val) {
     var el = document.querySelector('[data-stat="' + key + '"]')
-    if (\!el) return
+    if (!el) return
     el.textContent = val
     el.classList.add('glitch-text')
     setTimeout(function () { el.classList.remove('glitch-text') }, 450)
@@ -141,7 +141,7 @@ const mockStats = {
   function updateLanguages(langs) {
     var bar    = document.getElementById('gh-lang-bar')
     var legend = document.getElementById('gh-lang-legend')
-    if (\!bar || \!legend || \!langs.length) return
+    if (!bar || !legend || !langs.length) return
     bar.innerHTML = ''
     legend.innerHTML = ''
     var total = langs.reduce(function (s, l) { return s + l.pct }, 0)
@@ -180,10 +180,10 @@ const mockStats = {
   }
 
   function applyStats(data) {
-    if (data.repos     \!= null) updateStat('repos',     data.repos)
-    if (data.followers \!= null) updateStat('followers', data.followers)
-    if (data.following \!= null) updateStat('following', data.following)
-    if (data.stars     \!= null) updateStat('stars',     data.stars)
+    if (data.repos     != null) updateStat('repos',     data.repos)
+    if (data.followers != null) updateStat('followers', data.followers)
+    if (data.following != null) updateStat('following', data.following)
+    if (data.stars     != null) updateStat('stars',     data.stars)
     if (data.languages && data.languages.length) updateLanguages(data.languages)
     var src = document.getElementById('gh-data-source')
     if (src) { src.textContent = 'live'; src.style.color = 'rgba(74,222,128,.7)' }
@@ -200,7 +200,7 @@ const mockStats = {
     try {
       var hdrs = { Accept: 'application/vnd.github.v3+json' }
       var userRes = await fetch('https://api.github.com/users/' + GH_USER, { headers: hdrs })
-      if (\!userRes.ok) return
+      if (!userRes.ok) return
       var user = await userRes.json()
       var repoRes = await fetch(
         'https://api.github.com/users/' + GH_USER + '/repos?sort=pushed&per_page=100',

@@ -8,9 +8,10 @@ import Experience from '../components/sections/Experience.astro'
 import Projects from '../components/sections/Projects.astro'
 import Skills from '../components/sections/Skills.astro'
 import GitHubStats from '../components/sections/GitHubStats.astro'
+import DotsBackground from '../components/effects/DotsBackground.astro'
 
-const divider = "mx-auto max-w-6xl px-6"
-const line    = "h-px bg-gradient-to-r from-transparent via-border to-transparent"
+const divider = 'mx-auto max-w-6xl px-6'
+const line = 'h-px bg-gradient-to-r from-transparent via-border to-transparent'
 ---
 
 <BaseLayout>
@@ -19,7 +20,19 @@ const line    = "h-px bg-gradient-to-r from-transparent via-border to-transparen
 
   <main>
     <About />
-    <div class={divider}><div class={line} /></div>
+    <div class={divider}><div class={line}></div></div>
 
     <Experience />
-  
+    <div class={divider}><div class={line}></div></div>
+
+    <Projects />
+    <div class={divider}><div class={line}></div></div>
+
+    <Skills />
+    <div class={divider}><div class={line}></div></div>
+
+    <GitHubStats />
+  </main>
+
+  <Footer />
+</BaseLayout>

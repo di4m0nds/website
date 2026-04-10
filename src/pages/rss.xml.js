@@ -22,4 +22,7 @@ export async function GET(context) {
       description: post.data.description,
       pubDate:     post.data.pubDate,
       link:        '/posts/' + post.slug + '/',
-      
+      categories:  post.data.tags,
+    })),
+  })
+}

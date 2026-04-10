@@ -1,9 +1,8 @@
 @import "tailwindcss";
 @variant dark (&:where(.dark, .dark *));
 
-/* ─── Design Tokens ─────────────────────────────────────────── */
+/* Design Tokens */
 @theme {
-  /* Colors */
   --color-bg:           #08080f;
   --color-surface:      rgba(255,255,255,0.04);
   --color-surface-2:    rgba(255,255,255,0.08);
@@ -17,20 +16,17 @@
   --color-muted:        #64748b;
   --color-muted-2:      #94a3b8;
 
-  /* Fonts */
   --font-sans:    'Inter', sans-serif;
   --font-display: 'Bebas Neue', sans-serif;
   --font-mono:    'JetBrains Mono', 'Courier New', monospace;
 
-  /* Radius */
   --radius-glass: 16px;
 
-  /* Animation timing */
   --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   --ease-out:    cubic-bezier(0.0, 0.0, 0.2, 1);
 }
 
-/* ─── Base ───────────────────────────────────────────────────── */
+/* Base */
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
@@ -47,7 +43,7 @@ body {
   overflow-x: hidden;
 }
 
-/* ─── Scrollbar ──────────────────────────────────────────────── */
+/* Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--color-bg); }
 ::-webkit-scrollbar-thumb {
@@ -55,20 +51,20 @@ body {
   border-radius: 3px;
 }
 
-/* ─── Selection ──────────────────────────────────────────────── */
+/* Selection */
 ::selection {
   background: rgba(249,115,22,0.3);
   color: #fff;
 }
 
-/* ─── Focus ──────────────────────────────────────────────────── */
+/* Focus */
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
   border-radius: 4px;
 }
 
-/* ─── Glass Utility ──────────────────────────────────────────── */
+/* Glass */
 @utility glass {
   background: var(--color-surface);
   backdrop-filter: blur(16px);
@@ -86,7 +82,7 @@ body {
   }
 }
 
-/* ─── Section reveal animations ─────────────────────────────── */
+/* Section reveal */
 .reveal {
   opacity: 0;
   transform: translateY(24px);
@@ -100,7 +96,7 @@ body {
 .reveal-delay-2 { transition-delay: 0.2s; }
 .reveal-delay-3 { transition-delay: 0.3s; }
 
-/* ─── Gradient text ──────────────────────────────────────────── */
+/* Gradient text */
 @utility gradient-text {
   background: linear-gradient(135deg, var(--color-accent), #fbbf24);
   -webkit-background-clip: text;
@@ -115,7 +111,7 @@ body {
   background-clip: text;
 }
 
-/* ─── Glow ───────────────────────────────────────────────────── */
+/* Glow */
 @utility glow-accent {
   box-shadow: 0 0 20px rgba(249,115,22,0.3), 0 0 40px rgba(249,115,22,0.1);
 }
@@ -123,10 +119,10 @@ body {
   box-shadow: 0 0 20px rgba(14,165,233,0.3), 0 0 40px rgba(14,165,233,0.1);
 }
 
-/* ─── Dot grid (terminal) ────────────────────────────────────── */
+/* Terminal cursor */
 @utility terminal-cursor {
   &::after {
-    content: '█';
+    content: '\u2588';
     animation: blink 1s step-end infinite;
     color: var(--color-accent);
     margin-left: 2px;
@@ -138,7 +134,7 @@ body {
   50% { opacity: 0; }
 }
 
-/* ─── Noise overlay ──────────────────────────────────────────── */
+/* Noise overlay */
 @utility noise {
   position: relative;
   &::before {
@@ -149,5 +145,122 @@ body {
     border-radius: inherit;
     pointer-events: none;
     z-index: 1;
+  }
+}
+
+/* Glitch text */
+@keyframes glitch-clip-1 {
+  0%,100% { clip-path: inset(0 0 95% 0); transform: translate(-2px, 0);  }
+  25%     { clip-path: inset(40% 0 40% 0); transform: translate(2px, 0); }
+  50%     { clip-path: inset(80% 0 5% 0);  transform: translate(-1px, 0);}
+  75%     { clip-path: inset(20% 0 70% 0); transform: translate(1px, 0); }
+}
+@keyframes glitch-clip-2 {
+  0%,100% { clip-path: inset(50% 0 30% 0); transform: translate(2px, 0);  }
+  25%     { clip-path: inset(5% 0 80% 0);  transform: translate(-2px, 0); }
+  50%     { clip-path: inset(70% 0 10% 0); transform: translate(1px, 0);  }
+  75%     { clip-path: inset(30% 0 55% 0); transform: translate(-1px, 0); }
+}
+
+.glitch {
+  position: relative;
+  display: inline-block;
+}
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.glitch::before { color: var(--color-cyan);   opacity: 0; }
+.glitch::after  { color: var(--color-accent);  opacity: 0; }
+.glitch.glitch-active::before {
+  opacity: 0.7;
+  animation: glitch-clip-1 0.35s steps(1) forwards;
+}
+.glitch.glitch-active::after {
+  opacity: 0.6;
+  animation: glitch-clip-2 0.35s steps(1) forwards;
+}
+
+.glitch-text {
+  animation: glitch-number 0.4s steps(2) forwards;
+}
+@keyframes glitch-number {
+  0%   { transform: translate(-2px,0) skewX(-4deg); color: var(--color-cyan); }
+  35%  { transform: translate(2px,0)  skewX(3deg);  color: var(--color-accent); }
+  70%  { transform: translate(-1px,0) skewX(0);     color: var(--color-text); }
+  100% { transform: none;                            color: var(--color-accent); }
+}
+
+/* Scanlines overlay */
+@utility scanlines {
+  position: relative;
+  overflow: hidden;
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.05) 2px,
+      rgba(0,0,0,0.05) 4px
+    );
+    pointer-events: none;
+    z-index: 2;
+  }
+}
+
+/* Page transition */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: none; }
+}
+.page-enter {
+  animation: fade-up 0.45s var(--ease-out) both;
+}
+
+/* Card lift */
+@utility card-lift {
+  transition: transform 0.25s var(--ease-spring), box-shadow 0.25s ease;
+  will-change: transform;
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(249,115,22,0.06);
+  }
+}
+
+/* Pulse ring */
+@keyframes pulse-ring {
+  0%   { transform: scale(1);   opacity: 0.6; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+@utility pulse-ring {
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: inherit;
+    border: 1px solid var(--color-accent);
+    animation: pulse-ring 1.5s ease-out infinite;
+    pointer-events: none;
+  }
+}
+
+/* Custom cursor */
+.cursor-ready,
+.cursor-ready * {
+  cursor: none !important;
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }
