@@ -100,6 +100,14 @@ const canonicalURL = new URL(Astro.url.pathname, siteConfig.url)
     <DotsBackground />
     <Cursor />
 
+    <!--
+      Navbar lives OUTSIDE the page-enter wrapper for the same reason
+      DotsBackground and Cursor do: an active CSS transform on a parent
+      breaks position:fixed, making fixed children relative to the
+      animated div instead of the viewport.
+    -->
+    <slot name='navbar' />
+
     <!-- Page-enter animation wrapper — wraps all visible page content -->
     <div class='page-enter'>
       <slot />
