@@ -21,6 +21,14 @@ export interface Experience {
   tech?: string[]
 }
 
+export interface Education {
+  institution: string
+  degree: string
+  date: string
+  location: string
+  topics?: string[]
+}
+
 export interface Skill {
   name: string
   icon: string

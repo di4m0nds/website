@@ -11,10 +11,10 @@ interface Props {
 }
 
 const {
-  title = siteConfig.title,
+  title       = siteConfig.title,
   description = siteConfig.description,
-  ogImage = siteConfig.ogImage,
-  noIndex = false,
+  ogImage     = siteConfig.ogImage,
+  noIndex     = false,
 } = Astro.props
 
 const canonicalURL = new URL(Astro.url.pathname, siteConfig.url)
@@ -31,25 +31,25 @@ const canonicalURL = new URL(Astro.url.pathname, siteConfig.url)
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content={siteConfig.author} />
-    <meta name="keywords" content="software developer, portfolio, web development, frontend, fullstack" />
+    <meta name="keywords" content="flutter developer, software developer, portfolio, mobile development, frontend, barcelona" />
     <link rel="canonical" href={canonicalURL} />
     {noIndex && <meta name="robots" content="noindex, nofollow" />}
     {!noIndex && <meta name="robots" content="index, follow" />}
 
     <!-- Open Graph -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalURL} />
-    <meta property="og:title" content={title} />
+    <meta property="og:type"        content="website" />
+    <meta property="og:url"         content={canonicalURL} />
+    <meta property="og:title"       content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL(ogImage, siteConfig.url)} />
-    <meta property="og:site_name" content={siteConfig.name} />
+    <meta property="og:image"       content={new URL(ogImage, siteConfig.url)} />
+    <meta property="og:site_name"   content={siteConfig.name} />
 
     <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content={siteConfig.twitter} />
-    <meta name="twitter:title" content={title} />
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:site"        content={siteConfig.twitter} />
+    <meta name="twitter:title"       content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={new URL(ogImage, siteConfig.url)} />
+    <meta name="twitter:image"       content={new URL(ogImage, siteConfig.url)} />
 
     <!-- Theme -->
     <meta name="theme-color" content="#f97316" />
@@ -58,7 +58,7 @@ const canonicalURL = new URL(Astro.url.pathname, siteConfig.url)
     <!-- RSS -->
     <link rel="alternate" type="application/rss+xml" title={`${siteConfig.name} Blog`} href="/rss.xml" />
 
-    <!-- Fonts (Google Fonts — faster than local .ttf) -->
+    <!-- Fonts (CDN — Inter, Bebas Neue, JetBrains Mono) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -66,27 +66,26 @@ const canonicalURL = new URL(Astro.url.pathname, siteConfig.url)
       rel="stylesheet"
     />
 
-    <!-- Prevent FOUC: dark mode class always applied -->
-    <script is:inline>
-      document.documentElement.classList.add('dark')
-    </script>
+    <!-- Prevent FOUC: always dark -->
+    <script is:inline>document.documentElement.classList.add('dark')</script>
   </head>
 
   <body class="page-enter">
+    <!-- Cursor rendered first so its DOM nodes are always present -->
     <Cursor />
+
     <slot />
 
-    <!-- Section reveal observer -->
+    <!-- Section reveal via IntersectionObserver -->
     <script is:inline>
-      (function initReveal() {
-        const observer = new IntersectionObserver(
-          (entries) => entries.forEach((e) => {
-            if (e.isIntersecting) {
-              e.target.classList.add('visible')
-              observer.unobserve(e.target)
-            }
-          }),
-          { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
-        )
-        const observe = () =>
-          document.querySelectorAll('.reveal:not(.visible)').forEach((el) => observer.observe
+      ;(function () {
+        var obs = new IntersectionObserver(
+          function(entries) {
+            entries.forEach(function(e) {
+              if (e.isIntersecting) {
+                e.target.classList.add('visible')
+                obs.unobserve(e.target)
+              }
+            })
+          },
+          { threshold

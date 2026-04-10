@@ -4,33 +4,35 @@ import { projects } from '../../data/portfolio'
 
 // Console narration per project
 const narration: Record<string, string[]> = {
-  chefco:  [
+  dosep: [
+    'SYSTEM: Loading project manifest...',
+    'INFO:   Stack resolved — Flutter · Dart · Firebase',
+    'INFO:   Type: Government health service app (Android)',
+    'INFO:   Scale: 50,000+ downloads on Google Play Store',
+    'STATUS: Performance improved 30% — deployed LIVE ✓',
+  ],
+  sigem: [
+    'SYSTEM: Connecting to government services API...',
+    'INFO:   Stack resolved — Flutter · Dart · REST APIs',
+    'INFO:   Type: City gov app — bookings & real-time tracking',
+    'INFO:   Features: appointments, bus ETA, municipal permits',
+    'STATUS: Bug-free restore from legacy codebase — LIVE ✓',
+  ],
+  chefco: [
     'SYSTEM: Loading project manifest...',
     'INFO:   Stack resolved — React · Tailwind · Node.js',
     'INFO:   Type: Full-stack e-commerce platform',
-    'STATUS: Deployed to Netlify CDN. Status: LIVE ✓',
+    'STATUS: Deployed to Netlify CDN — LIVE ✓',
   ],
-  tesla:   [
-    'SYSTEM: Cloning repository...',
-    'INFO:   Stack resolved — HTML · CSS · Vanilla JS',
-    'INFO:   Type: Pixel-perfect UI reconstruction',
-    'STATUS: A deep dive into animation & responsive design.',
-  ],
-  rockets: [
-    'SYSTEM: Fetching mission data from SpaceX API...',
-    'INFO:   Stack resolved — Astro · View Transitions API',
-    'INFO:   Type: Data viz + native browser transitions',
-    'STATUS: No framework needed. Speed: BLAZING FAST ✓',
-  ],
-  euge:    [
+  euge: [
     'SYSTEM: Mounting photography asset store...',
     'INFO:   Stack resolved — Astro · Tailwind · MDX',
-    'INFO:   Type: Optimised image gallery + portfolio',
-    'STATUS: Lighthouse score 98/100. Images: OPTIMISED ✓',
+    'INFO:   Type: Optimised image gallery + photography portfolio',
+    'STATUS: Lighthouse score 98/100. Images optimised ✓',
   ],
 }
 
-const projectsJson = JSON.stringify(projects)
+const projectsJson  = JSON.stringify(projects)
 const narrationJson = JSON.stringify(narration)
 ---
 
@@ -49,12 +51,12 @@ const narrationJson = JSON.stringify(narration)
       <span class="h-2.5 w-2.5 rounded-full bg-yellow-500/70" />
       <span class="h-2.5 w-2.5 rounded-full bg-green-500/70" />
       <span class="ml-4 font-mono text-xs text-muted tracking-wider">
-        projects.exe — Javier's Portfolio
+        projects.exe — Javier Silvestri
       </span>
       <span id="proj-status" class="ml-auto font-mono text-xs text-green-400/70">● READY</span>
     </div>
 
-    <div class="flex flex-col md:flex-row min-h-[520px]">
+    <div class="flex flex-col md:flex-row min-h-[540px]">
 
       <!-- ── Left: project list ──────────────────────────── -->
       <div class="md:w-64 shrink-0 border-b md:border-b-0 md:border-r border-border p-4 flex flex-col gap-4">
@@ -95,10 +97,8 @@ const narrationJson = JSON.stringify(narration)
 
         <!-- Project detail -->
         <div id="project-detail" class="flex-1 p-5 md:p-7 relative overflow-hidden">
-          <!-- Glow -->
           <div aria-hidden="true"
             class="absolute top-0 right-0 h-48 w-48 rounded-full bg-accent/4 blur-3xl pointer-events-none transition-all duration-700" />
-          <!-- Populated by JS -->
         </div>
 
         <!-- Console output -->
@@ -108,7 +108,7 @@ const narrationJson = JSON.stringify(narration)
             <span class="h-1.5 w-1.5 rounded-full bg-green-400/60 animate-pulse ml-auto" />
           </div>
           <div id="proj-console"
-            class="h-28 overflow-y-auto p-3 font-mono text-[11px] space-y-0.5 text-muted/70">
+            class="h-32 overflow-y-auto p-3 font-mono text-[11px] space-y-0.5 text-muted/70">
           </div>
         </div>
 
@@ -121,9 +121,7 @@ const narrationJson = JSON.stringify(narration)
 <template id="project-template">
   <div class="flex flex-col gap-5 h-full">
     <div>
-      <p class="font-mono text-[11px] text-cyan/70 mb-1.5 tracking-widest">
-        cat README.md
-      </p>
+      <p class="font-mono text-[11px] text-cyan/70 mb-1.5 tracking-widest">cat README.md</p>
       <h3 class="font-display text-3xl md:text-4xl tracking-wide text-white project-name glitch" data-text=""></h3>
     </div>
 
@@ -138,7 +136,8 @@ const narrationJson = JSON.stringify(narration)
 
     <a href="#" target="_blank" rel="noopener noreferrer"
       data-magnetic
-      class="project-link self-start inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-accent-hover hover:glow-accent group">
+      class="project-link self-start inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white
+             transition-all duration-300 hover:bg-accent-hover hover:glow-accent group">
       View Live
       <svg class="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" viewBox="0 0 14 14" fill="none">
         <path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -148,12 +147,11 @@ const narrationJson = JSON.stringify(narration)
 </template>
 
 <script is:inline define:vars={{ projectsJson, narrationJson }}>
-  (function () {
-    const PROJECTS   = JSON.parse(projectsJson)
-    const NARRATION  = JSON.parse(narrationJson)
+;(function () {
+  var PROJECTS   = JSON.parse(projectsJson)
+  var NARRATION  = JSON.parse(narrationJson)
 
-    const list       = document.getElementById('project-list')
-    const detail     = document.getElementById('project-detail')
-    const console_   = document.getElementById('proj-console')
-    const status     = document.getElementById('proj-status')
-    const tpl
+  var list      = document.getElementById('project-list')
+  var detail    = document.getElementById('project-detail')
+  var console_  = document.getElementById('proj-console')
+  var st

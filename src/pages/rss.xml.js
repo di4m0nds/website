@@ -9,20 +9,17 @@ export async function GET(context) {
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
 
   return rss({
-    title: siteConfig.name + "'s Blog",
-    description: 'Articles about software development, engineering, and things I am learning.',
+    title: siteConfig.name + ' — Blog',
+    description: 'Articles about software development, mobile engineering, and things I am learning.',
     site: context.site ?? siteConfig.url,
     xmlns: {
       atom: 'http://www.w3.org/2005/Atom',
     },
     customData:
-      '<atom:link href="' + siteConfig.url + '/rss.xml" rel="self" type="application/rss+xml" />',
+      '<atom:link href="' + (context.site ?? siteConfig.url) + '/rss.xml" rel="self" type="application/rss+xml" />',
     items: posts.map((post) => ({
-      title: post.data.title,
+      title:       post.data.title,
       description: post.data.description,
-      pubDate: post.data.pubDate,
-      link: '/posts/' + post.slug + '/',
-      categories: post.data.tags,
-    })),
-  })
-}
+      pubDate:     post.data.pubDate,
+      link:        '/posts/' + post.slug + '/',
+      

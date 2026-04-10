@@ -1,10 +1,10 @@
-import type { Project, Experience, SiteConfig, SocialLink } from '../lib/types'
+import type { Project, Experience, Education, SiteConfig, SocialLink } from '../lib/types'
 
 export const siteConfig: SiteConfig = {
   name: 'Javier Silvestri',
-  title: "Javier Silvestri — Software Developer",
+  title: 'Javier Silvestri — Software Developer',
   description:
-    'Junior Software Developer specializing in full-stack web development. Building intuitive, performant digital experiences.',
+    'Junior Software Developer based in Barcelona. Specialized in Flutter, Dart, and Firebase with a strong foundation in React, TypeScript, and Node.js.',
   url: 'https://javiersilvestri.vercel.app',
   author: 'Javier Silvestri',
   twitter: '@javslvt',
@@ -18,74 +18,107 @@ export const aboutInfo = {
   greeting: "Hi, I'm",
   name: 'Javier',
   surname: 'Silvestri',
-  roles: ['Software Developer', 'Frontend Engineer', 'UI/UX Enthusiast'],
-  bio: '+1 year of experience building dynamic web and mobile applications. Integrated into both Frontend and Backend teams — specializing in intuitive, user-friendly interfaces that bridge design and engineering.',
+  roles: ['Flutter Developer', 'Frontend Engineer', 'Mobile Developer', 'Full-Stack Builder'],
+  bio: 'Junior Software Developer based in Barcelona with over one year of experience delivering production-grade applications. Specialized in Flutter, Dart, and Firebase, with a broad foundation in React, TypeScript, and Node.js.',
   bioContinued:
-    'Passionate about clean code, performance, and crafting experiences that feel great to use.',
+    'Relocated from Argentina to Spain. Focused on clean architecture, performance, and scalable mobile + web experiences.',
   cvEn: '/curriculum/en.pdf',
-  cvEs: '/curriculum/es.pdf',
-  photo: '/metoo.jpeg',
+  photo: 'https://github.com/di4m0nds.png',
 }
 
 export const socialLinks: SocialLink[] = [
-  { label: 'GitHub',   href: 'https://github.com/di4m0nds',              icon: 'github' },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/silvestrijavier/', icon: 'linkedin' },
-  { label: 'Twitter',  href: 'https://twitter.com/javslvt',               icon: 'twitter' },
-  { label: 'Email',    href: 'mailto:ws.2000.sja@gmail.com',              icon: 'mail' },
+  { label: 'GitHub',   href: 'https://github.com/di4m0nds',                   icon: 'github'   },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/silvestrijavier/',   icon: 'linkedin' },
+  { label: 'Email',    href: 'mailto:ws.2000.sja@gmail.com',                  icon: 'mail'     },
 ]
 
 export const experiences: Experience[] = [
   {
-    role: 'Software Developer',
-    company: 'RunaID IT Services',
+    role: 'Junior Software Developer',
+    company: 'RunaID IT Consulting Services',
     date: 'Apr 2022 — Aug 2023',
     type: 'Full-Time',
     location: 'San Luis, Argentina',
-    tech: ['Flutter', 'Dart', 'React', 'Node.js', 'REST APIs'],
+    tech: ['Flutter', 'Dart', 'Firebase', 'REST APIs', 'Agile/Jira'],
     responsibilities: [
-      'Stepped into early project stages and propelled them forward using agile practices.',
-      'Translated designer specs into functional, pixel-perfect screens using OOP principles.',
-      'Contributed to both frontend and API development across web and mobile projects.',
+      'Delivered new features for DOSEP San Luis (50,000+ downloads) using Flutter/Dart.',
+      'Maintained Flutter SDK compatibility and managed third-party package dependencies.',
+      'Collaborated across QA, UX/UI, and product teams in fast-paced Agile sprints.',
+      'Debugged and optimized Firebase Push Notifications for improved delivery reliability.',
     ],
     keyAccomplishments: [
-      'Rapidly onboarded to Flutter/Dart and delivered a Greenfield mobile app from day one.',
-      'Transitioned across diverse projects, demonstrating agile adaptability and consistent delivery.',
+      'Improved app performance by 30% through targeted refactoring and critical bug fixes.',
+      'Ensured long-term app scalability with clean dependency management and SDK upgrades.',
     ],
+  },
+  {
+    role: 'Freelance Flutter Mobile Developer',
+    company: 'City Government of San Luis',
+    date: 'Nov 2022 — Jun 2023',
+    type: 'Freelance',
+    location: 'San Luis, Argentina',
+    tech: ['Flutter', 'Dart', 'REST APIs', 'Real-time Data'],
+    responsibilities: [
+      'Reverse-engineered undocumented code in SIGEM S.L. to fix critical bugs and restore functionality.',
+      'Built a booking appointments feature across municipal services (driver licenses, permits).',
+      'Maintained an internal real-time bus tracking app with accurate location updates and ETAs.',
+      'Collaborated with government stakeholders to ensure app stability under tight deadlines.',
+    ],
+    keyAccomplishments: [
+      'Onboarded quickly to a complex legacy codebase with zero documentation.',
+      'Delivered booking system across 3+ municipal services, improving citizen UX significantly.',
+    ],
+  },
+]
+
+export const education: Education[] = [
+  {
+    institution: 'National University of San Luis',
+    degree: 'University Technician in Web & Mobile Development',
+    date: '2019 — 2021',
+    location: 'San Luis, Argentina',
+  },
+  {
+    institution: 'Platzi',
+    degree: 'Web/Mobile Development · Cloud Computing · English · Leadership',
+    date: '2022 — 2024',
+    location: 'Online',
+    topics: ['Web Development', 'Mobile Development', 'Cloud Computing', 'English Academy'],
   },
 ]
 
 export const projects: Project[] = [
   {
-    id: 'chefco',
-    name: 'CHEFCO PASTAS',
+    id: 'dosep',
+    name: 'DOSEP MOVIL',
     description:
-      'Online ordering platform for artisanal pasta dishes. Full e-commerce experience with menu browsing, cart, and order tracking.',
-    tags: ['React', 'Tailwind', 'Node.js'],
-    href: 'https://chefcopastas.netlify.app',
+      'Government health service app with 50,000+ downloads. Enables users to request medical orders, generate pharmacy tokens, and pay for healthcare services. Built with Flutter/Dart + Firebase.',
+    tags: ['Flutter', 'Dart', 'Firebase'],
+    href: 'https://play.google.com/store/apps/details?id=ar.com.st.dosep_mobile&hl=es',
     img: '/chefcopastas',
+    featured: true,
+    year: 2022,
+  },
+  {
+    id: 'sigem',
+    name: 'SIGEM S.L.',
+    description:
+      'Government services app for San Luis city, streamlining access to public procedures. Features appointment booking for driver licenses, municipal permits, and real-time bus tracking.',
+    tags: ['Flutter', 'Dart', 'REST APIs'],
+    href: 'https://sigem.sanluislaciudad.gob.ar/sigem/',
+    img: '/rocketsexplorer',
     featured: true,
     year: 2023,
   },
   {
-    id: 'tesla',
-    name: "TESLA CLONE",
+    id: 'chefco',
+    name: 'CHEFCO PASTAS',
     description:
-      'Hands-on rebuild of Tesla\'s website. Deep dive into modern web design patterns, animations, and responsive layouts.',
-    tags: ['HTML', 'CSS', 'JavaScript'],
-    href: 'https://tesladev.netlify.app',
-    img: '/tesla',
+      'Online ordering platform for artisanal pasta dishes. Full e-commerce experience with menu browsing, cart, and order management.',
+    tags: ['React', 'Tailwind', 'Node.js'],
+    href: 'https://chefcopastas.netlify.app',
+    img: '/chefcopastas',
     featured: false,
-    year: 2022,
-  },
-  {
-    id: 'rockets',
-    name: 'ROCKETS EXPLORER',
-    description:
-      'Space exploration app with seamless transitions powered by View Transitions API. Data visualization of SpaceX rocket fleet.',
-    tags: ['Astro', 'View Transitions', 'REST API'],
-    href: 'https://rocketsexplorer.netlify.app',
-    img: '/rocketsexplorer',
-    featured: true,
     year: 2023,
   },
   {
@@ -102,9 +135,10 @@ export const projects: Project[] = [
 ]
 
 export const skills = {
-  frontend: ['JavaScript', 'TypeScript', 'React', 'Next.js', 'Astro', 'Tailwind CSS', 'HTML5', 'CSS3'],
-  backend: ['Node.js', 'Go', 'REST APIs', 'SQL', 'MongoDB', 'Redis'],
-  mobile: ['Flutter', 'Dart'],
-  devops: ['Docker', 'Git', 'GitHub'],
-  tools: ['VS Code', 'Figma', 'Linux'],
+  mobile:   ['Flutter (v2/v3)', 'Dart', 'Swift (v6)', 'SwiftUI', 'Kotlin', 'React Native'],
+  state:    ['BLoC', 'Provider', 'GetX', 'Zustand', 'Redux'],
+  frontend: ['TypeScript', 'React', 'Next.js', 'Astro', 'Tailwind CSS', 'JavaScript ES6+'],
+  backend:  ['Node.js', 'NestJS', 'Firebase', 'PostgreSQL', 'MongoDB', 'REST APIs', 'Python'],
+  devops:   ['Git', 'GitHub Actions', 'Docker', 'CI/CD', 'Agile/Scrum', 'Postman'],
+  ai:       ['GitHub Copilot', 'Claude', 'ChatGPT', 'Gemini'],
 }
