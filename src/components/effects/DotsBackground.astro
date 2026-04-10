@@ -1,131 +1,167 @@
 ---
-// Interactive dots grid with mouse repulsion + spring return
-// Pure canvas, zero dependencies, 60fps via rAF
+// Interactive dots: mouse repulsion + idle wave + spring return
+// Pure canvas, zero deps, 60fps rAF
 ---
 
 <canvas
   id="dots-canvas"
   aria-hidden="true"
-  class="pointer-events-none fixed inset-0 z-0 h-full w-full opacity-60"
-></canvas>
+  class="pointer-events-none fixed inset-0 z-0 h-full w-full opacity-55"
+/>
 
 <script is:inline>
-  (function () {
-    const canvas = document.getElementById('dots-canvas')
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')
+(function () {
+  const canvas = document.getElementById('dots-canvas')
+  if (\!canvas) return
+  const ctx = canvas.getContext('2d')
 
-    const CONFIG = {
-      spacing: 32,
-      radius: 1.4,
-      repelRadius: 110,
-      repelStrength: 3.5,
-      spring: 0.06,
-      damping: 0.72,
-      color: 'rgba(148,163,184,',  // slate-400 prefix (appended with alpha)
-      accentColor: 'rgba(249,115,22,',
-      accentThreshold: 60,
-    }
+  const CFG = {
+    spacing:      30,
+    radius:       1.3,
+    repelRadius:  120,
+    repelStrength:3.8,
+    spring:       0.055,
+    damping:      0.70,
+    waveAmp:      4.0,       // idle wave displacement amplitude
+    waveFreq:     0.0012,    // spatial frequency
+    waveSpeed:    0.0008,    // temporal speed (radians per ms)
+    colorBase:    [148,163,184], // slate-400
+    colorAccent:  [249,115,22],  // orange
+  }
 
-    let mouse = { x: -9999, y: -9999 }
-    let dots = []
-    let raf = null
+  let mouse = { x: -9999, y: -9999 }
+  let mouseActive = false
+  let mouseActiveTimer = null
+  let dots = []
+  let t = 0
+  let lastTs = 0
+  let raf = null
 
-    function resize() {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
-      buildDots()
-    }
+  function lerp(a, b, n) { return a + (b - a) * n }
 
-    function buildDots() {
-      dots = []
-      const cols = Math.ceil(canvas.width / CONFIG.spacing) + 1
-      const rows = Math.ceil(canvas.height / CONFIG.spacing) + 1
-      for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols; c++) {
-          const ox = c * CONFIG.spacing
-          const oy = r * CONFIG.spacing
-          dots.push({ ox, oy, x: ox, y: oy, vx: 0, vy: 0 })
-        }
+  function resize() {
+    canvas.width  = window.innerWidth
+    canvas.height = window.innerHeight
+    buildDots()
+  }
+
+  function buildDots() {
+    dots = []
+    const cols = Math.ceil(canvas.width  / CFG.spacing) + 1
+    const rows = Math.ceil(canvas.height / CFG.spacing) + 1
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        dots.push({
+          ox: c * CFG.spacing,
+          oy: r * CFG.spacing,
+          x:  c * CFG.spacing,
+          y:  r * CFG.spacing,
+          vx: 0, vy: 0,
+        })
       }
     }
+  }
 
-    function tick() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
+  function tick(ts) {
+    const dt = Math.min(ts - lastTs, 32) // cap at ~30fps equivalent
+    lastTs = ts
+    t += dt
 
-      for (let i = 0; i < dots.length; i++) {
-        const d = dots[i]
-        const dx = d.x - mouse.x
-        const dy = d.y - mouse.y
-        const dist = Math.sqrt(dx * dx + dy * dy)
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-        // Repulsion
-        if (dist < CONFIG.repelRadius && dist > 0) {
-          const norm = (CONFIG.repelRadius - dist) / CONFIG.repelRadius
-          const force = norm * norm * CONFIG.repelStrength
-          d.vx += (dx / dist) * force
-          d.vy += (dy / dist) * force
-        }
+    for (let i = 0; i < dots.length; i++) {
+      const d = dots[i]
 
-        // Spring back to origin
-        d.vx += (d.ox - d.x) * CONFIG.spring
-        d.vy += (d.oy - d.y) * CONFIG.spring
+      // ── Idle wave (runs always, fades near cursor) ───────
+      const waveX = Math.sin(d.ox * CFG.waveFreq + t * CFG.waveSpeed) * CFG.waveAmp
+      const waveY = Math.cos(d.oy * CFG.waveFreq + t * CFG.waveSpeed * 1.3) * CFG.waveAmp
 
-        // Damping
-        d.vx *= CONFIG.damping
-        d.vy *= CONFIG.damping
+      // ── Mouse repulsion ──────────────────────────────────
+      const dx = d.x - mouse.x
+      const dy = d.y - mouse.y
+      const dist = Math.sqrt(dx * dx + dy * dy)
 
-        d.x += d.vx
-        d.y += d.vy
-
-        // Dot color: accent near cursor, normal otherwise
-        const distFromOrigin = Math.sqrt((d.x - d.ox) ** 2 + (d.y - d.oy) ** 2)
-        const displaced = Math.min(distFromOrigin / 20, 1)
-
-        const alpha = 0.2 + displaced * 0.55
-        const color = displaced > 0.15
-          ? `${CONFIG.accentColor}${alpha})`
-          : `${CONFIG.color}${0.25})`
-
-        ctx.beginPath()
-        ctx.arc(d.x, d.y, CONFIG.radius + displaced * 0.8, 0, Math.PI * 2)
-        ctx.fillStyle = color
-        ctx.fill()
+      let repulseBlend = 0
+      if (dist < CFG.repelRadius && dist > 0) {
+        const norm = (CFG.repelRadius - dist) / CFG.repelRadius
+        const force = norm * norm * CFG.repelStrength
+        d.vx += (dx / dist) * force
+        d.vy += (dy / dist) * force
+        repulseBlend = norm
       }
 
-      raf = requestAnimationFrame(tick)
+      // ── Spring to origin + wave offset ──────────────────
+      const targetX = d.ox + waveX * (1 - repulseBlend)
+      const targetY = d.oy + waveY * (1 - repulseBlend)
+      d.vx += (targetX - d.x) * CFG.spring
+      d.vy += (targetY - d.y) * CFG.spring
+      d.vx *= CFG.damping
+      d.vy *= CFG.damping
+      d.x  += d.vx
+      d.y  += d.vy
+
+      // ── Color interpolation ──────────────────────────────
+      const displaced = Math.min(
+        Math.sqrt((d.x - d.ox) ** 2 + (d.y - d.oy) ** 2) / 18,
+        1
+      )
+      const r = lerp(CFG.colorBase[0], CFG.colorAccent[0], displaced * 0.8)
+      const g = lerp(CFG.colorBase[1], CFG.colorAccent[1], displaced * 0.8)
+      const b = lerp(CFG.colorBase[2], CFG.colorAccent[2], displaced * 0.8)
+      const a = 0.18 + displaced * 0.55
+
+      ctx.beginPath()
+      ctx.arc(d.x, d.y, CFG.radius + displaced * 0.9, 0, Math.PI * 2)
+      ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')'
+      ctx.fill()
     }
 
-    // Init
-    resize()
-    tick()
+    raf = requestAnimationFrame(tick)
+  }
 
-    // Events
-    window.addEventListener('mousemove', (e) => {
-      mouse.x = e.clientX
-      mouse.y = e.clientY
-    })
-    window.addEventListener('mouseleave', () => {
+  // Init
+  resize()
+  raf = requestAnimationFrame((ts) => { lastTs = ts; tick(ts) })
+
+  // Events
+  window.addEventListener('mousemove', (e) => {
+    mouse.x = e.clientX
+    mouse.y = e.clientY
+    mouseActive = true
+    clearTimeout(mouseActiveTimer)
+    mouseActiveTimer = setTimeout(() => {
+      mouseActive = false
       mouse.x = -9999
       mouse.y = -9999
-    })
-    window.addEventListener('resize', resize)
+    }, 2000)
+  }, { passive: true })
 
-    // Touch support
-    window.addEventListener('touchmove', (e) => {
-      if (e.touches[0]) {
-        mouse.x = e.touches[0].clientX
-        mouse.y = e.touches[0].clientY
-      }
-    }, { passive: true })
-    window.addEventListener('touchend', () => {
-      mouse.x = -9999
-      mouse.y = -9999
-    })
+  window.addEventListener('mouseleave', () => {
+    mouse.x = -9999
+    mouse.y = -9999
+    mouseActive = false
+  })
 
-    // Cleanup on Astro page transitions
-    document.addEventListener('astro:before-swap', () => {
-      if (raf) cancelAnimationFrame(raf)
-    })
-  })()
+  window.addEventListener('touchmove', (e) => {
+    if (e.touches[0]) {
+      mouse.x = e.touches[0].clientX
+      mouse.y = e.touches[0].clientY
+    }
+  }, { passive: true })
+
+  window.addEventListener('touchend', () => {
+    mouse.x = -9999
+    mouse.y = -9999
+  }, { passive: true })
+
+  let resizeTimer
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer)
+    resizeTimer = setTimeout(resize, 150)
+  })
+
+  document.addEventListener('astro:before-swap', () => {
+    if (raf) cancelAnimationFrame(raf)
+  })
+})()
 </script>

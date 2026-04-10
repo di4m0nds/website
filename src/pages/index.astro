@@ -7,21 +7,19 @@ import About from '../components/sections/About.astro'
 import Experience from '../components/sections/Experience.astro'
 import Projects from '../components/sections/Projects.astro'
 import Skills from '../components/sections/Skills.astro'
+import GitHubStats from '../components/sections/GitHubStats.astro'
+
+const divider = "mx-auto max-w-6xl px-6"
+const line    = "h-px bg-gradient-to-r from-transparent via-border to-transparent"
 ---
 
 <BaseLayout>
   <Navbar />
-
   <Hero />
 
   <main>
     <About />
-
-    <div class="mx-auto max-w-6xl px-6">
-      <div class="h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-    </div>
+    <div class={divider}><div class={line} /></div>
 
     <Experience />
-
-    <div class="mx-auto max-w-6xl px-6">
-      <div class="h-px bg-gradient-to-r from-transparent via-
+  
