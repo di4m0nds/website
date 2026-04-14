@@ -32,7 +32,6 @@ const dateStr = formatDate(post.data.pubDate as Date)
 
     <!-- Post meta -->
     <header class="mb-10 pb-8 border-b border-border">
-      <!-- Tags -->
       <div class="flex flex-wrap gap-2 mb-4">
         {(post.data.tags as string[]).map(tag => (
           <span class="px-2.5 py-0.5 text-xs font-mono rounded-full bg-accent/10 text-accent/80 border border-accent/20">
@@ -40,18 +39,12 @@ const dateStr = formatDate(post.data.pubDate as Date)
           </span>
         ))}
       </div>
-
-      <!-- Title -->
       <h1 class="font-display text-4xl md:text-6xl tracking-wide text-white leading-tight mb-4">
         {post.data.title}
       </h1>
-
-      <!-- Description -->
       <p class="text-muted-2 text-base leading-relaxed mb-6">
         {post.data.description}
       </p>
-
-      <!-- Meta row -->
       <div class="flex flex-wrap items-center gap-4 text-sm font-mono text-muted">
         <span class="text-cyan">{dateStr}</span>
         <span>·</span>
@@ -64,7 +57,6 @@ const dateStr = formatDate(post.data.pubDate as Date)
       </div>
     </header>
 
-    <!-- Article content -->
     <article class="prose">
       <Content />
     </article>
@@ -73,9 +65,6 @@ const dateStr = formatDate(post.data.pubDate as Date)
     <div class="mt-16 pt-8 border-t border-border flex items-center justify-between">
       <a href="/posts" class="font-mono text-sm text-muted hover:text-accent transition-colors">
         ← All posts
-      </a>
-      <a href="#" class="font-mono text-sm text-muted hover:text-accent transition-colors">
-        ↑ Back to top
       </a>
     </div>
   </div>
