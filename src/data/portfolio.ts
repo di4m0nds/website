@@ -27,9 +27,9 @@ export const aboutInfo = {
 }
 
 export const socialLinks: SocialLink[] = [
-  { label: 'GitHub',   href: 'https://github.com/di4m0nds',                   icon: 'github'   },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/silvestrijavier/',   icon: 'linkedin' },
-  { label: 'Email',    href: 'mailto:ws.2000.sja@gmail.com',                  icon: 'mail'     },
+  { label: 'GitHub', href: 'https://github.com/di4m0nds', icon: 'github' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/silvestrijavier/', icon: 'linkedin' },
+  { label: 'Email', href: 'mailto:ws.2000.sja@gmail.com', icon: 'mail' },
 ]
 
 export const experiences: Experience[] = [
@@ -93,7 +93,7 @@ export const projects: Project[] = [
     name: 'DOSEP MOVIL',
     description:
       'Government health service app with 50,000+ downloads. Enables users to request medical orders, generate pharmacy tokens, and pay for healthcare services. Built with Flutter/Dart + Firebase.',
-    tags: ['Flutter', 'Dart', 'Firebase'],
+    tags: ['Flutter', 'Dart', 'Firebase', 'REST APIs', 'Healthcare', 'Performance Optimization', 'User Experience', 'Push Notifications'],
     href: 'https://play.google.com/store/apps/details?id=ar.com.st.dosep_mobile&hl=es',
     img: '/chefcopastas',
     featured: true,
@@ -104,7 +104,7 @@ export const projects: Project[] = [
     name: 'SIGEM S.L.',
     description:
       'Government services app for San Luis city, streamlining access to public procedures. Features appointment booking for driver licenses, municipal permits, and real-time bus tracking.',
-    tags: ['Flutter', 'Dart', 'REST APIs'],
+    tags: ['Flutter', 'Dart', 'REST APIs', 'Real-time Data', 'Government Services', 'Booking System', 'Location Tracking'],
     href: 'https://sigem.sanluislaciudad.gob.ar/sigem/',
     img: '/rocketsexplorer',
     featured: true,
@@ -115,7 +115,7 @@ export const projects: Project[] = [
     name: 'CHEFCO PASTAS',
     description:
       'Online ordering platform for artisanal pasta dishes. Full e-commerce experience with menu browsing, cart, and order management.',
-    tags: ['React', 'Tailwind', 'Node.js'],
+    tags: ['React', 'Tailwind', 'Responsive Design', 'E-commerce', 'SEO', 'Performance Optimization', 'Accessibility'],
     href: 'https://chefcopastas.netlify.app',
     img: '/chefcopastas',
     featured: false,
@@ -126,19 +126,41 @@ export const projects: Project[] = [
     name: 'EUGE FOTOGRAFIA',
     description:
       'Photography portfolio showcasing visual storytelling. Optimized gallery with lightbox, lazy loading, and full mobile responsiveness.',
-    tags: ['Astro', 'Tailwind', 'MDX'],
+    tags: ['React', 'Tailwind', 'Lightbox', 'Lazy Loading', 'Gallery Optimization'],
     href: 'https://eugefotografia.netlify.app',
     img: '/eugefotografia',
     featured: false,
     year: 2023,
   },
+  {
+    id: 'rocketsexplorer',
+    name: 'ROCKETS EXPLORER',
+    description:
+      'Embark on a captivating journey through the history and technology of rockets with Rockets Explorer. Experience seamless transitions powered by modern native techniques like startViewTransition, supported on popular desktop and mobile browsers including Chrome, Edge, Opera and Chrome for Android.',
+    tags: ['Astro', 'Tailwind', 'startViewTransition', 'Intersection Observer', 'Prefers-Reduced-Motion'],
+    href: 'https://rocketsexplorer.netlify.app',
+    img: '/rocketsexplorer',
+    featured: true,
+    year: 2022,
+  },
+  {
+    id: 'tesla',
+    name: 'TESLA CLONE',
+    description:
+      'Tesla clone website built with Astro and Tailwind CSS. Showcases Tesla’s product lineup with snap scrolling, responsive design, and modern web techniques for a smooth user experience. Navbar auto responsive design animations and scroll behavior.',
+    tags: ['Astro', 'Tailwind', 'Intersection Observer', 'Prefers-Reduced-Motion', 'snap scrolling', 'responsive design'],
+    href: 'https://tesladev.netlify.app',
+    img: '/tesla',
+    featured: false,
+    year: 2022,
+  },
 ]
 
 export const skills = {
-  mobile:   ['Flutter (v2/v3)', 'Dart', 'Swift (v6)', 'SwiftUI', 'Kotlin', 'React Native'],
-  state:    ['BLoC', 'Provider', 'GetX', 'Zustand', 'Redux'],
+  mobile: ['Flutter (v2/v3)', 'Dart', 'Swift (v6)', 'SwiftUI', 'Kotlin', 'React Native'],
+  state: ['BLoC', 'Provider', 'GetX', 'Zustand', 'Redux'],
   frontend: ['TypeScript', 'React', 'Next.js', 'Astro', 'Tailwind CSS', 'JavaScript ES6+'],
-  backend:  ['Node.js', 'NestJS', 'Firebase', 'PostgreSQL', 'MongoDB', 'REST APIs', 'Python'],
-  devops:   ['Git', 'GitHub Actions', 'Docker', 'CI/CD', 'Agile/Scrum', 'Postman'],
-  ai:       ['GitHub Copilot', 'Claude', 'ChatGPT', 'Gemini'],
+  backend: ['Node.js', 'NestJS', 'Firebase', 'PostgreSQL', 'MongoDB', 'REST APIs', 'Python'],
+  devops: ['Git', 'GitHub Actions', 'Docker', 'CI/CD', 'Agile/Scrum', 'Postman'],
+  ai: ['GitHub Copilot', 'Claude', 'ChatGPT', 'Gemini'],
 }

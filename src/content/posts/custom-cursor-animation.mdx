@@ -1,0 +1,354 @@
+---
+ready: true
+number: 4
+title: "Custom Cursor Animation in Astro: A Deep Dive into Dot, Ring, and Repulsion Physics"
+description: "A technical walkthrough of two zero-dependency Astro components that replace the browser cursor with an animated dot-and-ring pair and drive a spring-physics dot background — covering lerp, RAF loops, magnetic pull, HiDPI canvas, and accessibility."
+pubDate: 2026-04-14
+tags: ["astro", "animation", "canvas", "performance", "ux"]
+---
+
+The browser's default cursor is a functional tool built for the lowest common denominator. It tells you where you are, but it never tells you anything about the interface you're moving through. Replacing it gives you a direct line into the user's pointer as a first-class design element — one that can respond to hover states, click events, interactive elements, and even drive secondary visual effects in the background.
+
+This article is a complete technical walkthrough of two Astro components: `Cursor.astro`, which renders a custom dot-and-ring cursor with lerp lag and magnetic pull, and `DotsBackground.astro`, which populates the viewport with a spring-physics dot field that reacts to the same mouse position. Both are zero-dependency, canvas-or-DOM-only, and designed to survive Astro's View Transitions.
+
+> **Assumption:** The codebase uses Astro with View Transitions enabled and a global CSS custom property `--color-accent: #f97316` (orange-500 from the Tailwind palette). All snippets below are drawn directly from the production source.
+
+---
+
+## Why Replace the Native Cursor?
+
+Before touching a line of code, it's worth being honest about the tradeoffs.
+
+**The case for it:** The native cursor is visually disconnected from your design system. A custom cursor lets you encode interface state directly in the pointer — swapping fill for stroke when entering a link, expanding on hover, collapsing on click. The ring's lag, in particular, creates a sense of physicality that makes even static pages feel alive.
+
+**The case against it:** Custom cursors are invisible overhead if done carelessly. Polling `mousemove` on every frame and performing layout reads inside it is a reliable path to janky scrolling. There is also a non-trivial accessibility surface: keyboard-only users, reduced-motion preferences, and touch devices all need explicit handling.
+
+The implementation addressed below avoids all of the common pitfalls. Let's see how.
+
+---
+
+## Architecture Overview
+
+Both components are mounted once in the site's base layout and persist across page navigations. They share no module-level state — coordination happens entirely through the shared `mousemove` event on `window`, with `{ passive: true }` throughout.
+
+```
+window.mousemove
+      │
+      ├─▶ Cursor.astro
+      │     mx / my  ──── dot (instant)
+      │     rx / ry  ──── ring (lerp @ 0.14 factor)
+      │
+      └─▶ DotsBackground.astro
+            mouse.{x,y}  ──── repulsion force per dot
+```
+
+No shared global, no pub/sub, no custom events. The mouse position is the implicit shared bus.
+
+---
+
+## `Cursor.astro` — The Dot and Ring
+
+### DOM Structure
+
+The cursor is two `<div>` elements: a small filled dot that snaps to the pointer instantly, and a larger ring that chases it with an interpolated lag.
+
+```html
+<!-- Dot: 8px solid circle, follows cursor exactly -->
+<div
+  id="cur-dot"
+  aria-hidden="true"
+  style="position:fixed;z-index:9999;width:8px;height:8px;
+         border-radius:50%;background:var(--color-accent);
+         pointer-events:none;transform:translate(-50%,-50%);
+         opacity:0;will-change:left,top;
+         transition:opacity .3s,transform .15s,background .15s,border .15s"
+/>
+
+<!-- Ring: 36px outline circle, lerp-lagged -->
+<div
+  id="cur-ring"
+  aria-hidden="true"
+  style="position:fixed;z-index:9998;width:36px;height:36px;
+         border-radius:50%;border:1px solid rgba(249,115,22,.5);
+         pointer-events:none;transform:translate(-50%,-50%);
+         opacity:0;will-change:left,top;
+         transition:opacity .3s,width .2s,height .2s,border .2s"
+/>
+```
+
+A few details worth noting:
+
+- `aria-hidden="true"` on both elements keeps them out of the accessibility tree entirely.
+- `pointer-events: none` prevents either element from intercepting mouse events and interfering with the underlying page.
+- `opacity: 0` is the initial state. The cursor only becomes visible after the first `mousemove`, which prevents a flash at position `(0, 0)` on page load.
+- `will-change: left, top` hints to the compositor that these properties will be animated. More on this tradeoff in the performance section.
+- The `transition` declarations on `transform`, `background`, and `border` are what make hover-state changes feel smooth without any additional JS timers.
+
+### Hiding the Native Cursor
+
+The component adds a class to `<html>` once it confirms a pointer device is present:
+
+```js
+document.documentElement.classList.add('cursor-ready')
+```
+
+The global stylesheet handles the rest:
+
+```css
+.cursor-ready,
+.cursor-ready * {
+  cursor: none !important;
+}
+```
+
+Using a class rather than setting `cursor: none` in the script itself has two advantages. First, it makes the suppression easy to override or remove in a single place. Second, the native cursor is only hidden after the script runs — if JS is disabled or the component fails, users see the default cursor, not an invisible one.
+
+### Touch and Stylus Detection
+
+The entire component bails out immediately on touch-primary devices:
+
+```js
+if (window.matchMedia('(hover: none)').matches) return
+```
+
+`(hover: none)` matches any device where the primary pointing mechanism cannot hover — phones, tablets, and most styluses. On such devices the IIFE returns before any event listeners are registered and before `.cursor-ready` is applied. The native cursor is untouched.
+
+This is a robust heuristic. `pointer: coarse` is a common alternative, but `hover: none` more accurately captures "this device has no persistent pointer" rather than "this device has an imprecise pointer."
+
+### State and the RAF Loop
+
+Position state is four variables:
+
+```js
+let mx = -300, my = -300   // actual mouse position
+let rx = -300, ry = -300   // ring's interpolated position
+let raf = null
+```
+
+Both pairs are initialized off-screen (`-300`) so neither element is visible during the first few frames before `mousemove` fires.
+
+The animation loop runs at the display's native frame rate via `requestAnimationFrame`:
+
+```js
+function tick() {
+  const d = dot(), r = ring()
+
+  // Lerp the ring toward the mouse at 14% per frame
+  rx += (mx - rx) * 0.14
+  ry += (my - ry) * 0.14
+
+  if (d) { d.style.left = mx + 'px'; d.style.top = my + 'px' }
+  if (r) { r.style.left = rx + 'px'; r.style.top  = ry + 'px' }
+
+  raf = requestAnimationFrame(tick)
+}
+```
+
+The dot tracks `mx / my` exactly — no interpolation. The ring converges on `mx / my` at a factor of `0.14` per frame, meaning it closes roughly 14% of the remaining gap on each tick.
+
+> **Why 0.14?** At 60 fps, a lerp factor of 0.14 means the ring reaches ~99% of its target in about 50ms. Increase it toward 1.0 and the lag disappears; decrease it toward 0 and the ring becomes a slow ghost. The specific value is a subjective feel choice.
+
+Notice that element refs are re-queried on every tick via `document.getElementById`:
+
+```js
+function dot()  { return document.getElementById('cur-dot')  }
+function ring() { return document.getElementById('cur-ring') }
+```
+
+This is deliberate. Astro's View Transitions swap the DOM — any cached reference captured before a navigation would point to a detached node. Re-querying each frame is cheap and guarantees the loop always finds the live element after a swap.
+
+### Click Feedback
+
+Click feedback is handled by scaling both elements in opposite directions, leveraging the CSS `transition: transform .15s` already declared in the inline style:
+
+```js
+window.addEventListener('mousedown', function() {
+  const d = dot(), r = ring()
+  if (d) d.style.transform = 'translate(-50%,-50%) scale(.6)'
+  if (r) r.style.transform = 'translate(-50%,-50%) scale(1.4)'
+})
+
+window.addEventListener('mouseup', function() {
+  const d = dot(), r = ring()
+  if (d) d.style.transform = 'translate(-50%,-50%)'
+  if (r) r.style.transform = 'translate(-50%,-50%)'
+})
+```
+
+The dot shrinks (scale 0.6) while the ring expands (scale 1.4), creating an outward pulse. Releasing restores both. Because these are CSS transitions on `transform`, they run on the compositor thread with no layout cost.
+
+### Hover State on Interactive Elements
+
+Any `a`, `button`, `[data-magnetic]`, `[role="button"]`, or `[tabindex]` element triggers a visual mode change:
+
+```js
+var INTERACTIVE = 'a,button,[data-magnetic],[role="button"],[tabindex]'
+var hoveredEl = null
+
+document.addEventListener('mouseover', function(e) {
+  var el = e.target?.closest(INTERACTIVE)
+  if (!el) return
+  hoveredEl = el
+
+  var d = dot(), r = ring()
+  if (d) {
+    d.style.transform  = 'translate(-50%,-50%) scale(2.5)'
+    d.style.background = 'transparent'
+    d.style.border     = '1px solid var(--color-accent)'
+  }
+  if (r) {
+    r.style.transform = 'translate(-50%,-50%) scale(.4)'
+    r.style.opacity   = '.3'
+  }
+})
+```
+
+When entering an interactive element:
+- The dot **grows to 2.5×** and inverts — solid fill becomes a hollow outline.
+- The ring **shrinks to 0.4×** and fades. The visual weight transfers from the ring to the dot.
+
+On `mouseout`, both return to defaults:
+
+```js
+document.addEventListener('mouseout', function(e) {
+  var el = e.target?.closest(INTERACTIVE)
+  if (!el) return
+  hoveredEl = null
+  // restore dot and ring ...
+  el.style.transform  = ''
+  el.style.transition = 'transform .4s cubic-bezier(.175,.885,.32,1.275)'
+})
+```
+
+Note that `el.style.transform = ''` clears any magnetic offset applied during the hover (see the next section), and the transition easing is a `cubic-bezier` with overshoot — the spring-back of the element bounces past its natural position before settling.
+
+### Magnetic Pull
+
+While `hoveredEl` is set, a second `mousemove` listener calculates how far the pointer is from the element's center and pulls the element toward the cursor proportionally:
+
+```js
+document.addEventListener('mousemove', function(e) {
+  if (!hoveredEl) return
+  var rect = hoveredEl.getBoundingClientRect()
+  var cx   = rect.left + rect.width  / 2
+  var cy   = rect.top  + rect.height / 2
+  var dx   = e.clientX - cx
+  var dy   = e.clientY - cy
+  var dist = Math.sqrt(dx * dx + dy * dy)
+  var maxD = Math.max(rect.width, rect.height) * 0.6
+
+  if (dist < maxD) {
+    var pull = (1 - dist / maxD) * 8
+    hoveredEl.style.transform  = `translate(${dx * pull / maxD}px, ${dy * pull / maxD}px)`
+    hoveredEl.style.transition = 'transform .1s ease'
+  }
+})
+```
+
+The pull strength is:
+1. Zero at the magnetic boundary (`dist === maxD`)
+2. Linear toward the element center as the pointer approaches
+3. Multiplied by a constant of `8` — so at dead center the element shifts up to `8px`
+
+The force is direction-preserving: the element always moves toward the pointer, never beyond it. This creates a tactile feel without ever obscuring the element's hit target.
+
+> **Important:** `getBoundingClientRect()` is called inside `mousemove`, which fires multiple times per frame when the mouse moves fast. In practice this is fine because the read is gated behind `hoveredEl !== null`, keeping it rare. But if you extend this to many elements simultaneously, batching those reads via a `ResizeObserver` or caching rects in a `Map` would be worth doing.
+
+---
+
+## `DotsBackground.astro` — Spring Physics on Canvas
+
+### Canvas Setup and HiDPI
+
+The background is a full-viewport `<canvas>` element:
+
+```html
+<canvas
+  id='dots-bg-canvas'
+  aria-hidden='true'
+  class='pointer-events-none fixed inset-0 z-0'
+  style='width:100%;height:100%;opacity:0.55;'
+></canvas>
+```
+
+`pointer-events: none` ensures the canvas never captures mouse or touch events. `z-0` places it behind all content. The 55% opacity is a design choice — enough presence to be felt, low enough to never compete with foreground text.
+
+The canvas is sized at device-pixel resolution for sharp rendering on HiDPI and Retina displays:
+
+```js
+function resize() {
+  var dpr = Math.min(window.devicePixelRatio || 1, 2) // cap at 2× — 3× is waste
+  var w   = window.innerWidth
+  var h   = window.innerHeight
+  canvas.width  = Math.round(w * dpr)
+  canvas.height = Math.round(h * dpr)
+  canvas.style.width  = w + 'px'
+  canvas.style.height = h + 'px'
+  ctx.scale(dpr, dpr)
+  buildDots(w, h)
+}
+```
+
+The `dpr` cap at `2` is a deliberate performance tradeoff. A 3× display drawing at full resolution triples the pixel count over 1×. On a large monitor this can mean millions of extra pixels per frame — for a decorative effect, that cost is not justified.
+
+### The Dot Grid
+
+On every `resize`, the entire grid is rebuilt from scratch:
+
+```js
+function buildDots(w, h) {
+  dots = []
+  var sp   = spacing()           // 30px desktop, 40px mobile
+  var cols = Math.ceil(w / sp) + 1
+  var rows = Math.ceil(h / sp) + 1
+
+  for (var r = 0; r < rows; r++) {
+    for (var c = 0; c < cols; c++) {
+      dots.push({
+        ox: c * sp,  // origin x
+        oy: r * sp,  // origin y
+        x:  c * sp,  // current x
+        y:  r * sp,  // current y
+        vx: 0,       // velocity x
+        vy: 0,       // velocity y
+      })
+    }
+  }
+}
+```
+
+Each dot is a plain object with an origin (`ox`, `oy`), a current position (`x`, `y`), and a velocity (`vx`, `vy`). The origin never changes — it is the resting position the spring always pulls toward. Fewer fields per dot means less memory pressure and faster property access in the inner loop.
+
+On a 1440px-wide desktop with 30px spacing, this grid is roughly `49 × 31 = ~1,500 dots`. On a 390px mobile with 40px spacing, around `11 × 17 = ~187 dots`.
+
+### The Physics Tick
+
+Each frame, three forces act on every dot in sequence:
+
+```js
+function tick(ts) {
+  var dt = Math.min(ts - lastTs, 33) // cap delta to avoid spiral after tab focus
+  lastTs = ts
+  t += dt
+
+  // ... clear canvas ...
+
+  for (var i = 0; i < dots.length; i++) {
+    var d = dots[i]
+
+    // 1. Idle wave — sinusoidal offset from origin
+    var waveX = Math.sin(d.ox * CFG.waveFreq + t * CFG.waveSpeed)       * CFG.waveAmp
+    var waveY = Math.cos(d.oy * CFG.waveFreq + t * CFG.waveSpeed * 1.3) * CFG.waveAmp
+
+    // 2. Mouse repulsion — quadratic falloff within 130px
+    var dx   = d.x - mouse.x
+    var dy   = d.y - mouse.y
+    var dist = Math.sqrt(dx * dx + dy * dy)
+    var repulseBlend = 0
+
+    if (dist < CFG.repelRadius && dist > 0) {
+      var norm  = (CFG.repelRadius - dist) / CFG.repelRadius  // 0 at edge, 1 at center
+      var force = norm * norm * CFG.repelStrength              // quadratic, max 4.2
+      d.vx += (dx / dist) * force
+      d.vy += (dy / dist) * force
+   
