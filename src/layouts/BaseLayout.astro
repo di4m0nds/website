@@ -1,0 +1,170 @@
+---
+import '../styles/global.css'
+import Cursor from '../components/effects/Cursor.astro'
+import DotsBackground from '../components/effects/DotsBackground.astro'
+import { siteConfig } from '../data/portfolio'
+
+interface Props {
+  title?: string
+  description?: string
+  ogImage?: string
+  noIndex?: boolean
+}
+
+const {
+  title       = siteConfig.title,
+  description = siteConfig.description,
+  ogImage     = siteConfig.ogImage,
+  noIndex     = false,
+} = Astro.props
+
+const canonicalURL = new URL(Astro.url.pathname, siteConfig.url)
+---
+
+<!doctype html>
+<html lang='en' class='dark'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <meta name='generator' content={Astro.generator} />
+
+    <!-- SEO -->
+    <title>{title}</title>
+    <meta name='description' content={description} />
+    <meta name='author' content={siteConfig.author} />
+    <meta
+      name='keywords'
+      content='flutter developer, software developer, portfolio, mobile development, frontend, barcelona'
+    />
+    <link rel='canonical' href={canonicalURL} />
+    {noIndex && <meta name='robots' content='noindex, nofollow' />}
+    {!noIndex && <meta name='robots' content='index, follow' />}
+
+    <!-- Open Graph -->
+    <meta property='og:type' content='website' />
+    <meta property='og:url' content={canonicalURL} />
+    <meta property='og:title' content={title} />
+    <meta property='og:description' content={description} />
+    <meta property='og:image' content={new URL(ogImage, siteConfig.url)} />
+    <meta property='og:site_name' content={siteConfig.name} />
+
+    <!-- Twitter -->
+    <meta name='twitter:card' content='summary_large_image' />
+    <meta name='twitter:site' content={siteConfig.twitter} />
+    <meta name='twitter:title' content={title} />
+    <meta name='twitter:description' content={description} />
+    <meta name='twitter:image' content={new URL(ogImage, siteConfig.url)} />
+
+    <!-- Theme -->
+    <meta name='theme-color' content='#f97316' />
+    <link rel='icon' type='image/svg+xml' href='/favicon.svg' />
+
+    <!-- RSS -->
+    <link
+      rel='alternate'
+      type='application/rss+xml'
+      title={`${siteConfig.name} Blog`}
+      href='/rss.xml'
+    />
+
+    <!-- Fonts (CDN — Inter, Bebas Neue, JetBrains Mono) -->
+    <link rel='preconnect' href='https://fonts.googleapis.com' />
+    <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
+    <link
+      href='https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&family=JetBrains+Mono:wght@400;500&display=swap'
+      rel='stylesheet'
+    />
+
+    <!-- Prevent FOUC: always dark -->
+    <script is:inline>
+      document.documentElement.classList.add('dark')
+    </script>
+  </head>
+
+  <body>
+    <!--
+      ⚠️  DotsBackground MUST live directly in <body>, NOT inside any element
+          that has an active CSS transform/animation (e.g. a page-enter wrapper).
+          A transform on a parent breaks `position: fixed` — it makes the canvas
+          position relative to the transformed ancestor, not the viewport.
+          That's why the background was "distorted" before: the old code put
+          page-enter on <body> itself.
+    -->
+    <!--
+      Both DotsBackground (canvas, fixed, z-index:0) and Cursor (fixed, z-index:9999)
+      must live OUTSIDE the page-enter wrapper.  During the fade-up animation the
+      wrapper div has an active CSS transform, which turns it into the containing
+      block for any position:fixed descendants — offsetting them from the viewport.
+      Keeping these two outside avoids that entirely.
+    -->
+    <DotsBackground />
+    <Cursor />
+
+    <!--
+      Navbar lives OUTSIDE the page-enter wrapper for the same reason
+      DotsBackground and Cursor do: an active CSS transform on a parent
+      breaks position:fixed, making fixed children relative to the
+      animated div instead of the viewport.
+    -->
+    <slot name='navbar' />
+
+    <!-- Page-enter animation wrapper — wraps all visible page content -->
+    <div class='page-enter'>
+      <slot />
+    </div>
+
+    <!-- ── Section reveal via IntersectionObserver ─────────── -->
+    <script is:inline>
+      ;(function () {
+        var obs = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (e) {
+              if (e.isIntersecting) {
+                e.target.classList.add('visible')
+                obs.unobserve(e.target)
+              }
+            })
+          },
+          { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+        )
+        function observe() {
+          document
+            .querySelectorAll('.reveal:not(.visible)')
+            .forEach(function (el) {
+              obs.observe(el)
+            })
+        }
+        observe()
+        document.addEventListener('astro:page-load', observe)
+      })()
+    </script>
+
+    <!-- ── Navbar active-section highlight ─────────────────── -->
+    <script is:inline>
+      ;(function () {
+        var sections = [
+          'home', 'about', 'experience', 'projects', 'skills', 'github',
+        ]
+        var navObs = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (e) {
+              if (!e.isIntersecting) return
+              document
+                .querySelectorAll('header a[href*="#"]')
+                .forEach(function (a) {
+                  var id = a.getAttribute('href').replace(/.*#/, '')
+                  a.classList.toggle('text-accent', id === e.target.id)
+                  a.classList.toggle('text-muted-2', id !== e.target.id)
+                })
+            })
+          },
+          { threshold: 0.4 }
+        )
+        sections.forEach(function (id) {
+          var el = document.getElementById(id)
+          if (el) navObs.observe(el)
+        })
+      })()
+    </script>
+  </body>
+</html>

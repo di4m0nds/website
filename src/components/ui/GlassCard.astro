@@ -1,0 +1,33 @@
+---
+interface Props {
+  hoverable?: boolean
+  glow?: 'none' | 'accent' | 'cyan'
+  padding?: string
+  class?: string
+}
+
+const {
+  hoverable = true,
+  glow = 'none',
+  padding = 'p-6',
+  class: className = '',
+} = Astro.props
+
+const glowMap = {
+  none:   '',
+  accent: 'hover:glow-accent hover:border-accent/40',
+  cyan:   'hover:glow-cyan hover:border-cyan/40',
+}
+---
+
+<div
+  class:list={[
+    'glass rounded-2xl border border-border',
+    hoverable && 'transition-all duration-300 hover:bg-surface-2 hover:border-border-2',
+    glow !== 'none' && glowMap[glow],
+    padding,
+    className,
+  ]}
+>
+  <slot />
+</div>
