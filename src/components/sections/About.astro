@@ -17,7 +17,7 @@ const responses: Record<string, string[]> = {
   who: [
     'Javier Silvestri — Junior Software Developer.',
     'Based in Barcelona (ES). Originally from San Luis, Argentina.',
-    '1+ year shipping production mobile & web apps.',
+    '2+ year shipping production mobile & web apps.',
     'Core: Flutter · Dart · TypeScript · React · Node.js',
     'Status: open to work — remote-first, hybrid welcome.',
   ],
@@ -86,12 +86,12 @@ const responses: Record<string, string[]> = {
         </div>
         <!-- Location badge -->
         <span
-          class='glass border-border text-muted-2 absolute right-2 bottom-4 flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-xs'
+            class='bg-black/80 border-border text-muted-2 absolute right-2 bottom-4 flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-xs font-bold'
         >
           <svg class='text-accent h-3 w-3' viewBox='0 0 16 16' fill='currentColor'>
             <path d='M8 1a5 5 0 0 0-5 5c0 3.5 5 9 5 9s5-5.5 5-9a5 5 0 0 0-5-5Zm0 6.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z'></path>
           </svg>
-          Barcelona
+          Europe
         </span>
       </div>
 
@@ -99,9 +99,9 @@ const responses: Record<string, string[]> = {
       <div class='grid w-full max-w-xs grid-cols-2 gap-3'>
         {
           [
-            { val: '1+',   label: 'YRS EXP',    color: 'text-accent' },
+            { val: '2+',   label: 'YRS EXP',    color: 'text-accent' },
             { val: '50K+', label: 'APP USERS',  color: 'text-accent' },
-            { val: '20+',  label: 'SKILLS',     color: 'text-cyan'   },
+            { val: 'AI',  label: 'APPLICATIONS',     color: 'text-cyan'   },
             { val: '∞',    label: 'COFFEE',     color: 'text-cyan'   },
           ].map(({ val, label, color }) => (
             <GlassCard padding='p-4' class='text-center' hoverable glow='none'>
@@ -110,12 +110,6 @@ const responses: Record<string, string[]> = {
             </GlassCard>
           ))
         }
-      </div>
-
-      <!-- Bio -->
-      <div class='text-muted-2 max-w-sm space-y-3 font-mono text-sm leading-relaxed'>
-        <p>{aboutInfo.bio}</p>
-        <p>{aboutInfo.bioContinued}</p>
       </div>
 
       <!-- CV download -->

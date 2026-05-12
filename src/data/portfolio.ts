@@ -88,7 +88,7 @@ export const education: Education[] = [
 ]
 
 export const projects: Project[] = [
-    {
+  {
     id: 'branchvisualizer',
     name: 'Branch Visualizer',
     description:
@@ -173,5 +173,5 @@ export const skills = {
   frontend: ['TypeScript', 'React', 'Next.js', 'Astro', 'Tailwind CSS', 'JavaScript ES6+'],
   backend: ['Node.js', 'NestJS', 'Firebase', 'PostgreSQL', 'MongoDB', 'REST APIs', 'Python'],
   devops: ['Git', 'GitHub Actions', 'Docker', 'CI/CD', 'Agile/Scrum', 'Postman'],
-  ai: ['GitHub Copilot', 'Claude', 'ChatGPT', 'Gemini'],
+  ai: ['GitHub Copilot', 'Claude', 'ChatGPT', 'Gemini', 'OpenCode'],
 }
