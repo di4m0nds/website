@@ -89,6 +89,17 @@ export const education: Education[] = [
 
 export const projects: Project[] = [
   {
+    id: 'branchvisualizer',
+    name: 'Branch Visualizer',
+    description:
+      'An interactive GitHub repository commit graph visualizer. Enter any public GitHub repository URL and explore its full branch history as an interactive DAG — branches, merges, tags, and authors, all at a glance.',
+    tags: ['React', 'Vite', 'GitHub', 'Typescript', 'Canvas', 'User Experience', 'Tool'],
+    href: 'https://branchvisualizer.vercel.app/',
+    img: '/branchvisualizer',
+    featured: true,
+    year: 2022,
+  },
+  {
     id: 'dosep',
     name: 'DOSEP MOVIL',
     description:
@@ -162,5 +173,5 @@ export const skills = {
   frontend: ['TypeScript', 'React', 'Next.js', 'Astro', 'Tailwind CSS', 'JavaScript ES6+'],
   backend: ['Node.js', 'NestJS', 'Firebase', 'PostgreSQL', 'MongoDB', 'REST APIs', 'Python'],
   devops: ['Git', 'GitHub Actions', 'Docker', 'CI/CD', 'Agile/Scrum', 'Postman'],
-  ai: ['GitHub Copilot', 'Claude', 'ChatGPT', 'Gemini'],
+  ai: ['GitHub Copilot', 'Claude', 'ChatGPT', 'Gemini', 'OpenCode'],
 }
