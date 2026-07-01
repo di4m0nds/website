@@ -1,25 +1,5 @@
 ---
 const GH_USER = 'di4m0nds'
-
-const mockStats = {
-  repos: 18, stars: 6, followers: 12, following: 20,
-  languages: [
-    { name: 'Dart',       pct: 38, color: '#0175C2' },
-    { name: 'TypeScript', pct: 24, color: '#3178c6' },
-    { name: 'JavaScript', pct: 18, color: '#f7df1e' },
-    { name: 'HTML/CSS',   pct: 12, color: '#e34c26' },
-    { name: 'Other',      pct:  8, color: '#64748b' },
-  ],
-  contributions: Array.from({ length: 364 }, (_, i) => {
-    const day = i % 7, week = Math.floor(i / 7)
-    if (day === 0 || day === 6) return Math.random() > 0.85 ? 1 : 0
-    const wave = Math.sin(week * 0.35 + 1) * 0.5 + 0.6
-    const rand = Math.random()
-    if (rand > 0.45) return 0
-    if (rand > 0.25) return Math.floor(wave * 2) + 1
-    return Math.min(Math.floor(wave * 4) + 1, 4)
-  }),
-}
 ---
 
 <section id="github" class="relative z-10 mx-auto max-w-6xl px-6 py-24 md:py-32">
@@ -29,7 +9,7 @@ const mockStats = {
     <div class="mt-4 h-px w-16 bg-gradient-to-r from-accent to-transparent" />
   </div>
 
-  <div class="glass border border-border rounded-2xl overflow-hidden reveal">
+  <div class="glass border border-border rounded-2xl overflow-hidden reveal" data-gh-section>
     <!-- Terminal chrome -->
     <div class="flex items-center gap-2 px-4 py-3 border-b border-border bg-surface">
       <span class="h-2.5 w-2.5 rounded-full bg-red-500/70" />
@@ -38,7 +18,9 @@ const mockStats = {
       <span class="ml-3 font-mono text-xs text-muted tracking-wider">
         <span class="text-cyan">~$</span> gh api /users/{GH_USER} --dashboard
       </span>
-      <span id="gh-data-source" class="ml-auto font-mono text-[10px] text-muted/50">mock</span>
+      <span id="gh-data-source" class="ml-auto font-mono text-[10px] text-muted/50">
+        <span class="inline-block h-1.5 w-1.5 rounded-full bg-yellow-400/60 animate-pulse mr-1 align-middle"></span>loading
+      </span>
       <a href={`https://github.com/${GH_USER}`} target="_blank" rel="noopener noreferrer" data-magnetic
         class="ml-2 flex items-center gap-1.5 font-mono text-xs text-muted hover:text-accent transition-colors">
         <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
@@ -49,8 +31,9 @@ const mockStats = {
     </div>
 
     <div class="p-5 md:p-7 space-y-7">
-      <!-- Stats grid -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="gh-stats">
+
+      <!-- Stats grid — skeleton until JS fills in real values -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
           { key: 'repos',     label: 'Repositories', icon: '◈' },
           { key: 'stars',     label: 'Total Stars',  icon: '★' },
@@ -58,60 +41,43 @@ const mockStats = {
           { key: 'following', label: 'Following',    icon: '◎' },
         ].map(({ key, label, icon }) => (
           <div class="glass border border-border rounded-xl p-4 text-center hover:border-border-2 transition-colors duration-300">
-            <p class="font-display text-3xl text-accent" data-stat={key}>{mockStats[key as keyof typeof mockStats]}</p>
+            <p class="font-display text-3xl text-accent" data-stat={key}>
+              <span class="gh-skeleton inline-block h-7 w-8 rounded bg-white/[0.08] animate-pulse align-middle"></span>
+            </p>
             <p class="text-xs font-mono text-muted mt-1 tracking-widest">{icon} {label}</p>
           </div>
         ))}
       </div>
 
-      <!-- Language bar -->
+      <!-- Language bar — skeleton initially -->
       <div>
         <p class="font-mono text-xs text-muted tracking-widest mb-3">
           <span class="text-cyan">output</span>: language breakdown
         </p>
-        <div class="flex h-3 rounded-full overflow-hidden gap-px" id="gh-lang-bar">
-          {mockStats.languages.map(({ pct, color, name }) => (
-            <div data-lang={name} data-pct={pct}
-              style={`width:${pct}%;background:${color};`}
-              title={`${name} ${pct}%`}
-              class="transition-all duration-700 hover:opacity-75" />
-          ))}
+        <div class="flex h-3 rounded-full overflow-hidden" id="gh-lang-bar">
+          <div class="w-full h-full rounded-full bg-white/[0.08] animate-pulse"></div>
         </div>
-        <div class="flex flex-wrap gap-x-5 gap-y-2 mt-3" id="gh-lang-legend">
-          {mockStats.languages.map(({ name, pct, color }) => (
-            <span class="flex items-center gap-1.5 text-xs font-mono text-muted-2">
-              <span class="h-2 w-2 rounded-full shrink-0" style={`background:${color}`} />
-              {name} <span class="text-muted">{pct}%</span>
-            </span>
+        <div class="flex flex-wrap gap-x-5 gap-y-2 mt-3 min-h-[20px]" id="gh-lang-legend">
+          {[72, 56, 64, 48, 40].map(w => (
+            <span class="inline-block h-3 rounded bg-white/[0.06] animate-pulse align-middle" style={`width:${w}px`} aria-hidden="true" />
           ))}
         </div>
       </div>
 
-      <!-- Contribution grid -->
+      <!-- Contribution grid — built entirely client-side from events API -->
       <div>
         <p class="font-mono text-xs text-muted tracking-widest mb-3">
-          <span class="text-cyan">output</span>: contribution activity (last 52 weeks)
+          <span class="text-cyan">output</span>: push activity (last 90 days)
         </p>
-        <div id="gh-grid" class="grid gap-[3px] overflow-x-auto pb-1"
+        <div id="gh-grid" class="grid gap-[3px] overflow-x-auto pb-1 min-h-[53px]"
           style="grid-template-rows:repeat(7,1fr);grid-auto-columns:12px;grid-auto-flow:column;"
-          aria-label="Contribution activity">
-          {mockStats.contributions.map((level) => (
-            <div class="h-3 w-3 rounded-[2px] transition-colors duration-200 hover:scale-125"
-              style={
-                level === 0 ? 'background:rgba(255,255,255,0.04)' :
-                level === 1 ? 'background:rgba(249,115,22,0.20)' :
-                level === 2 ? 'background:rgba(249,115,22,0.45)' :
-                level === 3 ? 'background:rgba(249,115,22,0.70)' :
-                              'background:rgba(249,115,22,0.95)'
-              }
-              title={`${level} contribution${level !== 1 ? 's' : ''}`} />
-          ))}
+          aria-label="Push activity heatmap">
         </div>
         <div class="flex items-center gap-2 mt-2 text-xs font-mono text-muted">
           <span>less</span>
           {[0,1,2,3,4].map(l => (
             <div class="h-2.5 w-2.5 rounded-[2px]" style={
-              l === 0 ? 'background:rgba(255,255,255,0.04)' :
+              l === 0 ? 'background:rgba(255,255,255,0.06)' :
               l === 1 ? 'background:rgba(249,115,22,0.20)' :
               l === 2 ? 'background:rgba(249,115,22,0.45)' :
               l === 3 ? 'background:rgba(249,115,22,0.70)' :
@@ -121,57 +87,118 @@ const mockStats = {
           <span>more</span>
         </div>
       </div>
+
     </div>
   </div>
 </section>
 
 <script is:inline define:vars={{ GH_USER }}>
 ;(function () {
-  var CACHE_KEY = 'gh_' + GH_USER + '_v2'
-  var CACHE_TTL = 1800000 // 30 min
+  var CACHE_KEY  = 'gh_' + GH_USER + '_v4'
+  var CACHE_TTL  = 1800000  // 30 min
+  var EVENTS_KEY = 'gh_ev_' + GH_USER + '_v1'
+  var EVENTS_TTL = 900000   // 15 min
+  var fetched    = false
+
+  var COLOR_MAP = {
+    Dart:'#0175C2', TypeScript:'#3178c6', JavaScript:'#f7df1e',
+    Python:'#3572A5', Swift:'#FA7343', Kotlin:'#7F52FF',
+    HTML:'#e34c26', CSS:'#563d7c', Shell:'#89e051',
+  }
+
+  function levelColor(l) {
+    return l === 0 ? 'rgba(255,255,255,0.06)' :
+           l === 1 ? 'rgba(249,115,22,0.20)'  :
+           l === 2 ? 'rgba(249,115,22,0.45)'  :
+           l === 3 ? 'rgba(249,115,22,0.70)'  :
+                     'rgba(249,115,22,0.95)'
+  }
+
+  function countUp(el, target, duration) {
+    var startTime = null
+    function step(ts) {
+      if (!startTime) startTime = ts
+      var progress = Math.min((ts - startTime) / duration, 1)
+      var eased    = 1 - Math.pow(1 - progress, 3)
+      el.textContent = Math.floor(eased * target)
+      if (progress < 1) requestAnimationFrame(step)
+      else el.textContent = target
+    }
+    requestAnimationFrame(step)
+  }
 
   function updateStat(key, val) {
     var el = document.querySelector('[data-stat="' + key + '"]')
     if (!el) return
-    el.textContent = val
+    var skeleton = el.querySelector('.gh-skeleton')
+    if (skeleton) skeleton.remove()
+    el.textContent = ''
     el.classList.add('glitch-text')
     setTimeout(function () { el.classList.remove('glitch-text') }, 450)
+    countUp(el, val, 900)
   }
 
   function updateLanguages(langs) {
     var bar    = document.getElementById('gh-lang-bar')
     var legend = document.getElementById('gh-lang-legend')
     if (!bar || !legend || !langs.length) return
-    bar.innerHTML = ''
+    var total  = langs.reduce(function (s, l) { return s + l.pct }, 0)
+    bar.innerHTML    = ''
     legend.innerHTML = ''
-    var total = langs.reduce(function (s, l) { return s + l.pct }, 0)
-    langs.forEach(function (l) {
+    langs.forEach(function (l, i) {
       var pct = Math.round((l.pct / total) * 100)
       var seg = document.createElement('div')
-      seg.style.cssText = 'width:0%;background:' + l.color + ';height:100%;transition:width .7s ease'
+      seg.style.cssText = 'width:0%;height:100%;background:' + l.color
+        + ';transition:width 0.8s cubic-bezier(0.4,0,0.2,1) ' + (i * 80) + 'ms'
       seg.title = l.name + ' ' + pct + '%'
       bar.appendChild(seg)
-      requestAnimationFrame(function () { seg.style.width = pct + '%' })
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { seg.style.width = pct + '%' })
+      })
       var lbl = document.createElement('span')
       lbl.className = 'flex items-center gap-1.5 text-xs font-mono text-muted-2'
-      lbl.innerHTML = '<span style="background:' + l.color + '" class="h-2 w-2 rounded-full shrink-0"></span>'
+      lbl.style.cssText = 'opacity:0;transform:translateY(5px);transition:opacity 0.4s ease ' + (i * 80 + 150) + 'ms,transform 0.4s ease ' + (i * 80 + 150) + 'ms'
+      lbl.innerHTML = '<span style="background:' + l.color + ';flex-shrink:0" class="h-2 w-2 rounded-full"></span>'
         + l.name + ' <span class="text-muted">' + pct + '%</span>'
       legend.appendChild(lbl)
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { lbl.style.opacity = '1'; lbl.style.transform = 'none' })
+      })
     })
   }
 
-  function aggregateLangs(repos) {
-    var colorMap = {
-      Dart:'#0175C2', TypeScript:'#3178c6', JavaScript:'#f7df1e',
-      Python:'#3572A5', Swift:'#FA7343', Kotlin:'#7F52FF',
-      HTML:'#e34c26', CSS:'#563d7c'
+  function buildGrid(dayMap) {
+    var grid = document.getElementById('gh-grid')
+    if (!grid) return
+    var today = new Date()
+    var frag  = document.createDocumentFragment()
+    for (var i = 363; i >= 0; i--) {
+      var d   = new Date(today.getTime())
+      d.setDate(d.getDate() - i)
+      var key = d.toISOString().slice(0, 10)
+      var cnt = dayMap[key] || 0
+      var lvl = cnt === 0 ? 0 : cnt === 1 ? 1 : cnt <= 3 ? 2 : cnt <= 6 ? 3 : 4
+      var col = Math.floor((363 - i) / 7)
+      var el  = document.createElement('div')
+      el.className = 'h-3 w-3 rounded-[2px]'
+      el.style.cssText = 'background:' + levelColor(lvl)
+        + ';opacity:0;transition:opacity 0.3s ease ' + (col * 5) + 'ms'
+      el.title = cnt + ' event' + (cnt !== 1 ? 's' : '') + ' — ' + key
+      frag.appendChild(el)
     }
+    grid.appendChild(frag)
+    setTimeout(function () {
+      grid.querySelectorAll('div').forEach(function (el) { el.style.opacity = '1' })
+    }, 60)
+  }
+
+  function aggregateLangs(repos) {
     var counts = {}
     repos.forEach(function (r) {
       if (r.language) counts[r.language] = (counts[r.language] || 0) + 1
     })
     var entries = Object.keys(counts).map(function (k) {
-      return { name: k, pct: counts[k], color: colorMap[k] || '#64748b' }
+      return { name: k, pct: counts[k], color: COLOR_MAP[k] || '#64748b' }
     }).sort(function (a, b) { return b.pct - a.pct })
     var top  = entries.slice(0, 5)
     var rest = entries.slice(5).reduce(function (s, e) { return s + e.pct }, 0)
@@ -179,50 +206,111 @@ const mockStats = {
     return top
   }
 
-  function applyStats(data) {
-    if (data.repos     != null) updateStat('repos',     data.repos)
-    if (data.followers != null) updateStat('followers', data.followers)
-    if (data.following != null) updateStat('following', data.following)
-    if (data.stars     != null) updateStat('stars',     data.stars)
-    if (data.languages && data.languages.length) updateLanguages(data.languages)
+  function markLive() {
     var src = document.getElementById('gh-data-source')
-    if (src) { src.textContent = 'live'; src.style.color = 'rgba(74,222,128,.7)' }
+    if (!src) return
+    src.innerHTML = '<span style="display:inline-block;height:6px;width:6px;border-radius:50%;background:rgba(74,222,128,0.8);margin-right:4px;vertical-align:middle"></span>live'
+    src.style.color = 'rgba(74,222,128,0.8)'
+  }
+
+  async function fetchEvents() {
+    try {
+      var cached = sessionStorage.getItem(EVENTS_KEY)
+      if (cached) {
+        var c = JSON.parse(cached)
+        if (Date.now() - c.ts < EVENTS_TTL) return c.data
+      }
+    } catch (_) {}
+    try {
+      var res = await fetch(
+        'https://api.github.com/users/' + GH_USER + '/events/public?per_page=100',
+        { headers: { Accept: 'application/vnd.github.v3+json' } }
+      )
+      if (!res.ok) return {}
+      var events = await res.json()
+      var counts = {}
+      events.forEach(function (e) {
+        if (!e.created_at) return
+        var date = e.created_at.slice(0, 10)
+        counts[date] = (counts[date] || 0) + 1
+      })
+      try { sessionStorage.setItem(EVENTS_KEY, JSON.stringify({ ts: Date.now(), data: counts })) } catch (_) {}
+      return counts
+    } catch (_) { return {} }
   }
 
   async function fetchStats() {
+    if (fetched) return
+    fetched = true
+
     try {
       var cached = sessionStorage.getItem(CACHE_KEY)
       if (cached) {
         var c = JSON.parse(cached)
-        if (Date.now() - c.ts < CACHE_TTL) { applyStats(c.data); return }
+        if (Date.now() - c.ts < CACHE_TTL) {
+          var d = c.data
+          if (d.repos     != null) updateStat('repos',     d.repos)
+          if (d.followers != null) updateStat('followers', d.followers)
+          if (d.following != null) updateStat('following', d.following)
+          if (d.stars     != null) updateStat('stars',     d.stars)
+          if (d.languages && d.languages.length) updateLanguages(d.languages)
+          markLive()
+          fetchEvents().then(function (evMap) { buildGrid(evMap) })
+          return
+        }
       }
     } catch (_) {}
+
     try {
-      var hdrs = { Accept: 'application/vnd.github.v3+json' }
+      var hdrs    = { Accept: 'application/vnd.github.v3+json' }
       var userRes = await fetch('https://api.github.com/users/' + GH_USER, { headers: hdrs })
-      if (!userRes.ok) return
-      var user = await userRes.json()
+      if (!userRes.ok) { buildGrid({}); return }
+      var user    = await userRes.json()
       var repoRes = await fetch(
         'https://api.github.com/users/' + GH_USER + '/repos?sort=pushed&per_page=100',
         { headers: hdrs }
       )
-      var repos = repoRes.ok ? await repoRes.json() : []
-      var stars = Array.isArray(repos)
+      var repos   = repoRes.ok ? await repoRes.json() : []
+      var stars   = Array.isArray(repos)
         ? repos.reduce(function (s, r) { return s + (r.stargazers_count || 0) }, 0) : 0
-      var data = {
-        repos: user.public_repos, followers: user.followers,
-        following: user.following, stars: stars,
+      var data    = {
+        repos:     user.public_repos,
+        followers: user.followers,
+        following: user.following,
+        stars:     stars,
         languages: Array.isArray(repos) ? aggregateLangs(repos) : [],
       }
       try { sessionStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data: data })) } catch (_) {}
-      applyStats(data)
-    } catch (_) {}
+
+      if (data.repos     != null) updateStat('repos',     data.repos)
+      if (data.followers != null) updateStat('followers', data.followers)
+      if (data.following != null) updateStat('following', data.following)
+      if (data.stars     != null) updateStat('stars',     data.stars)
+      if (data.languages.length)  updateLanguages(data.languages)
+      markLive()
+
+      var evMap = await fetchEvents()
+      buildGrid(evMap)
+    } catch (_) {
+      buildGrid({})
+    }
   }
 
-  if ('requestIdleCallback' in window) {
-    requestIdleCallback(fetchStats, { timeout: 4000 })
-  } else {
-    setTimeout(fetchStats, 2000)
+  var section = document.querySelector('[data-gh-section]')
+  if (section) {
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          obs.disconnect()
+          fetchStats()
+        }
+      })
+    }, { threshold: 0.05 })
+    obs.observe(section)
   }
 })()
 </script>
+
+<style>
+  #gh-grid div:hover { opacity: 0.6 !important; }
+</style>

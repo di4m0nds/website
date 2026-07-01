@@ -4,31 +4,54 @@ import { projects } from '../../data/portfolio'
 
 // Console narration per project
 const narration: Record<string, string[]> = {
+  branchvisualizer: [
+    'SYSTEM: Loading project manifest...',
+    'INFO:   Stack resolved — React · TypeScript · Vite · Canvas API',
+    'INFO:   Type: Developer tool — interactive Git branch visualizer',
+    'INFO:   Input: any public GitHub repo URL → renders full commit DAG',
+    'STATUS: Deployed to Vercel — branch history explorer LIVE ✓',
+  ],
   dosep: [
     'SYSTEM: Loading project manifest...',
-    'INFO:   Stack resolved — Flutter · Dart · Firebase',
+    'INFO:   Stack resolved — Flutter · Dart · Firebase · REST APIs',
     'INFO:   Type: Government health service app (Android)',
     'INFO:   Scale: 50,000+ downloads on Google Play Store',
     'STATUS: Performance improved 30% — deployed LIVE ✓',
   ],
   sigem: [
     'SYSTEM: Connecting to government services API...',
-    'INFO:   Stack resolved — Flutter · Dart · REST APIs',
+    'INFO:   Stack resolved — Flutter · Dart · REST APIs · Real-time Data',
     'INFO:   Type: City gov app — bookings & real-time tracking',
     'INFO:   Features: appointments, bus ETA, municipal permits',
     'STATUS: Bug-free restore from legacy codebase — LIVE ✓',
   ],
   chefco: [
     'SYSTEM: Loading project manifest...',
-    'INFO:   Stack resolved — React · Tailwind · Node.js',
-    'INFO:   Type: Full-stack e-commerce platform',
-    'STATUS: Deployed to Netlify CDN — LIVE ✓',
+    'INFO:   Stack resolved — React · Tailwind CSS · Node.js',
+    'INFO:   Type: Full-stack e-commerce for artisanal pasta',
+    'INFO:   Features: menu browsing, cart management, order flow',
+    'STATUS: Deployed to Netlify CDN — live ordering platform ✓',
   ],
   euge: [
     'SYSTEM: Mounting photography asset store...',
-    'INFO:   Stack resolved — Astro · Tailwind · MDX',
-    'INFO:   Type: Optimised image gallery + photography portfolio',
-    'STATUS: Lighthouse score 98/100. Images optimised ✓',
+    'INFO:   Stack resolved — React · Tailwind CSS',
+    'INFO:   Type: Photography portfolio with gallery optimisation',
+    'INFO:   Features: lightbox, lazy loading, mobile-first responsive',
+    'STATUS: Lighthouse score 98/100 — images optimised ✓',
+  ],
+  rocketsexplorer: [
+    'SYSTEM: Loading project manifest...',
+    'INFO:   Stack resolved — Astro · Tailwind CSS',
+    'INFO:   Type: Space history showcase with native View Transitions',
+    'INFO:   Uses startViewTransition API — Chrome, Edge, Opera, Android',
+    'STATUS: Deployed to Netlify — zero JS overhead, silky navigation ✓',
+  ],
+  tesla: [
+    'SYSTEM: Loading project manifest...',
+    'INFO:   Stack resolved — Astro · Tailwind CSS',
+    'INFO:   Type: Tesla website clone — responsive UI/UX study',
+    'INFO:   Features: snap scroll, auto navbar animations, mobile-first',
+    'STATUS: Deployed to Netlify — pixel-perfect recreation ✓',
   ],
 }
 
@@ -64,23 +87,24 @@ const narrationJson = JSON.stringify(narration)
           <span class="text-accent">~$</span> ls ./projects
         </p>
 
-        <ul id="project-list" class="space-y-1" role="listbox" aria-label="Projects">
+        <ul id="project-list" class="space-y-1.5" role="listbox" aria-label="Projects">
           {projects.map((p, i) => (
             <li
               role="option"
               aria-selected={i === 0 ? 'true' : 'false'}
               data-id={p.id}
               class:list={[
-                'project-tab flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer font-mono text-xs transition-all duration-200',
+                'project-tab flex items-center gap-2 px-3 py-2.5 rounded-lg cursor-pointer font-mono text-xs transition-all duration-200 opacity-0 animate-fade-in',
                 i === 0
                   ? 'bg-accent/15 text-accent border border-accent/30'
                   : 'text-muted-2 hover:text-white hover:bg-surface-2 border border-transparent',
               ]}
+              style={`animation-delay: ${i * 60}ms;`}
             >
               <span class="text-accent/60 shrink-0">▸</span>
               <span class="truncate">{p.name}</span>
               {p.featured && (
-                <span class="ml-auto shrink-0 text-[9px] text-cyan/60 border border-cyan/20 rounded px-1">★</span>
+                <span class="ml-auto shrink-0 text-[8px] text-cyan/60 border border-cyan/30 rounded px-1.5 py-0.5">★</span>
               )}
             </li>
           ))}
@@ -119,13 +143,13 @@ const narrationJson = JSON.stringify(narration)
 
 <!-- Detail template -->
 <template id="project-template">
-  <div class="flex flex-col gap-5 h-full">
+  <div class="flex flex-col gap-6 h-full">
     <div>
-      <p class="font-mono text-[11px] text-cyan/70 mb-1.5 tracking-widest">cat README.md</p>
-      <h3 class="font-display text-3xl md:text-4xl tracking-wide text-white project-name glitch" data-text=""></h3>
+      <p class="font-mono text-[10px] text-cyan/70 mb-2 tracking-widest">cat README.md</p>
+      <h3 class="font-display text-2xl md:text-4xl tracking-wide text-white project-name glitch" data-text=""></h3>
     </div>
 
-    <p class="font-mono text-sm text-muted-2 leading-relaxed border-l-2 border-accent/30 pl-3 project-desc"></p>
+    <p class="font-mono text-sm text-muted-2 leading-relaxed border-l-2 border-accent/40 pl-4 project-desc max-h-32 overflow-y-auto"></p>
 
     <div class="flex flex-wrap gap-2 project-tags"></div>
 
