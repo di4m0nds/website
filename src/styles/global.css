@@ -95,6 +95,7 @@ body {
 .reveal-delay-1 { transition-delay: 0.1s; }
 .reveal-delay-2 { transition-delay: 0.2s; }
 .reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
 
 /* Gradient text */
 @utility gradient-text {
@@ -255,6 +256,21 @@ body {
 .cursor-ready,
 .cursor-ready * {
   cursor: none !important;
+}
+
+/* Fade-in animation for staggered elements */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@utility animate-fade-in {
+  animation: fade-in 0.5s var(--ease-out) forwards;
 }
 
 /* Reduce motion */

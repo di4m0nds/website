@@ -1,9 +1,7 @@
 ---
-import GlassCard from '../ui/GlassCard.astro'
 import SectionHeader from '../ui/SectionHeader.astro'
 import { aboutInfo } from '../../data/portfolio'
 
-// Terminal prompt definitions — shown as clickable buttons
 const prompts = [
   { label: 'who am i',   key: 'who'     },
   { label: 'stack',      key: 'stack'   },
@@ -12,41 +10,40 @@ const prompts = [
   { label: 'next',       key: 'next'    },
 ]
 
-// Terminal responses — define:vars will JSON-encode this for the client script
 const responses: Record<string, string[]> = {
   who: [
-    'Javier Silvestri — Junior Software Developer.',
-    'Based in Barcelona (ES). Originally from San Luis, Argentina.',
-    '2+ year shipping production mobile & web apps.',
-    'Core: Flutter · Dart · TypeScript · React · Node.js',
-    'Status: open to work — remote-first, hybrid welcome.',
+    "Hi — I'm Javier. Junior dev, 24 years old.",
+    'Born in San Luis, Argentina. Relocated to Barcelona last year.',
+    '2+ years building real apps — one has 50,000+ downloads on Play Store.',
+    'I write Flutter by day, TypeScript by night, and drink too much coffee.',
+    'Currently open to work — remote-first, hybrid also welcome.',
   ],
   stack: [
-    'Mobile ——  Flutter (v2/v3) · Dart · Swift · Kotlin',
+    'Mobile ——  Flutter · Dart (my main) · Swift/SwiftUI (learning)',
     'State   ——  BLoC · Provider · GetX · Zustand · Redux',
     'Web     ——  TypeScript · React · Next.js · Astro',
     'Backend ——  Node.js · NestJS · Firebase · PostgreSQL',
     'DevOps  ——  Git · Docker · GitHub Actions · CI/CD',
-    'AI pair ——  GitHub Copilot · Claude · Gemini',
+    'AI pair ——  Copilot · Claude · Gemini (daily drivers)',
   ],
   mindset: [
-    '"Code is read far more than it is written."',
-    'Clean architecture > clever hacks. Every time.',
-    'Performance is a feature, not an afterthought.',
-    'Great UX hides complexity. Bad UX exposes it.',
-    'Ship → iterate → learn. Then repeat.',
+    "Code is read far more than it's written — I keep it clear.",
+    "I'd rather ask a dumb question than build the wrong thing.",
+    'Bugs are my fault until proven otherwise.',
+    'No magic — understand the tool before reaching for it.',
+    '"Done" means tested, not just not-crashing.',
   ],
   goal: [
-    'Building apps that 50,000+ people use every day.',
-    'The feedback loop between code and real-world impact.',
-    'Bridging mobile and web — owning full product scopes.',
-    'Science + software: where I want to go next.',
+    'Working on apps real people depend on daily.',
+    'That 50k downloads number hits different than any side project.',
+    'Bridging mobile and web — owning a product end to end.',
+    'Long term: where software and science meet.',
   ],
   next: [
-    'Deepening Flutter arch — Clean Arch + TDD patterns.',
-    'Expanding Swift/iOS skills for cross-platform reach.',
-    'Open source contributions to the Flutter ecosystem.',
-    'Growing into a dev who ships end-to-end products.',
+    'Going deeper on Clean Architecture + TDD in Flutter.',
+    'Getting more serious about Swift/iOS alongside Flutter.',
+    "Contributing to OSS — haven't done enough of that yet.",
+    'Shipping something under my own name that people actually use.',
   ],
 }
 ---
@@ -54,28 +51,24 @@ const responses: Record<string, string[]> = {
 <section id='about' class='relative z-10 mx-auto max-w-6xl px-6 py-24 md:py-32'>
   <SectionHeader tag='01 — About' title='WHO AM I' />
 
-  <div class='grid grid-cols-1 items-start gap-8 lg:grid-cols-2 lg:gap-14'>
+  <div class='grid grid-cols-1 items-start gap-8 md:grid-cols-2 md:gap-10 lg:gap-16'>
 
-    <!-- ── Left: photo + stats + bio ──────────────────────── -->
-    <div class='reveal flex flex-col items-center gap-8 lg:items-start'>
+    <!-- ── Left: photo + stats + CV ──────────────────────── -->
+    <div class='reveal flex flex-col items-center gap-6 md:items-start'>
 
-      <!-- Photo with ambient glow + rotating border -->
-      <div class='group relative'>
-        <!-- Ambient glow -->
+      <!-- Photo with ambient glow + rotating border + float -->
+      <div class='photo-float group relative'>
         <div
           class='from-accent/30 to-cyan/20 group-hover:from-accent/50 absolute inset-0 rounded-full bg-gradient-to-br blur-2xl transition-all duration-700 group-hover:blur-3xl'
           aria-hidden='true'
         ></div>
-        <!-- Rotating gradient ring -->
         <div
           class='absolute inset-[-3px] rounded-full'
-          style='background: conic-gradient(from 0deg, rgba(249,115,22,0.4), rgba(14,165,233,0.2), rgba(249,115,22,0.4)); animation: spin-slow 8s linear infinite;'
+          style='background: conic-gradient(from 0deg, rgba(249,115,22,0.45), rgba(14,165,233,0.25), rgba(249,115,22,0.45)); animation: spin-slow 8s linear infinite;'
           aria-hidden='true'
         ></div>
-        <!-- Inner bg to mask ring except border -->
         <div class='bg-bg absolute inset-[1px] rounded-full' aria-hidden='true'></div>
-        <!-- Photo -->
-        <div class='border-border relative h-56 w-56 overflow-hidden rounded-full border md:h-72 md:w-72'>
+        <div class='border-border relative h-56 w-56 overflow-hidden rounded-full border md:h-64 md:w-64'>
           <img
             src={aboutInfo.photo}
             alt='Javier Silvestri'
@@ -84,30 +77,33 @@ const responses: Record<string, string[]> = {
             class='h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105'
           />
         </div>
-        <!-- Location badge -->
         <span
-            class='bg-black/80 border-border text-muted-2 absolute right-2 bottom-4 flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-xs font-bold'
+          class='bg-black/80 border-border text-muted-2 absolute right-2 bottom-4 flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-xs font-bold'
         >
           <svg class='text-accent h-3 w-3' viewBox='0 0 16 16' fill='currentColor'>
             <path d='M8 1a5 5 0 0 0-5 5c0 3.5 5 9 5 9s5-5.5 5-9a5 5 0 0 0-5-5Zm0 6.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z'></path>
           </svg>
-          Europe
+          Barcelona, ES
         </span>
       </div>
 
       <!-- Stats grid -->
-      <div class='grid w-full max-w-xs grid-cols-2 gap-3'>
+      <div class='grid w-full grid-cols-2 gap-3'>
         {
           [
-            { val: '2+',   label: 'YRS EXP',    color: 'text-accent' },
-            { val: '50K+', label: 'APP USERS',  color: 'text-accent' },
-            { val: 'AI',  label: 'APPLICATIONS',     color: 'text-cyan'   },
-            { val: '∞',    label: 'COFFEE',     color: 'text-cyan'   },
-          ].map(({ val, label, color }) => (
-            <GlassCard padding='p-4' class='text-center' hoverable glow='none'>
-              <p class={`font-display text-3xl tracking-wide ${color}`}>{val}</p>
-              <p class='text-muted mt-1 font-mono text-[10px] tracking-widest'>{label}</p>
-            </GlassCard>
+            { val: '2+',   label: 'YRS EXP',      textColor: 'text-accent', lineColor: 'via-accent/60'  },
+            { val: '50K+', label: 'APP USERS',     textColor: 'text-accent', lineColor: 'via-accent/60'  },
+            { val: 'AI',   label: 'APPLICATIONS',  textColor: 'text-cyan',   lineColor: 'via-cyan/60'    },
+            { val: '∞',    label: 'COFFEE',        textColor: 'text-cyan',   lineColor: 'via-cyan/60'    },
+          ].map(({ val, label, textColor, lineColor }) => (
+            <div class='stat-card group relative overflow-hidden rounded-xl p-5 text-center cursor-default'>
+              <div class='absolute inset-0 rounded-xl border border-white/[0.10] bg-white/[0.05] transition-all duration-300 group-hover:bg-white/[0.09] group-hover:border-white/[0.18]'></div>
+              <div class={`absolute bottom-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent ${lineColor} to-transparent opacity-50 transition-opacity duration-300 group-hover:opacity-90`}></div>
+              <div class='relative z-10'>
+                <p class={`font-display text-4xl tracking-wide ${textColor}`}>{val}</p>
+                <p class='text-muted mt-1.5 font-mono text-[10px] tracking-widest'>{label}</p>
+              </div>
+            </div>
           ))
         }
       </div>
@@ -132,14 +128,13 @@ const responses: Record<string, string[]> = {
       </a>
     </div>
 
-    <!-- ── Right: AI terminal ──────────────────────────────── -->
+    <!-- ── Right: terminal ───────────────────────────────── -->
     <div
       class='reveal reveal-delay-2 border-border scanlines flex flex-col overflow-hidden rounded-2xl border'
-      style='background: rgba(8,8,15,0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);'
+      style='background: rgba(8,8,15,0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);'
     >
       <!-- macOS chrome bar -->
       <div class='border-border flex items-center gap-2 border-b px-4 py-3 select-none' style='background: rgba(255,255,255,0.03);'>
-        <!-- Draggable macOS dots -->
         <button
           type='button'
           class='console-dot h-3 w-3 cursor-default rounded-full'
@@ -165,21 +160,20 @@ const responses: Record<string, string[]> = {
       <!-- Output area -->
       <div
         id='about-output'
-        class='text-muted/80 max-h-[300px] min-h-[240px] flex-1 space-y-0.5 overflow-y-auto p-4 font-mono text-xs leading-5'
+        class='text-muted/80 min-h-[260px] max-h-[340px] flex-1 space-y-0.5 overflow-y-auto p-4 font-mono text-xs leading-5'
         aria-live='polite'
         aria-label='Terminal output'
       >
-        <!-- Filled by JS on mount -->
       </div>
 
-      <!-- Input row: clicking a prompt types it -->
+      <!-- Prompt buttons -->
       <div class='border-border flex flex-wrap gap-2 border-t p-3'>
         {
           prompts.map(({ label, key }) => (
             <button
               type='button'
               data-key={key}
-              class='about-btn glass border-border text-muted-2 hover:text-accent hover:border-accent/40 rounded-lg border px-3 py-1.5 font-mono text-[11px] transition-all duration-200 active:scale-95'
+              class='about-btn border border-white/[0.10] bg-white/[0.03] text-muted hover:text-white hover:border-accent/40 hover:bg-accent/5 rounded-lg px-3.5 py-2 font-mono text-[11px] transition-all duration-200 active:scale-95'
             >
               <span class='text-accent/50 mr-1'>$</span>{label}
             </button>
@@ -188,7 +182,7 @@ const responses: Record<string, string[]> = {
         <button
           type='button'
           id='about-clear'
-          class='text-muted/40 hover:text-muted ml-auto rounded-lg px-3 py-1.5 font-mono text-[11px] transition-colors duration-200'
+          class='text-muted/40 hover:text-muted ml-auto rounded-lg px-3 py-2 font-mono text-[11px] transition-colors duration-200'
         >
           clear
         </button>
@@ -200,13 +194,12 @@ const responses: Record<string, string[]> = {
 
 <script is:inline define:vars={{ responsesJson: JSON.stringify(responses) }}>
   ;(function () {
-    var RESP   = JSON.parse(responsesJson)
-    var output = document.getElementById('about-output')
-    var status = document.getElementById('about-status')
+    var RESP     = JSON.parse(responsesJson)
+    var output   = document.getElementById('about-output')
+    var status   = document.getElementById('about-status')
     var clearBtn = document.getElementById('about-clear')
     if (!output) return
 
-    // ── Typing engine ─────────────────────────────────────
     var activeTimer = null
 
     function cancelTyping() {
@@ -214,23 +207,18 @@ const responses: Record<string, string[]> = {
       activeTimer = null
     }
 
-    /** Type a string character-by-character into an existing <p>. */
     function typeInto(el, text, speed, onDone) {
-      var i = 0
+      var i   = 0
       el.textContent = ''
-
-      // Show a blinking cursor
       var cur = document.createElement('span')
-      cur.className = 'typing-cursor'
+      cur.className   = 'typing-cursor'
       cur.textContent = '█'
       el.appendChild(cur)
-
       function nextChar() {
         if (i < text.length) {
           cur.before(document.createTextNode(text[i++]))
           output.scrollTop = output.scrollHeight
-          var jitter = Math.random() * 25 + speed
-          activeTimer = setTimeout(nextChar, jitter)
+          activeTimer = setTimeout(nextChar, Math.random() * 20 + speed)
         } else {
           cur.remove()
           output.scrollTop = output.scrollHeight
@@ -240,7 +228,6 @@ const responses: Record<string, string[]> = {
       nextChar()
     }
 
-    /** Print multiple lines sequentially, each typed out. */
     function typeLines(lines, idx, cls) {
       if (idx >= lines.length) {
         setStatus('● READY', 'text-green-400/60')
@@ -248,13 +235,10 @@ const responses: Record<string, string[]> = {
       }
       var p = appendEl('p', cls || 'text-muted-2/80')
       typeInto(p, lines[idx], 14, function () {
-        activeTimer = setTimeout(function () {
-          typeLines(lines, idx + 1, cls)
-        }, 55)
+        activeTimer = setTimeout(function () { typeLines(lines, idx + 1, cls) }, 55)
       })
     }
 
-    // ── DOM helpers ───────────────────────────────────────
     function appendEl(tag, cls) {
       var el = document.createElement(tag)
       el.className = cls
@@ -265,58 +249,51 @@ const responses: Record<string, string[]> = {
 
     function setStatus(text, colorCls) {
       status.textContent = text
-      status.className = 'ml-auto font-mono text-[10px] ' + colorCls
+      status.className   = 'ml-auto font-mono text-[10px] ' + colorCls
     }
 
-    // ── Run a prompt command ──────────────────────────────
+    function setActiveButton(key) {
+      document.querySelectorAll('.about-btn').forEach(function (btn) {
+        var on = key && btn.dataset.key === key
+        btn.classList.toggle('btn-active', !!on)
+      })
+    }
+
     function runPrompt(key) {
       cancelTyping()
       var lines = RESP[key]
       if (!lines) return
-
-      appendEl('p', '') // blank line spacer
-
-      // Show command being "typed" first
+      setActiveButton(key)
+      appendEl('p', '')
       var cmdEl = appendEl('p', 'text-accent/70')
       setStatus('● RUNNING', 'text-yellow-400/60')
-
-      typeInto(cmdEl, '❯ ' + key.replace(/_/g, ' '), 30, function () {
+      typeInto(cmdEl, '❯ ' + key.replace(/_/g, ' '), 28, function () {
         activeTimer = setTimeout(function () {
-          appendEl('p', '') // blank line after command
+          appendEl('p', '')
           typeLines(lines, 0)
-        }, 200)
+        }, 180)
       })
     }
 
-    // ── Boot sequence ─────────────────────────────────────
     function boot() {
       var bootLines = [
-        { text: 'Initializing javier.dev...', cls: 'text-muted/50' },
-        { text: 'Loading profile data ✓',      cls: 'text-green-400/50' },
-        { text: 'Ready. Click a prompt below.', cls: 'text-cyan/60' },
+        { text: 'javier.dev — session started',        cls: 'text-muted/40'    },
+        { text: 'profile loaded ✓',                    cls: 'text-green-400/50' },
+        { text: 'click a prompt below to learn more.', cls: 'text-cyan/60'     },
       ]
-
       function bootStep(i) {
-        if (i >= bootLines.length) {
-          appendEl('p', '')
-          return
-        }
+        if (i >= bootLines.length) { appendEl('p', ''); return }
         var p = appendEl('p', bootLines[i].cls)
-        typeInto(p, bootLines[i].text, 18, function () {
-          activeTimer = setTimeout(function () {
-            bootStep(i + 1)
-          }, 120)
+        typeInto(p, bootLines[i].text, 16, function () {
+          activeTimer = setTimeout(function () { bootStep(i + 1) }, 100)
         })
       }
       bootStep(0)
     }
     boot()
 
-    // ── Button listeners ──────────────────────────────────
     document.querySelectorAll('.about-btn').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        runPrompt(btn.dataset.key)
-      })
+      btn.addEventListener('click', function () { runPrompt(btn.dataset.key) })
     })
 
     if (clearBtn) {
@@ -324,31 +301,26 @@ const responses: Record<string, string[]> = {
         cancelTyping()
         output.innerHTML = ''
         setStatus('● READY', 'text-green-400/60')
+        setActiveButton(null)
         boot()
       })
     }
 
-    // ── macOS dots — spring drag micro-interaction ────────
+    // macOS dots spring drag
     document.querySelectorAll('.console-dot').forEach(function (dot) {
-      var isDown = false
-      var startX, startY
-
+      var isDown = false, startX, startY
       dot.addEventListener('mousedown', function (e) {
-        isDown = true
-        startX = e.clientX
-        startY = e.clientY
+        isDown = true; startX = e.clientX; startY = e.clientY
         dot.style.transition = 'none'
         dot.style.transform  = 'scale(0.78)'
         e.preventDefault()
       })
-
       document.addEventListener('mousemove', function (e) {
         if (!isDown) return
         var dx = Math.max(-4, Math.min(4, (e.clientX - startX) * 0.35))
         var dy = Math.max(-4, Math.min(4, (e.clientY - startY) * 0.35))
         dot.style.transform = 'scale(0.88) translate(' + dx + 'px,' + dy + 'px)'
       })
-
       document.addEventListener('mouseup', function () {
         if (!isDown) return
         isDown = false
@@ -375,24 +347,35 @@ const responses: Record<string, string[]> = {
     50%       { opacity: 0; }
   }
 
-  /* Thin scrollbar for output */
+  /* Thin scrollbar */
   #about-output::-webkit-scrollbar { width: 2px; }
-  #about-output::-webkit-scrollbar-thumb {
-    background: var(--color-accent);
-    border-radius: 1px;
-  }
+  #about-output::-webkit-scrollbar-thumb { background: var(--color-accent); border-radius: 1px; }
   #about-output::-webkit-scrollbar-track { background: transparent; }
 
-  /* Slow spinning ring on photo */
+  /* Spinning ring on photo */
   @keyframes spin-slow {
-    from { transform: rotate(0deg);   }
+    from { transform: rotate(0deg); }
     to   { transform: rotate(360deg); }
   }
 
-  /* Dot hover brightness */
+  /* Photo float */
+  @keyframes photo-float {
+    0%, 100% { transform: translateY(0px);  }
+    50%       { transform: translateY(-8px); }
+  }
+  .photo-float { animation: photo-float 5s ease-in-out infinite; }
+
+  /* Dot interactions */
   .console-dot {
     transition: filter 0.15s ease, transform 0.15s ease;
     will-change: transform;
   }
   .console-dot:hover { filter: brightness(1.25); }
+
+  /* Active prompt button */
+  .about-btn.btn-active {
+    border-color: rgba(249,115,22,0.55) !important;
+    color: var(--color-accent) !important;
+    background: rgba(249,115,22,0.10) !important;
+  }
 </style>
